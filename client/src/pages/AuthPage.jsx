@@ -12,8 +12,11 @@ export const AuthPage = () => {
     //обработка ошибок от сервера
     const message = useMassage()
     useEffect(() => {
-        console.log('📢 [AuthPage.jsx:15]', error);
+
+        console.log('📢 [AuthPage.jsx:16]', error);
+
         message(error);
+        
         clearError()
     }, [error, message, clearError]);
     
@@ -26,7 +29,17 @@ export const AuthPage = () => {
         try {
 
             const data = await request ('/api/auth/register', 'POST', {...form})
+            message(data.massage)
+        } catch (error) {
+            
+        }
+    }
 
+    const loginHeandler = async () => {
+        try {
+
+            const data = await request ('/api/auth/login', 'POST', {...form})
+            message(data.massage)
         } catch (error) {
             
         }
@@ -64,7 +77,7 @@ export const AuthPage = () => {
                         <button 
                         className="btn yellow darken-4" 
                         style={{marginRight:10}}
-                        onClick={registerHeandler}
+                        onClick={loginHeandler}
                         disabled={loading} 
                         >Войти</button>
                         <button 

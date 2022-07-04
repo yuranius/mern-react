@@ -18,22 +18,26 @@ export const useHttp = () => {
 			const response = await fetch(url, { method, body, headers });
 			const data = await response.json();
 
+
 			if (!response.ok) {
-				throw new Error( data.massage || "Что-то пошло не так");
+				throw new Error ( data.massage || "Что-то пошло не так");
 			}
 
 			setLoading(false);
-			return data;
+
+
+			return data.massage;
 
 		} catch (err) {
-			console.log('📢 [http.hook.js:28]', 'cach', err);
+			let errorMassage = String(err).substring(7) //убираю слово Error: из сообщения
 			setLoading(false);
-			setError(err);
+			setError(errorMassage);
 			throw err;
 		}
 	}, []);
 
 	const clearError = useCallback(() => {setError(null)},[],)	
+
 
 
 	return { loading, request, error, clearError };

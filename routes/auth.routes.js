@@ -81,7 +81,7 @@ router.post(
         }
       })
       if (candidate) {
-        return res.status(405).json({ massage: " такой пользователь существует"})
+        return res.status(405).json({ massage: " Такой пользователь существует"})
       }
 
       
