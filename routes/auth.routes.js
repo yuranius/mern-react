@@ -121,7 +121,6 @@ router.post(
       // получаем из request поля
       const { email, password } = req.body
 
-      console.log('📢 [auth.routes.js:124]', req.body);
       // ищем пользователя, если его нет, то залогинеться уже не можем
 
       const foundUser = "SELECT * FROM `users` WHERE `email` = '" + email + "'"
@@ -133,8 +132,6 @@ router.post(
           return false
         }
       })
-
-      console.log('📢 [auth.routes.js:135]', user);
 
 
       if (!user) {
@@ -162,7 +159,6 @@ router.post(
         }, // через сколько прекратит токен свое существование
       )
 
-       
 
       // ОТВЕЧАЕМ НА ФРОНДЭНД
       res.status(200).json({ token, userId: user.id, massage:'Успешно' })
