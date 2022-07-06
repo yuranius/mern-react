@@ -18,18 +18,6 @@ const pool = require('../settings/db')
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 // /api/auth/
 
 router.get('/user', async (req, res) => {
@@ -80,6 +68,7 @@ router.post(
           return false
         }
       })
+
       if (candidate) {
         return res.status(405).json({ massage: " Такой пользователь существует"})
       }
@@ -132,10 +121,25 @@ router.post(
       const { email, password } = req.body
 
       // ищем пользователя, если его нет, то залогинеться уже не можем
-      const user = await User.findOne({ email: email })
+
+      const foundUser = "SELECT * FROM `users` WHERE `email` = '" + email + "'"
+      const user = await pool.query(foundUser).then((data) => {
+        try {
+          console.log('📢 [auth.routes.js:129]', data[0][0].email);
+          return data[0][0].email;
+          
+        } catch (error) {
+          return false
+        }
+      })
+
+
       if (!user) {
-        return res.status(400).json({ massage: 'Пользователь не найден' })
+        return res.status(400).json({ massage: "Пользователь на найден"})
       }
+
+
+
 
       //? если пользователь найден, то необходимо проверить совпадают ли его пароли
       const isMatch = await bcrypt.compare(password, user.password)
@@ -154,8 +158,10 @@ router.post(
         }, // через сколько прекратит токен свое существование
       )
 
+
+
       // ОТВЕЧАЕМ НА ФРОНДЭНД
-      res.json({ token, userId: user.id })
+      res.status(200).json({ token, userId: user.id, massage:'Успешно' })
     } catch (error) {
       res.status(500).json({ massage: 'Что-то пошло не так, попробуйте снова' })
     }

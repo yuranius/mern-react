@@ -1,6 +1,6 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import React from "react";
-import IndexRouter from "react-router"
+
 
 import { CreatePage } from "./pages/CreatePage";
 import { LinksPage } from "./pages/LinksPage";

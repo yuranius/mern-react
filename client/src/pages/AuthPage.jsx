@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useHttp } from "../hooks/http.hook"
 import React from "react"
 import { useMassage } from "../hooks/message.hook"
+import { AuthContext } from "../context/AuthContext"
 
 export const AuthPage = () => {
+
+    const auth = useContext(AuthContext)
 
     const {loading, request, error, clearError } = useHttp()
 
@@ -12,11 +15,7 @@ export const AuthPage = () => {
     //обработка ошибок от сервера
     const message = useMassage()
     useEffect(() => {
-
-        console.log('📢 [AuthPage.jsx:16]', error);
-
-        message(error);
-        
+        message(error);       
         clearError()
     }, [error, message, clearError]);
     
@@ -27,8 +26,8 @@ export const AuthPage = () => {
 
     const registerHeandler = async () => {
         try {
-
             const data = await request ('/api/auth/register', 'POST', {...form})
+            console.log('📢 [AuthPage.jsx:31]', data);
             message(data.massage)
         } catch (error) {
             
@@ -37,9 +36,8 @@ export const AuthPage = () => {
 
     const loginHeandler = async () => {
         try {
-
             const data = await request ('/api/auth/login', 'POST', {...form})
-            message(data.massage)
+            auth.login(data.token, data.userId) 
         } catch (error) {
             
         }
@@ -56,8 +54,6 @@ export const AuthPage = () => {
         <div className="row">
             <div className="col s6 offset-s3">
                 <h1>Сократи ссылку</h1>
-
-
                 <div className="card blue darken-1">
                     <div className="card-content white-text">
                         <span className="card-title">Авторизация</span>
