@@ -125,8 +125,7 @@ router.post(
       const foundUser = "SELECT * FROM `users` WHERE `email` = '" + email + "'"
       const user = await pool.query(foundUser).then((data) => {
         try {
-          console.log('📢 [auth.routes.js:129]', data[0][0].email);
-          return data[0][0].email;
+          return data[0][0];
           
         } catch (error) {
           return false
@@ -147,6 +146,7 @@ router.post(
         return res.status(400).json({ massage: 'Неверный пароль' })
       }
 
+
       //создаем токен
       const token = jwt.sign(
         {
@@ -158,7 +158,7 @@ router.post(
         }, // через сколько прекратит токен свое существование
       )
 
-
+       
 
       // ОТВЕЧАЕМ НА ФРОНДЭНД
       res.status(200).json({ token, userId: user.id, massage:'Успешно' })

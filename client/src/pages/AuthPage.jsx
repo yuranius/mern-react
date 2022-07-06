@@ -14,10 +14,15 @@ export const AuthPage = () => {
 
     //обработка ошибок от сервера
     const message = useMassage()
+
     useEffect(() => {
         message(error);       
         clearError()
     }, [error, message, clearError]);
+    
+    useEffect(() => {
+      window.M.updateTextFields()
+    }, []) // делает поля ввода логин и пароля активными (что-бы не налезали поля друг на друга)
     
 
     const changeHandler = event => {
@@ -37,6 +42,8 @@ export const AuthPage = () => {
     const loginHeandler = async () => {
         try {
             const data = await request ('/api/auth/login', 'POST', {...form})
+            message(data.massage)
+
             auth.login(data.token, data.userId) 
         } catch (error) {
             

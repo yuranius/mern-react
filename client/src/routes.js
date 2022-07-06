@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router";
 import React from "react";
 
 
@@ -11,7 +11,7 @@ export const useRoutes = (isAuthenticated) => {
 	if (isAuthenticated) {
 		return (
 			<Routes>
-				<Route path="/" element={<AuthPage/>}/>
+				<Route path="/" element={<CreatePage/>}/>
 				<Route path="/links" exact element={<LinksPage />} />
 				<Route path="/create" exact element={<CreatePage />} />
 				<Route path="/detail/:id" element={<DetailPage />} />
@@ -20,8 +20,12 @@ export const useRoutes = (isAuthenticated) => {
 	}
 
 	return (
+		<>
+
 		<Routes>
-			<Route path="/" exact element={<AuthPage />} />
+		
+			<Route path="/" element={<AuthPage />} />
 		</Routes>
+		</>
 	);
 };

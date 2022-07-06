@@ -13,7 +13,6 @@ export const useHttp = () => {
                 headers['Content-Type'] = 'application/json' // нужно явено указать, что передаем по сети json
             }
 
-
 			const response = await fetch(url, { method, body, headers });
 			const data = await response.json();
 
