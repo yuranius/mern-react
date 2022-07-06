@@ -15,6 +15,7 @@ const config = require('config')
 const router = Router()
 
 const pool = require('../settings/db')
+const c = require('config')
 
 
 
@@ -100,7 +101,7 @@ router.post(
 
   // массив миделвейров, которые будут делать валидацию:
   [
-    check('email', 'Введите корректный email').normalizeEmail().isEmail(),
+    check('email', 'Введите корректный email').normalizeEmail({ gmail_remove_dots:false } ).isEmail(),
     check('password', 'Введите пароль').exists(), //пароль должен существовать
   ],
 
@@ -120,6 +121,7 @@ router.post(
       // получаем из request поля
       const { email, password } = req.body
 
+      console.log('📢 [auth.routes.js:124]', req.body);
       // ищем пользователя, если его нет, то залогинеться уже не можем
 
       const foundUser = "SELECT * FROM `users` WHERE `email` = '" + email + "'"
@@ -132,9 +134,11 @@ router.post(
         }
       })
 
+      console.log('📢 [auth.routes.js:135]', user);
+
 
       if (!user) {
-        return res.status(400).json({ massage: "Пользователь на найден"})
+        return res.status(400).json({ massage: "Пользователь не найден"})
       }
 
 
