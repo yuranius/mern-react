@@ -1,4 +1,4 @@
-const { Router, response } = require('express')
+const { Router } = require('express')
 
 // бибилиотека для шифрования:
 const bcrypt = require('bcryptjs')
@@ -17,7 +17,9 @@ const router = Router()
 const pool = require('../settings/db')
 const c = require('config')
 
-
+// переменные для запросов к БД
+let tableOne = 'users'
+let fieldTwoTableOne = 'email'
 
 // /api/auth/
 
@@ -61,8 +63,7 @@ router.post(
       const { email, password } = req.body
 
       // проверка на существующего юзера
-      const foundUser = "SELECT * FROM `users` WHERE `email` = '" + email + "'"
-      const candidate = await pool.query(foundUser).then((data) => {
+      const candidate = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [tableOne, fieldTwoTableOne, email] ).then((data) => {
         try {
           return data[0][0].email;
         } catch (error) {
