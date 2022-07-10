@@ -19,7 +19,18 @@ const c = require('config')
 
 // переменные для запросов к БД
 let tableOne = 'users'
+let fieldOneTableOne = 'id'
 let fieldTwoTableOne = 'email'
+let fieldThreeTableOne = 'password'
+let fieldFourTableOne = 'login'
+let fieldFiveTableOne = 'registration'
+let fieldTableOne = [ 
+  fieldOneTableOne,
+  fieldTwoTableOne,
+  fieldThreeTableOne,
+  fieldFourTableOne,
+  fieldFiveTableOne
+]
 
 // /api/auth/
 
@@ -33,9 +44,40 @@ router.get('/user', async (req, res) => {
   }
 })
 
-// INSERT INTO `abonents` (`id`, `name`, `password`) VALUES (NULL, 'Вася', '123');
+
+// UPDATE `users` SET `login` = 'Mуся' WHERE `users`.`id` = 28; - //?обновить логин 
+
+// INSERT INTO `messages` (`id`, `user_to_id`, `user_from_id`, `content`, `created_at`) VALUES (NULL, '28', '29', 'Привет! Как дела?', current_timestamp()); //?вставить сообщение
+
+// /users?age=32&name=Tom
+
+router.get('/search/:user_query', async (req, res) => {
+  const user_query = req.params.user_query
+
+  try {
+    pool.query(
+    // `SELECT users.login, messages.content_id 
+    // FROM users 
+    // JOIN messages 
+    // ON messages.user_to_id 
+    // WHERE users.login LIKE ?`, '%'+user_query+'%'
 
 
+    `SELECT users.login, messages.content, messages.user_from_id
+    FROM users 
+    JOIN messages 
+    ON messages.user_from_id
+    WHERE users.login = 'Буся'`
+
+
+    
+    ).then((data) => {
+      res.status(200).json(data[0])
+    })
+  } catch (error) {
+    console.log('📢', error, 'Запрос не удался')
+  }
+})
 
 //api/auth/register
 
@@ -75,14 +117,24 @@ router.post(
         return res.status(405).json({ massage: " Такой пользователь существует"})
       }
 
+      // логин оставляем пока пустым, для последующего редактирования самим пользователем
+      login = ''
       
       // хешируем полученный пароль
       const hashedPassword = await bcrypt.hash(password, 12)
       // когда пароль готов создаем пользователя
-      const postUser = "INSERT INTO `users` (`id`, `email`, `password`) VALUES (NULL, '" + email + "', '" + hashedPassword + "')"
 
-        
-      await pool.query(postUser).then((data) => {
+      await pool.query(`INSERT INTO ?? (${new Array(fieldTableOne.length).fill('??')}) VALUES (NULL, ?, ?, ?, current_timestamp() )`, [
+        tableOne, 
+        fieldOneTableOne,
+        fieldTwoTableOne, 
+        fieldThreeTableOne,
+        fieldFourTableOne,
+        fieldFiveTableOne,
+        email, 
+        hashedPassword,
+        login
+      ]).then((data) => {
         // отвечаем фронтэнду
         res.status(201).json({massage: 'Пользоваетль создан'})
       })
@@ -124,8 +176,12 @@ router.post(
 
       // ищем пользователя, если его нет, то залогинеться уже не можем
 
-      const foundUser = "SELECT * FROM `users` WHERE `email` = '" + email + "'"
-      const user = await pool.query(foundUser).then((data) => {
+      // const foundUser = "SELECT * FROM `users` WHERE `email` = '" + email + "'"
+      const user = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [
+        tableOne,
+        fieldTwoTableOne,
+        email
+      ]).then((data) => {
         try {
           return data[0][0];
           

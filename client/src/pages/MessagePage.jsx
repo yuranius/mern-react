@@ -1,9 +1,9 @@
 import React from "react"
 
-export const LinksPage = () => {
+export const MessagePage = () => {
     return (
         <div className="#">
-            <h1>Links Page</h1>
+            <h1>Сообщения</h1>
         </div>
     )
 }

@@ -22,10 +22,10 @@ export const Navbar = () => {
 				</span>
 				<ul id="nav-mobile" className="right hide-on-med-and-down">
 					<li>
-						<NavLink to="/links">Ссылки</NavLink>
+						<NavLink to="/collocutors">Собеседники</NavLink>
 					</li>
 					<li>
-						<NavLink to="/create">Создать ссылку</NavLink>
+						<NavLink to="/messages">Сообщения</NavLink>
 					</li>
 					<li>
 						<a href="/" onClick={logoutHeandler}>Выход</a>
