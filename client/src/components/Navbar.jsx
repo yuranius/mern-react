@@ -21,6 +21,9 @@ export const Navbar = () => {
 					Logo
 				</span>
 				<ul id="nav-mobile" className="right hide-on-med-and-down">
+				<li>
+						<NavLink to="/foundcollocutors">Поиск собеседников</NavLink>
+					</li>
 					<li>
 						<NavLink to="/collocutors">Собеседники</NavLink>
 					</li>

@@ -20,4 +20,25 @@ input.yellow-input:focus {
     box-shadow: 0 1px 0 0 #ffeb3b!important;
 }
 
+.collection .collection-item.avatar .title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding-left: 50px;
+}
 
+.collection .collection-item.avatar {
+    min-height: 0px !important;
+    padding-left: 0px !important;
+    display: flex;
+    justify-content: space-between;
+}
+
+.collection .collection-item.avatar:not(.circle-clipper) > .circle, .collection .collection-item.avatar :not(.circle-clipper) > .circle {
+    position: relative;
+}
+
+.waves-effect.waves-light.btn {
+    margin-left: 50px;
+    left: 0;
+}

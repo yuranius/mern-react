@@ -32,7 +32,6 @@ export const AuthPage = () => {
     const registerHeandler = async () => {
         try {
             const data = await request ('/api/auth/register', 'POST', {...form})
-            console.log('📢 [AuthPage.jsx:31]', data);
             message(data.massage)
         } catch (error) {
             
