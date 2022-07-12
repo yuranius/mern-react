@@ -15,7 +15,7 @@ async function start () {
         await pool.getConnection ()
     } catch (e) {
         console.log('👿 Server Error', e.message)
-        process.exit( 1 )
+        process.exit( 0 )
     }
 }
 

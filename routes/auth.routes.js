@@ -51,8 +51,15 @@ router.get('/user', async (req, res) => {
 
 // /users?age=32&name=Tom
 
-router.get('/search/:user_query', async (req, res) => {
+router.get('/findcollocuter/:user_query', async (req, res) => {
   const user_query = req.params.user_query
+
+
+
+
+
+
+  console.log('📢 [auth.routes.js:57]', user_query);
 
   try {
     pool.query(
@@ -63,11 +70,16 @@ router.get('/search/:user_query', async (req, res) => {
     // WHERE users.login LIKE ?`, '%'+user_query+'%'
 
 
-    `SELECT users.login, messages.content, messages.user_from_id
-    FROM users 
-    JOIN messages 
-    ON messages.user_from_id
-    WHERE users.login = 'Буся'`
+    // `SELECT users.login, messages.content, messages.user_from_id
+    // FROM users 
+    // JOIN messages 
+    // ON messages.user_from_id
+    // WHERE users.login LIKE ?` , 
+
+    `SELECT ??, ?? FROM ?? WHERE ??.?? LIKE N?`,
+
+    
+    [fieldOneTableOne,  fieldFourTableOne, tableOne, tableOne,  fieldFourTableOne, '%'+ user_query + '%'] 
 
 
     
