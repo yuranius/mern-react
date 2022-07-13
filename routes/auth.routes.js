@@ -55,12 +55,6 @@ router.get('/findcollocuter/:user_query', async (req, res) => {
   const user_query = req.params.user_query
 
 
-
-
-
-
-  console.log('📢 [auth.routes.js:57]', user_query);
-
   try {
     pool.query(
     // `SELECT users.login, messages.content_id 
@@ -76,7 +70,7 @@ router.get('/findcollocuter/:user_query', async (req, res) => {
     // ON messages.user_from_id
     // WHERE users.login LIKE ?` , 
 
-    `SELECT ??, ?? FROM ?? WHERE ??.?? LIKE N?`,
+    `SELECT ??, ?? FROM ?? WHERE ??.?? LIKE ?`,
 
     
     [fieldOneTableOne,  fieldFourTableOne, tableOne, tableOne,  fieldFourTableOne, '%'+ user_query + '%'] 
@@ -84,7 +78,11 @@ router.get('/findcollocuter/:user_query', async (req, res) => {
 
     
     ).then((data) => {
-      res.status(200).json(data[0])
+
+      if (!data[0][0]) {
+        return res.status(405).json({ massage: " Совпадений не найдено, попробуйте ввести что-то другое!!! "})
+      } else {
+      res.status(200).json( {data: data[0], massage: `Найдено ${data[0].length}`})}
     })
   } catch (error) {
     console.log('📢', error, 'Запрос не удался')

@@ -9,7 +9,7 @@ import { AuthPage } from "./pages/AuthPage";
 import { FoundCollocutorsContainer } from "./pages/FindCollocutors/FindCollocutorsContainer";
 
 export const useRoutes = (isAuthenticated) => {
-	isAuthenticated = true;
+	// isAuthenticated = true;
 	if (isAuthenticated) {
 		return (
 			<Routes>
