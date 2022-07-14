@@ -3,6 +3,7 @@ import { FoundCollocutorsItem } from "./FoundCollocutorsItem/FindCollocutorsItem
 
 export const FoundCollocutors = (props) => {
 	let collocuterElements = props.testData.map((u) => 
+
   <FoundCollocutorsItem 
   id={u.id} 
   key={u.id} 
@@ -11,6 +12,7 @@ export const FoundCollocutors = (props) => {
   isFetch={u.isFetch} 
   follow={props.follow}
   unfollow={props.unfollow}
+  userId={props.userId}
   />);
 
 	return (
@@ -27,6 +29,8 @@ export const FoundCollocutors = (props) => {
 						Поиск
 					</button>
 				</div>
+
+				
 
 				<ul className="collection">{collocuterElements}</ul>
 			</div>

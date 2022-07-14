@@ -11,13 +11,15 @@ export const FoundCollocutorsItem = (props) => {
 		props.unfollow(props.id)
 	};
 
+	console.log('📢 [FindCollocutorsItem.jsx:14]', props);
 	return (
-		<li className="collection-item avatar">
+		<li className={( props.userId === props.id ) ?  "collection-item avatar teal lighten-1" : "collection-item avatar"}>
 			<div className="collocutors">
 				<img src={props.photos != null ? props.photos : userPhoto} alt="" className="circle" />
 				<span className="title">{props.login}</span>
 			</div>
-			<div className="collections-buttons">
+			{( props.userId !== props.id ) ?
+			(<div className="collections-buttons">
 				{!props.isFetch ? (
 					<button className="waves-effect waves-light btn" onClick={follow}>
 						Добавить
@@ -30,7 +32,8 @@ export const FoundCollocutorsItem = (props) => {
 				<a href="#!" className="waves-effect waves-light btn">
 					Отправить сообщение
 				</a>
-			</div>
+			</div>) : <div></div>
+			}
 		</li>
 	);
 };

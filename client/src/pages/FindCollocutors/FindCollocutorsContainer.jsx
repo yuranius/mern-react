@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { CollocutersContext } from "../../context/CollocutersContext";
 import { useHttp } from "../../hooks/http.hook";
 import { useMassage } from "../../hooks/message.hook";
@@ -10,6 +11,7 @@ import { FoundCollocutors } from "./FindCollocutors";
 export const FoundCollocutorsContainer = () => {
 
 	let collocuters = useContext(CollocutersContext)
+	const auth = useContext(AuthContext)
 
 	const [form, setForm] = useState({ collocuter: "" });
 
@@ -32,17 +34,15 @@ export const FoundCollocutorsContainer = () => {
 	
 
 	const collocuterHeandler = async () => {
-		if (form.collocuter) {
+		if (form.collocuter && form.collocuter !== " " ) {
 		try {
 			const data = await request(`/api/auth/findcollocuter/${form.collocuter}`, 'GET');
 			// передаем в контекст массив собеседников
-			collocuters.users = data.data.map((u) => {return u} )
+			collocuters.users = data.data.map((u) => {return u } )
 			message(data.massage)
 		} catch (error) {
 			collocuters.users = []
-			console.log('📢 [FindCollocutorsContainer.jsx:57]', error);
-			message(error[0])
-		}} else { message( 'Для поиска введите минимум 1 значение' ) }
+		}} else { message( 'Некорректный ввод' ) }
 	};
 
   let follow = async (id) => {
@@ -70,5 +70,7 @@ export const FoundCollocutorsContainer = () => {
   unfollow={unfollow}
   collocuterHeandler={collocuterHeandler} 
   changeHandler={changeHandler} 
-  loading={loading} />;
+  loading={loading}
+  userId={auth.userId}
+   />;
 };
