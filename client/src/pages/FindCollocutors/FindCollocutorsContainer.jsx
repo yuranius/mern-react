@@ -15,7 +15,7 @@ export const FoundCollocutorsContainer = () => {
 
 	const { loading, request, error, clearError } = useHttp();
 
-	const [, setIsFetch] = useState();
+	// const [, setIsFetch] = useState();
 
 
 	let message = useMassage();
@@ -47,16 +47,15 @@ export const FoundCollocutorsContainer = () => {
 
   let follow = async (id) => {
 		try {
-      testData[id].isFetch = true
-      console.log('📢 [FindCollocutorsContainer.jsx:56]', testData[id]);
-      setIsFetch({...testData[id].isFetch})
+
+    //   setIsFetch({...testData[id].isFetch})
 		} catch (error) {}
 	};
 
 	let unfollow = (id) => {
-		testData[id].isFetch = false
-    console.log('📢 [FindCollocutorsContainer.jsx:61]', testData[id]);
-    setIsFetch({...testData[id].isFetch})
+	// 	testData[id].isFetch = false
+    // console.log('📢 [FindCollocutorsContainer.jsx:61]', testData[id]);
+    // setIsFetch({...testData[id].isFetch})
 	};
 
   useEffect(() => {
