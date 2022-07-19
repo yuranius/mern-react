@@ -2,7 +2,10 @@
 
     "__comment1__": "для хранения всех констант для проекта",
     "port": 5000,
-    "jwtSecret":"yuranius webber"
+    "jwtSecret":"yuranius webber",
 
+    "tableOne":"users",
+    "fieldOneTableOne" : "id",
+    "fieldFourTableOne" : "login"
 
 }

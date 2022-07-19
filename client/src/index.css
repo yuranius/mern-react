@@ -23,6 +23,18 @@ input.yellow-input:focus {
 .brand-logo{
     margin-left: 20px;
 }
+					
+					
+.navbar-ava{
+    width: 50px;
+    height: 50px;
+    margin: 5px 20px;
+    border-radius: 50%;
+}
+
+.profile-block {
+    margin-top: 30px;
+}
 
 .collection .collection-item.avatar .title {
     font-size: 18px;

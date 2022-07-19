@@ -18,7 +18,7 @@ const pool = require('../settings/db')
 
 const c = require('config')
 
-const userContreller = require ('../controllers/user-controller')
+const userController = require ('../controllers/user-controller')
 
 // переменные для запросов к БД
 let tableOne = 'users'
@@ -47,13 +47,18 @@ router.get('/user', async (req, res) => {
   }
 })
 
-router.get('/profile/:user_id', userContreller.changeLogin)
+router.post('/profile', userController.changeLogin)
 
 // UPDATE `users` SET `login` = 'Mуся' WHERE `users`.`id` = 28; - //?обновить логин 
 
 // INSERT INTO `messages` (`id`, `user_to_id`, `user_from_id`, `content`, `created_at`) VALUES (NULL, '28', '29', 'Привет! Как дела?', current_timestamp()); //?вставить сообщение
 
 // /users?age=32&name=Tom
+
+
+
+
+
 
 router.get('/findcollocuter/:user_query', 
 [

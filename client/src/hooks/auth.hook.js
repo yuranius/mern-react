@@ -13,6 +13,7 @@ export const useAuth = () => {
 
     const login = useCallback(
       (jwtToken, id, userLogin) => {
+        console.log('📢 [auth.hook.js:16]', jwtToken, id, userLogin);
         setToken(jwtToken)
         setUserId(id)
         setuserLogin(userLogin)
@@ -21,6 +22,13 @@ export const useAuth = () => {
       [],
     )
 
+    const isLogin = useCallback(
+      (userLogin) => {
+        setuserLogin(userLogin)
+        localStorage.setItem (storageName, JSON.stringify({ userLogin }))
+      },
+      [],
+    )
  
 
     const logout = useCallback(
@@ -42,6 +50,6 @@ export const useAuth = () => {
     }, [login])
     
 
-    return {login ,logout, token, userId, userLogin}
+    return {login ,logout, isLogin, token, userId, userLogin}
     
 }

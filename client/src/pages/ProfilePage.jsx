@@ -13,7 +13,6 @@ export const ProfilePage = () => {
 
     const {loading, request, error, clearError } = useHttp();
 
-    console.log('📢 [ProfilePage.jsx:15]', form, auth.userId);
 
     const message = useMassage();
 
@@ -26,18 +25,22 @@ export const ProfilePage = () => {
 
     const saveHandler = async(event) => {
         event.preventDefault()
+        if (auth.isAuthenticated && auth.userId) {
         try {
-            const data = await request (`/api/auth/profile/:${auth.userId}`, 'PUT', {...form})
-            message(data.massage)
+            const data = await request ('/api/auth/profile', 'POST', { userId:auth.userId, userLogin:form.userLogin})
+            message(data[2].massage)
+            auth.isLogin(data[1])
         } catch (error) {
-            
+          message(error.message)
+        }} else {
+          message("Что-то пошло не так")
         }
     }
     
 
 
   return (
-    <div className="row">
+    <div className="row profile-block">
       <form className="col s12">
         <div className="row">
           <div className="input-field col s6">
@@ -48,7 +51,11 @@ export const ProfilePage = () => {
 
         <div className="row">
           <div className="card-action">
-            <button className="btn yellow darken-4" style={{ marginRight: 10 }} onClick={saveHandler} >
+            <button 
+            className="btn yellow darken-4" 
+            onClick={saveHandler} 
+            disabled={loading}
+            >
               Сохранить
             </button>
           </div>
