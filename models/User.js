@@ -1,3 +1,5 @@
+// для MangoDB в данном проекте не используется
+
 const { Schema, model } = require("mongoose");
 
 const schema = new Schema({
@@ -16,3 +18,4 @@ const schema = new Schema({
 });
 
 module.exports = model("User", schema);
+

@@ -8,6 +8,7 @@ export const Navbar = () => {
     const auth = useContext(AuthContext)
 
 
+
     const logoutHeandler = (event) => {
         event.preventDefault()
         auth.logout()
@@ -17,9 +18,9 @@ export const Navbar = () => {
 	return (
 		<nav>
 			<div className="nav-wrapper blue">
-				<span href="#" className="brand-logo">
-					Logo
-				</span>
+				<NavLink to="/profile" className="brand-logo">
+					{auth.userLogin ? auth.userLogin : 'Login'}
+				</NavLink>
 				<ul id="nav-mobile" className="right hide-on-med-and-down">
 				<li>
 						<NavLink to="/foundcollocutors">Поиск собеседников</NavLink>

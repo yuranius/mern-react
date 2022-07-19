@@ -65,12 +65,12 @@ export const FoundCollocutorsContainer = () => {
 
 
 	return <FoundCollocutors 
-  testData={collocuters.users} 
-  follow={follow}
-  unfollow={unfollow}
-  collocuterHeandler={collocuterHeandler} 
-  changeHandler={changeHandler} 
-  loading={loading}
-  userId={auth.userId}
+		testData={collocuters.users} 
+		follow={follow}
+		unfollow={unfollow}
+		collocuterHeandler={collocuterHeandler} 
+		changeHandler={changeHandler} 
+		loading={loading}
+		userId={auth.userId}
    />;
 };

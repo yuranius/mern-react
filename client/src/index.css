@@ -20,6 +20,10 @@ input.yellow-input:focus {
     box-shadow: 0 1px 0 0 #ffeb3b!important;
 }
 
+.brand-logo{
+    margin-left: 20px;
+}
+
 .collection .collection-item.avatar .title {
     font-size: 18px;
     font-weight: 600;

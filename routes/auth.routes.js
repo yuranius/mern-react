@@ -15,7 +15,10 @@ const config = require('config')
 const router = Router()
 
 const pool = require('../settings/db')
+
 const c = require('config')
+
+const userContreller = require ('../controllers/user-controller')
 
 // переменные для запросов к БД
 let tableOne = 'users'
@@ -44,6 +47,7 @@ router.get('/user', async (req, res) => {
   }
 })
 
+router.get('/profile/:user_id', userContreller.changeLogin)
 
 // UPDATE `users` SET `login` = 'Mуся' WHERE `users`.`id` = 28; - //?обновить логин 
 
@@ -54,7 +58,7 @@ router.get('/user', async (req, res) => {
 router.get('/findcollocuter/:user_query', 
 [
   // проверка на пробелы
-  check('user_query','khkjkhi').custom(value => !/\s/.test(value))
+  check('user_query','введите корректные данные').custom(value => !/\s/.test(value))
 ],
   async (req, res) => {
     
@@ -251,13 +255,17 @@ router.post(
         }, // через сколько прекратит токен свое существование
       )
 
+      console.log('📢 [auth.routes.js:254]', user);
 
       // ОТВЕЧАЕМ НА ФРОНДЭНД
-      res.status(200).json({ token, userId: user.id, massage:'Успешно' })
+      res.status(200).json({ token, userId: user.id, userLogin: user.login, massage:'Успешно' })
     } catch (error) {
       res.status(500).json({ massage: 'Что-то пошло не так, попробуйте снова' })
     }
   },
 )
+
+
+
 
 module.exports = router

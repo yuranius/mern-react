@@ -7,7 +7,8 @@ import { AuthContext } from "./context/AuthContext";
 import { Navbar } from "./components/Navbar";
 
 function App() {
-	const {login, logout, token, userId} = useAuth();
+	const {login, logout, token, userId, userLogin} = useAuth();
+	console.log('📢 [App.js:11]', userLogin);
 
 	const isAuthenticated = !!token
 
@@ -15,7 +16,7 @@ function App() {
 
 
 	return (
-		<AuthContext.Provider value={{token, login, logout, userId, isAuthenticated }}>
+		<AuthContext.Provider value={{ token, login, logout, userId, isAuthenticated, userLogin }}>
 			<Router>
 				{ isAuthenticated && <Navbar /> }
 
