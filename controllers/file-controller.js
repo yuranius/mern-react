@@ -7,7 +7,7 @@ class FileController {
 
         try {
 
-            const file = req.body
+            const file = req.body.file
 
             console.log('📢 [file-controller.js:12]', file);
 
@@ -15,12 +15,14 @@ class FileController {
                 config.get('tableOne'),
                 config.get('fieldOneTableOne'),
                 req.body.userId
-            ])
+            ]).then((data) => {
+                return data[0][0]
+            })
 
             //генерируем рандомное название для файла что-бы он был уникальным для этого нужен модуль UUID 
             const avatarName = Uuid.v4() + '.jpg'
 
-            console.log('📢 [file-controller.js:23]', avatarName);
+            console.log('📢 [file-controller.js:25]', user);
 
             //создаем путь куда будем перемещать файл
             file.mv(config.get('staticPath') + '\\' + avatarName)
@@ -33,13 +35,15 @@ class FileController {
                     avatarName, 
                     config.get('tableOne'),
                     config.get('fieldOneTableOne'),
-                    user.userId
+                    user.id
                 ]
-            )
+            ).then((data) => {
+                res.status(201).json({massage:"Аватар изменен успешно!"})
+            })
 
-            res.json(user, {massage:"Аватар изменен успешно!"})
+            
         } catch (error) {
-            console.log('📢 [user-controller.js:9]', error);
+            console.log('📢 [user-controller.js:9]', 'Что-то пошло не так');
         }
     }
 

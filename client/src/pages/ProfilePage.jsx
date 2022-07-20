@@ -56,16 +56,18 @@ export const ProfilePage = () => {
     if (!file) { message('Выберите файл')}
     try {
 
-      let formData = new FormData()
-      formData.append("file", file)
+      console.log('📢 [ProfilePage.jsx:59]', file);
+
+      let formData = new FormData();
+      formData.append("file", file);
 
 
       console.log('📢 [ProfilePage.jsx:63]', formData, file); 
       const data = await request('/api/auth/profile/avatar', 'POST', {
         userId: auth.userId,
-        file: formData,
+        file: file,
       })
-      message(data)
+      message(data.massage)
     } catch (error) {
       console.log('📢 [ProfilePage.jsx:60]', error);
     }
