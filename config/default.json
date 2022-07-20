@@ -1,11 +1,28 @@
 {
 
-    "__comment1__": "для хранения всех констант для проекта",
+    "____": "для хранения всех констант для проекта",
     "port": 5000,
     "jwtSecret":"yuranius webber",
 
+    "____": "констанды для запросов к базе данных",
     "tableOne":"users",
     "fieldOneTableOne" : "id",
-    "fieldFourTableOne" : "login"
+    "fieldTwoTableOne" : "email",
+    "fieldThreeTableOne" : "password",
+    "fieldFourTableOne" : "login",
+    "fieldFiveTableOne" : "registration",
+    "fieldSixTableOne" : "avatar",
+    "fieldTableOne" : [ 
+        "fieldOneTableOne", 
+        "fieldTwoTableOne", 
+        "fieldThreeTableOne",
+        "fieldFourTableOne",
+        "fieldFiveTableOne"
+    ],
+
+
+    "____": "путь для хранения аватарок",
+    "staticPath":"C:\\Users\\79276\\OneDrive\\Документы\\GitHub\\mern-react\\static"
+    
 
 }

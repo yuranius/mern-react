@@ -19,6 +19,7 @@ const pool = require('../settings/db')
 const c = require('config')
 
 const userController = require ('../controllers/user-controller')
+const fileController = require('../controllers/file-controller')
 
 // переменные для запросов к БД
 let tableOne = 'users'
@@ -47,7 +48,9 @@ router.get('/user', async (req, res) => {
   }
 })
 
-router.post('/profile', userController.changeLogin)
+router.post('/profile/login', userController.changeLogin) // корректровка логина
+router.post('/profile/avatar', fileController.uploadAvatar) // корректровка аватара
+router.delete('/profile/avatar', fileController.deleteAvatar) // удаление аватара
 
 // UPDATE `users` SET `login` = 'Mуся' WHERE `users`.`id` = 28; - //?обновить логин 
 

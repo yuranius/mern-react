@@ -7,6 +7,8 @@ app.use (express.json ({ extended: true })) //миделвейер(встрое�
 
 app.use ('/api/auth', require('./routes/auth.routes'))
 
+app.use (express.static('static')) //указываем папку для express где будут храниться аватарки
+
 
 const PORT = config.get('port') || 5000
 app.listen(PORT, () => console.log('📢', `App has been stasrted on port ${PORT}...`));

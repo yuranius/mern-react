@@ -6,7 +6,7 @@ class UserController {
 
         try {
 
-            if ((/^([\s%&#@!])*$/).test(req.body.userLogin)) {
+            if ((/^([\s%&#@!\s])*$/).test(req.body.userLogin)) {
                 return res.status(405).json({ massage: "Некорректные данные"})
             }
 
