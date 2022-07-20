@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import userPhoto from "./../image/user-img.webp";
+import {API_URL} from "../config"
 
-export const Navbar = (props) => {
+export const Navbar = () => {
 
     const auth = useContext(AuthContext)
 
@@ -18,7 +19,7 @@ export const Navbar = (props) => {
 	return (
 		<nav>
 			<div className="nav-wrapper blue">
-				<img src={props.photos != null ? props.photos : userPhoto} alt="" className="navbar-ava" />
+				<img src={auth.avatarUser != null ? `${API_URL + auth.avatarUser}` : userPhoto} alt="" className="navbar-ava" />
 				<NavLink to="/profile" className="brand-logo">
 					
 					{auth.userLogin ? auth.userLogin : 'Логин'}

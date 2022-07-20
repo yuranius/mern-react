@@ -7,7 +7,9 @@ class FileController {
 
         try {
 
-            const file = req.files.file
+            const file = req.body
+
+            console.log('📢 [file-controller.js:12]', file);
 
             const user = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [
                 config.get('tableOne'),
@@ -17,6 +19,8 @@ class FileController {
 
             //генерируем рандомное название для файла что-бы он был уникальным для этого нужен модуль UUID 
             const avatarName = Uuid.v4() + '.jpg'
+
+            console.log('📢 [file-controller.js:23]', avatarName);
 
             //создаем путь куда будем перемещать файл
             file.mv(config.get('staticPath') + '\\' + avatarName)

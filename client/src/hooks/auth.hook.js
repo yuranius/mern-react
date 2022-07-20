@@ -9,15 +9,17 @@ export const useAuth = () => {
     const [token, setToken] = useState(null)
     const [userId, setUserId] = useState(null)
     const [userLogin, setuserLogin] = useState(null)
+    const [avatarUser, setavatarUser] = useState(null)
 
 
     const login = useCallback(
       (jwtToken, id, userLogin) => {
-        console.log('📢 [auth.hook.js:16]', jwtToken, id, userLogin);
+        console.log('📢 [auth.hook.js:16]', jwtToken, id, userLogin, avatarUser);
         setToken(jwtToken)
         setUserId(id)
         setuserLogin(userLogin)
-        localStorage.setItem (storageName, JSON.stringify({ token:jwtToken,  userId:id, userLogin }))
+        setavatarUser(avatarUser)
+        localStorage.setItem (storageName, JSON.stringify({ token:jwtToken,  userId:id, userLogin, avatarUser }))
       },
       [],
     )
@@ -29,6 +31,15 @@ export const useAuth = () => {
       },
       [],
     )
+
+    const uploadAvatar = useCallback(
+      (avatarUser) => {
+        setuserLogin(avatarUser)
+        localStorage.setItem (storageName, JSON.stringify({ avatarUser }))
+      },
+      [],
+    )
+ 
  
 
     const logout = useCallback(
@@ -50,6 +61,6 @@ export const useAuth = () => {
     }, [login])
     
 
-    return {login ,logout, isLogin, token, userId, userLogin}
+    return {login ,logout, isLogin, uploadAvatar, token, userId, userLogin, avatarUser}
     
 }

@@ -4,6 +4,7 @@ import { useMassage } from '../hooks/message.hook'
 import { useHttp } from '../hooks/http.hook'
 
 let value = ''
+let file = null
 
 export const ProfilePage = () => {
   const auth = useContext(AuthContext)
@@ -21,13 +22,14 @@ export const ProfilePage = () => {
     setForm({ ...form, [event.target.id]: event.target.value })
   }
 
+  const changeInputFileHandler = (event) => {
+    file = event.target.files[0]
+
+  }
+
   
   const saveHandler = async (event) => {
     event.preventDefault()
-    
-    
-    
-
     if (auth.isAuthenticated && auth.userId) {
       if (!value.value) {return message('Поле не может быть пустым')}
       try {
@@ -37,13 +39,8 @@ export const ProfilePage = () => {
         })
         message(data[2].massage)
         auth.isLogin(data[1]) 
-
-       value.value = ''
-
+        if (value.value) {value.value = ''}
        window.M.updateTextFields()
-       console.log('📢 [ProfilePage.jsx:43]', value.value);
-
-
       } catch (error) {
         value.value = ''
         window.M.updateTextFields()
@@ -54,11 +51,27 @@ export const ProfilePage = () => {
     }
   }
 
-  // useEffect(() => {
-  //   window.M.updateTextFields()
-  // }, [value]) // делает поля ввода логин и пароля активными (что-бы не налезали поля друг на друга)
+  const saveAvatarHandler = async(event) => {
+    event.preventDefault()
+    if (!file) { message('Выберите файл')}
+    try {
 
-  console.log('📢 [ProfilePage.jsx:50]', value);
+      let formData = new FormData()
+      formData.append("file", file)
+
+
+      console.log('📢 [ProfilePage.jsx:63]', formData, file); 
+      const data = await request('/api/auth/profile/avatar', 'POST', {
+        userId: auth.userId,
+        file: formData,
+      })
+      message(data)
+    } catch (error) {
+      console.log('📢 [ProfilePage.jsx:60]', error);
+    }
+  }
+
+
 
   return (
     <div className="row profile-block">
@@ -96,12 +109,19 @@ export const ProfilePage = () => {
         <div className="file-field input-field">
           <div className="btn">
             <span>File</span>
-            <input type="file" />
+            <input type="file" onChange={changeInputFileHandler} />
           </div>
           <div className="file-path-wrapper">
             <input className="file-path validate" type="text" />
           </div>
         </div>
+        <button
+              className="btn yellow darken-4"
+              onClick={saveAvatarHandler}
+              disabled={loading}
+            >
+              Загрузить
+            </button>
       </form>
     </div>
   )
