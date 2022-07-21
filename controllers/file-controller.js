@@ -2,6 +2,7 @@ const pool = require('../settings/db')
 const config = require('config')
 const Uuid = require('uuid')
 
+
 class FileController {
     async uploadAvatar(req, res) {
 
@@ -24,8 +25,8 @@ class FileController {
 
             console.log('📢 [file-controller.js:25]', user);
 
-            //создаем путь куда будем перемещать файл
-            file.mv(config.get('staticPath') + '\\' + avatarName)
+            //создаем путь куда будем перемещать файл config.get('staticPath') + '\\' + avatarName
+            file.mv('../static')
 
             await pool.query(
                 `UPDATE ?? SET ?? = ? WHERE ??.?? = ?`,
@@ -43,7 +44,7 @@ class FileController {
 
             
         } catch (error) {
-            console.log('📢 [user-controller.js:9]', 'Что-то пошло не так');
+            console.log('📢 [user-controller.js:46]', 'Что-то пошло не так');
         }
     }
 

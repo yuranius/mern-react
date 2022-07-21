@@ -5,7 +5,7 @@ import React from "react";
 
 import { MessagePage } from "./pages/MessagePage";
 import { CollocutorsPage } from "./pages/Collocutors/CollocutorsPage";
-import { ProfilePage } from "./pages/ProfilePage";
+import { ProfilePageContainer } from "./pages/ProfilePage/ProfilePageContainer";
 import { AuthPage } from "./pages/AuthPage";
 import { FoundCollocutorsContainer } from "./pages/FindCollocutors/FindCollocutorsContainer";
 
@@ -18,7 +18,7 @@ export const useRoutes = (isAuthenticated) => {
 				<Route path="/foundcollocutors" element={ <FoundCollocutorsContainer />}/>
 				<Route path="/collocutors" exact element={<CollocutorsPage />} />
 				<Route path="/messages" exact element={<MessagePage />} />
-				<Route path="/profile" element={<ProfilePage />} />
+				<Route path="/profile" element={<ProfilePageContainer />} />
 				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
 		)

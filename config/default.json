@@ -22,7 +22,10 @@
 
 
     "____": "путь для хранения аватарок",
-    "staticPath":"C:\\Users\\79276\\OneDrive\\Документы\\GitHub\\mern-react\\static"
+    "staticPath1":"C:\\Users\\79276\\OneDrive\\Документы\\GitHub\\mern-react\\static",
+    "staticPath":"~\\Документы\\ReactJS\\Mern-React\\static"
+
+    
     
 
 }
