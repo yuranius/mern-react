@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext,  useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { useMassage } from '../../hooks/message.hook'
 import { useHttp } from '../../hooks/http.hook'
 import { ProfilePage } from './ProfilePage'
 
+
 let value = ''
 let file = null
+
 
 
 export const ProfilePageContainer = () => {
@@ -13,7 +15,7 @@ export const ProfilePageContainer = () => {
 
   const [form, setForm] = useState({ userLogin: auth.userLogin })
 
-  const { loading, request, error, clearError } = useHttp()
+  const { loading, request } = useHttp()
 
   const [preview, setPreview] = useState(null)
 
@@ -34,6 +36,13 @@ export const ProfilePageContainer = () => {
     reader.onload = ev => {
       setPreview(ev.target.result);
     }
+    // проверка на валидность картинки
+    if (!file.type.match('image')) {
+      //очищаем поле input
+      event.target.value = null
+      return message('Неправильный тип файла')
+    }
+
   }
 
   
@@ -65,19 +74,6 @@ export const ProfilePageContainer = () => {
     if (!file) { return message('Выберите файл')}
     try {
 
-      
-      // проверяем тип файла
-      if (!file.type.match('image')) {
-        return message('Неправильный тип файла')
-      }
-
-
-
-      
-
-
-
-
       let formData = new FormData();
       formData.append("file", file);
 
@@ -85,11 +81,12 @@ export const ProfilePageContainer = () => {
 
 
 
-      // const data = await request('/api/auth/profile/avatar', 'POST', {
-      //   userId: auth.userId,
-      //   file: file,
-      // })
-      // message(data.massage)
+
+      const data = await request('/api/auth/profile/avatar', 'POST', {
+        // userId: auth.userId,
+        file: file,
+      })
+      message(data.massage)
     } catch (error) {
       console.log('📢 [ProfilePage.jsx:78]', error);
     }
