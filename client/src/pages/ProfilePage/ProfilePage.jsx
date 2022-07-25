@@ -3,7 +3,7 @@ import React from "react";
 export const ProfilePage = (props) => {
 	return (
 		<div className="row profile-block">
-			<form className="col s12">
+			<form className="col s12" id='form'>
 				<div className="row">
 					<div className="input-field col s12">
 						<i className="material-icons prefix">account_circle</i>

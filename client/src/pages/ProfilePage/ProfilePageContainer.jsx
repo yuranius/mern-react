@@ -5,6 +5,7 @@ import { useHttp } from '../../hooks/http.hook'
 import { ProfilePage } from './ProfilePage'
 
 
+
 let value = ''
 let file = null
 
@@ -78,13 +79,16 @@ export const ProfilePageContainer = () => {
       formData.append("file", file);
 
 
+      // for(const pair of formData.entries()) {
+      //   console.log(`${pair[0]}, ${pair[1]}`);
+      // }
 
-
+      console.log('📢 [ProfilePageContainer.jsx:88]', file, formData);
 
 
       const data = await request('/api/auth/profile/avatar', 'POST', {
-        // userId: auth.userId,
-        file: file,
+        userId: auth.userId,
+        file: formData
       })
       message(data.massage)
     } catch (error) {

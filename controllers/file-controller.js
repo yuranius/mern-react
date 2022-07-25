@@ -1,6 +1,7 @@
 const pool = require('../settings/db')
 const config = require('config')
 const Uuid = require('uuid')
+const fs = require('fs')
 
 
 class FileController {
@@ -8,9 +9,9 @@ class FileController {
 
         try {
 
-            const file = req.body.file
+            const file = req.files
 
-            console.log('📢 [file-controller.js:12]', file);
+            console.log('📢 [file-controller.js:13]', file);
 
             const user = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [
                 config.get('tableOne'),
@@ -25,8 +26,23 @@ class FileController {
 
             console.log('📢 [file-controller.js:25]', user);
 
+            const path = '~\\Документ\\ReactJS\\Mern-React\\static'
+
+
+
+
+
+            fs.readFile(file, function(err, data){
+                console.log('📢 [file-controller.js:36]', data, err);
+            });
+
+
+
+            console.log('📢 [file-controller.js:41]', 'сработало');
+
+
             //создаем путь куда будем перемещать файл config.get('staticPath') + '\\' + avatarName
-            file.mv('../static')
+            file.mv(path)
 
             await pool.query(
                 `UPDATE ?? SET ?? = ? WHERE ??.?? = ?`,
