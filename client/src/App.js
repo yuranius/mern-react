@@ -1,5 +1,5 @@
 import "materialize-css";
-import { useRoutes } from "./routes";
+import { useRoutes } from "./pages/routes";
 import { BrowserRouter as Router} from "react-router-dom";
 import React from "react";
 import { useAuth } from "./hooks/auth.hook";
@@ -8,9 +8,7 @@ import { Navbar } from "./components/Navbar";
 
 function App() {
 	const {login, logout, isLogin, uploadAvatar, token, userId, userLogin, avatarUser} = useAuth();
-
 	const isAuthenticated = !!token
-
 	const routes = useRoutes(isAuthenticated);
 
 

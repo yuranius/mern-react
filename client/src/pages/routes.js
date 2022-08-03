@@ -1,16 +1,13 @@
 import { Routes, Route } from "react-router";
-import { Navigate } from "react-router-dom";
+import  {Navigate}  from "react-router-dom";
 import React from "react";
-
-
-import { MessagePage } from "./pages/MessagePage";
-import { CollocutorsPage } from "./pages/Collocutors/CollocutorsPage";
-import { ProfilePageContainer } from "./pages/ProfilePage/ProfilePageContainer";
-import { AuthPage } from "./pages/AuthPage";
-import { FoundCollocutorsContainer } from "./pages/FindCollocutors/FindCollocutorsContainer";
+import { CollocutorsPage } from "./Collocutors/CollocutorsPage";
+import { ProfilePageContainer } from "./ProfilePage/ProfilePageContainer";
+import { FoundCollocutorsContainer } from "./FindCollocutors/FindCollocutorsContainer";
+import {MessagePage} from "./MassagePage/MessagePage";
+import {AuthPageContainer} from "./AuthPage/AuthPageContainer";
 
 export const useRoutes = (isAuthenticated) => {
-	// isAuthenticated = true;
 	if (isAuthenticated) {
 		return (
 			<Routes>
@@ -29,7 +26,7 @@ export const useRoutes = (isAuthenticated) => {
 
 		<Routes>
 			<Route path="*" element={<Navigate to="/" />} />
-			<Route path="/" element={<AuthPage />} />
+			<Route path="/" element={<AuthPageContainer />} />
 		</Routes>
 		</>
 	);

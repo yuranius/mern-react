@@ -9,8 +9,7 @@ export const Navbar = () => {
     const auth = useContext(AuthContext)
 
 
-
-    const logoutHeandler = (event) => {
+    const logoutHandler = (event) => {
         event.preventDefault()
         auth.logout()
     }
@@ -35,7 +34,7 @@ export const Navbar = () => {
 						<NavLink to="/messages">Сообщения</NavLink>
 					</li>
 					<li>
-						<a href="/" onClick={logoutHeandler}>Выход</a>
+						<a href="/" onClick={logoutHandler}>Выход</a>
 					</li>
 				</ul>
 			</div>
