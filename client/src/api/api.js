@@ -1,23 +1,43 @@
 import axios from "axios";
+import {mapDispatchToPropsFactory} from "react-redux/es/connect/mapDispatchToProps";
 
 // const baseUrl = "https://social-network.samuraijs.com/api/1.0/";
 
-// const instance = axios.create({
-//     withCredentials: true,
-//     headers: {
-//         "API-KEY": "1ea0aacd-35c9-421e-978f-eba765d24299",
-//     },
-//     baseURL: "https://social-network.samuraijs.com/api/1.0/",
-// });
+const instance = axios.create({
+    //withCredentials: true,
+    headers: {
+        'Content-Type':'application/json'
+    },
+    //baseURL: "https://social-network.samuraijs.com/api/1.0/",
+});
 
 
-export const authAPI = {
-    getAuth() {
-        return axios.post(`/api/auth/login`, {}).then((response) => {
+export const loginAPI = {
+    login(email, password) {
+        return instance.post(`/api/auth/login`, { email, password}).then((response) => {
             return response.data;
         });
     },
+    logout() {
+        return instance.delete('/api/auth/login').then((response)=>{
+            return response.data;
+        });
+    }
 }
+
+
+
+
+
+
+
+// export const authAPI = {
+//     getAuth() {
+//         return axios.post(`/api/auth/login`, {}).then((response) => {
+//             return response.data;
+//         });
+//     },
+// }
 
 
 // export const usersAPI = {
@@ -81,16 +101,5 @@ export const authAPI = {
 
 
 
-// export const loginAPI = {
-//     login(email, password, rememberMe, capcha) {
-//         return instance.post(`auth/login`, { email, password, rememberMe, capcha }).then((response) => {
-//             return response.data;
-//         });
-//     },
-//     logout() {
-//         return instance.delete('/auth/login').then((response)=>{
-//             return response.data;
-//         });
-//     }
-// }
+
 

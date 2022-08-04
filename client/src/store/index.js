@@ -1,5 +1,5 @@
 import { applyMiddleware, combineReducers,  createStore } from "redux";
-import { cashReducer } from "./cashReducer";
+import { authReducer } from "./authReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
@@ -8,7 +8,7 @@ import { rootWatcher } from "../saga";
 const saga = createSagaMiddleware()
 
 const rootReducer = combineReducers({
-    user: cashReducer,
+    user: authReducer,
 })
 
 const middleWares = [saga, thunk]

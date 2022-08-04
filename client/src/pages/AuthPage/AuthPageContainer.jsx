@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react"
 import { useHttp } from "../../hooks/http.hook"
-import React from "react"
+import React, {useEffect, useState} from "react"
 import { useMassage } from "../../hooks/message.hook"
-import { AuthContext } from "../../context/AuthContext"
 import {AuthPage} from "./AuthPage";
+import {useDispatch, useSelector} from "react-redux";
+import {AsyncSetUserDataAction} from "../../store/authReducer";
 
 export const AuthPageContainer = () => {
 
-    const auth = useContext(AuthContext)
+    // const auth = useContext(AuthContext)
 
     const {loading, request, error, clearError } = useHttp()
 
@@ -39,14 +39,31 @@ export const AuthPageContainer = () => {
         }
     }
 
-    const loginHandler = async () => {
+    // const loginHandler = async () => {
+    //     try {
+    //         const data = await request ('/api/auth/login', 'POST', {...form})
+    //         message(data.massage)
+    //
+    //         auth.login(data.token, data.userId, data.userLogin)
+    //     } catch (error) {
+    //
+    //     }
+    // }
+
+    let user = useSelector((state) => state.user)
+
+    useEffect(() => {
+        console.log('📢---user---📢',user)
+    }, [user])
+
+    console.log('📢---user---📢',user)
+
+    const dispatch = useDispatch()
+    const loginHandler = () => {
         try {
-            const data = await request ('/api/auth/login', 'POST', {...form})
-            message(data.massage)
-
-            auth.login(data.token, data.userId, data.userLogin)
-        } catch (error) {
-
+            dispatch(AsyncSetUserDataAction(form))
+        } catch (e) {
+            console.log('📢---Error---📢',e)
         }
     }
 
