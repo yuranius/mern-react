@@ -2,7 +2,7 @@ import {put, takeEvery} from 'redux-saga/effects'
 
 // put - dispatch, который предназначен для синхронных action
 
-import { ASYNC_DECREMENT_CASH, ASYNC_INCREMENT_CASH, decrementCashAction, incrementCashAction } from "../store/cashReducer"
+import { ASYNC_DECREMENT_CASH, ASYNC_INCREMENT_CASH, decrementCashAction, incrementCashAction } from "../store/loginReducer"
 
 const delay = (ms) => new Promise(res => setTimeout(res, ms))
 

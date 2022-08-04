@@ -19,7 +19,7 @@ const defaultState = {
 };
 
 
-export const cashReducer = (state = defaultState, action) => {
+export const loginReducer = (state = defaultState, action) => {
        switch (action.type) {
         case ADD_CASH:
                return {...state};
