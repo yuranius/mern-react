@@ -1,17 +1,14 @@
 import { Routes, Route } from "react-router";
-import  {Navigate}  from "react-router-dom";
-import React, {useEffect} from "react";
+import  { Navigate }  from "react-router-dom";
+import React from "react";
 import { CollocutorsPage } from "./Collocutors/CollocutorsPage";
 import { ProfilePageContainer } from "./ProfilePage/ProfilePageContainer";
 import { FoundCollocutorsContainer } from "./FindCollocutors/FindCollocutorsContainer";
 import {MessagePage} from "./MassagePage/MessagePage";
 import {AuthPageContainer} from "./AuthPage/AuthPageContainer";
-import {useSelector} from "react-redux";
 
 
 export const useRoutes = (isAuthenticated) => {
-
-
 	if (isAuthenticated) {
 		return (
 			<Routes>

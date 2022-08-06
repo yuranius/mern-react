@@ -1,20 +1,19 @@
-import React, { useContext,  useState } from 'react'
-import { AuthContext } from '../../context/AuthContext'
+import React, {useState} from 'react'
 import { useMassage } from '../../hooks/message.hook'
 import { useHttp } from '../../hooks/http.hook'
 import { ProfilePage } from './ProfilePage'
 
 
 
-let value = ''
+
 let file = null
 
 
 
 export const ProfilePageContainer = () => {
-  const auth = useContext(AuthContext)
+  //const auth = useContext(AuthContext)
 
-  const [form, setForm] = useState({ userLogin: auth.userLogin })
+  //const [form, setForm] = useState({ userLogin: auth.userLogin })
 
   const { loading, request } = useHttp()
 
@@ -25,8 +24,8 @@ export const ProfilePageContainer = () => {
   
 
   const inputHandler = (event) => {
-    value = event.target
-    setForm({ ...form, [event.target.id]: event.target.value })
+    // value = event.target
+    // setForm({ ...form, [event.target.id]: event.target.value })
   }
 
   const changeInputFileHandler = (event) => {
@@ -49,25 +48,25 @@ export const ProfilePageContainer = () => {
   
   const saveHandler = async (event) => {
     event.preventDefault()
-    if (auth.isAuthenticated && auth.userId) {
-      if (!value.value) {return message('Поле не может быть пустым')}
-      try {
-        const data = await request('/api/auth/profile/login', 'POST', {
-          userId: auth.userId,
-          userLogin: form.userLogin,
-        })
-        message(data[2].massage)
-        auth.isLogin(data[1]) 
-        if (value.value) {value.value = ''}
-        window.M.updateTextFields()
-      } catch (error) {
-        value.value = ''
-        window.M.updateTextFields()
-        message(error.message)
-      }
-    } else {
-      message('Что-то пошло не так')
-    }
+    // if (auth.isAuthenticated && auth.userId) {
+    //   if (!value.value) {return message('Поле не может быть пустым')}
+    //   try {
+    //     const data = await request('/api/auth/profile/login', 'POST', {
+    //       userId: auth.userId,
+    //       userLogin: form.userLogin,
+    //     })
+    //     message(data[2].massage)
+    //     //auth.isLogin(data[1])
+    //     if (value.value) {value.value = ''}
+    //     window.M.updateTextFields()
+    //   } catch (error) {
+    //     value.value = ''
+    //     window.M.updateTextFields()
+    //     message(error.message)
+    //   }
+    // } else {
+    //   message('Что-то пошло не так')
+    // }
   }
 
   const saveAvatarHandler = async(event) => {
@@ -87,7 +86,7 @@ export const ProfilePageContainer = () => {
 
 
       const data = await request('/api/auth/profile/avatar', 'POST', {
-        userId: auth.userId,
+        //userId: auth.userId,
         file: formData
       })
       message(data.massage)

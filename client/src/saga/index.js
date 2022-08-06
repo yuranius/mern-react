@@ -1,9 +1,8 @@
-// для создания функции глобального WATCHER, которая следит за всеми watcher'ами
-
 import { all } from "redux-saga/effects";
-import { cashWatcher } from "./authSaga";
+import { userWatcher } from "./authSaga";
+import {collocutorsWatcher} from "./collocutorsSaga";
 
 
 export function* rootWatcher() {
-    yield all([cashWatcher()]);
+    yield all([userWatcher(), collocutorsWatcher()]);
 }

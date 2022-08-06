@@ -75,7 +75,6 @@ router.get('/findcollocuter/:user_query',
 
 
 
-
   try {
 
     // в случае не прохождения проверки на пробеллы выводим сообщение
@@ -150,6 +149,7 @@ router.post(
         })
       }
       const { email, password } = req.body
+
 
       // проверка на существующего юзера
       const candidate = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [tableOne, fieldTwoTableOne, email] ).then((data) => {

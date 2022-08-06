@@ -1,41 +1,40 @@
 import "materialize-css";
 import { useRoutes } from "./pages/routes";
 import { BrowserRouter as Router} from "react-router-dom";
-import React, {useEffect} from "react";
-import { useAuth } from "./hooks/auth.hook";
-import { AuthContext } from "./context/AuthContext";
+import React, {useEffect, useState} from "react";
 import { Navbar } from "./components/Navbar";
+import {USER_DATA} from "./config";
 import {useSelector} from "react-redux";
+import {  useMassage } from "./hooks/message.hook"
+
 
 
 function App() {
-	const {login, logout, isLogin, uploadAvatar,  userId, userLogin, avatarUser} = useAuth();
 
+	const massage = useMassage()
 
+	let isAuthenticated = false
 
-	let token = useSelector((state) => state.user.token)
+	const data = JSON.parse(localStorage.getItem(USER_DATA))
 
-	const isAuthenticated = !!token;
+	if (data) {
+		isAuthenticated = !!data.token;
+	}
 
 	const routes = useRoutes(isAuthenticated);
 
-
-	console.log('📢---isA---📢',token)
-
+	// для переренеринга компонента
+	let user = useSelector((state) => state.user)
 	useEffect(() => {
-		console.log('📢------📢',token)
-	}, [token])
-
+		 massage(user.massage)
+	}, [user])
 
 
 	return (
-		<AuthContext.Provider value={{ token, login, logout, isLogin, uploadAvatar, userId, isAuthenticated, userLogin, avatarUser }}>
 			<Router>
 				{ isAuthenticated && <Navbar /> }
-
 				<div className="container">{routes}</div>
 			</Router>
-		</AuthContext.Provider>
 	);
 }
 

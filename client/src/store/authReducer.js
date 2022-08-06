@@ -1,44 +1,50 @@
-const ADD_CASH = "ADD_CASH";
-const GET_CASH = "GET_CASH";
-const INCREMENT_CASH = "INCREMENT_CASH"
-const DECREMENT_CASH = "DECREMENT_CASH"
-export const ASYNC_INCREMENT_CASH = 'ASYNC_INCREMENT_CASH'
-export const ASYNC_DECREMENT_CASH = 'ASYNC_DECREMENT_CASH'
+export const  ASYNC_AUTH_USER = 'ASYNC_AUTH_USER'
+const AUTH_USER = 'AUTH_USER'
+export const  ASYNC_REGISTER_USER = 'ASYNC_REGISTER_USER'
+const REGISTER_USER = 'REGISTER_USER'
+export const  ASYNC_LOGOUT_USER = 'ASYNC_LOGOUT_USER'
+const LOGOUT_USER = 'LOGOUT_USER'
 
-export const  ASYNC_SET_USER_DATA = 'ASYNC_SET_USER_DATA'
-const SET_USER_DATA = 'SET_USER_DATA'
-
-function noop () {}
+const SHOW_MASSAGE = 'SHOW_MASSAGE'
 
 const defaultState = {
+    email: null,
+    password: null,
     token: null,
     userId: null,
     avatar: null,
-    login: noop,
-    logout: noop,
-    isLogin: noop,
-    isAuthenticated: false,
-    userLogin: ''// null
+    userLogin: '', // null
+    massage: '',
+
 };
 
 
 export const authReducer = (state = defaultState, action) => {
        switch (action.type) {
-           case SET_USER_DATA:
+           case AUTH_USER:
                return {...state, ...action.payload};
+
+           case REGISTER_USER:
+               return {...state, ...action.payload};
+
+           case LOGOUT_USER:
+               return {...state, ...action.payload};
+
+           case SHOW_MASSAGE:
+               return {...state, massage: action.payload}
+
         default:
             return state;
     }
 };
 
-export const setUserData = (payload) => ({type: SET_USER_DATA, payload})
-export const AsyncSetUserDataAction = (payload) => ({type: ASYNC_SET_USER_DATA, payload})
+export const setAuthUser = (payload) => ({type: AUTH_USER, payload})
+export const AsyncSetAuthUserAction = (payload) => ({type: ASYNC_AUTH_USER, payload})
+export const setRegisterUser = (payload) => ({ type: REGISTER_USER})
+export const AsyncSetRegisterUserAction = (payload) => ({type: ASYNC_REGISTER_USER, payload})
 
+export const setShowMassage = (payload) => ({type: SHOW_MASSAGE, payload})
 
+export const logoutUser = (payload) => ({type: LOGOUT_USER, payload})
+export const AsyncLogoutUserAction = (payload) => ({type: ASYNC_LOGOUT_USER, payload})
 
-export const addCashAction = (payload) => ({type: ADD_CASH, payload})
-export const getCashAction = (payload) => ({type: GET_CASH, payload})
-export const incrementCashAction = () => ({type: INCREMENT_CASH})
-export const AsyncIncrementCashAction = () => ({type: ASYNC_INCREMENT_CASH})
-export const decrementCashAction = () => ({type: DECREMENT_CASH})
-export const AsyncDecrementCashAction = () => ({type: ASYNC_DECREMENT_CASH})

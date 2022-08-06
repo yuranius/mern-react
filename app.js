@@ -14,5 +14,7 @@ app.use (express.static('./static')) //указываем папку для expr
 app.use (fileUpload({})) //для загрузки файлов на сервер
 
 
+
+
 const PORT = config.get('port') || 5000
-app.listen(PORT, () => console.log('📢', `App has been stasrted on port ${PORT}...`));
+app.listen(PORT, () => console.log('📢', `App has been started on port ${PORT}...`));

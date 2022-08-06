@@ -1,30 +1,43 @@
 import {put, takeEvery} from 'redux-saga/effects'
 
-// put - dispatch, который предназначен для синхронных action
-
-//import { ASYNC_DECREMENT_CASH, ASYNC_INCREMENT_CASH, decrementCashAction, incrementCashAction } from "../store/authReducer"
-
-import { ASYNC_SET_USER_DATA, setUserData } from "../store/authReducer"
+import {
+    ASYNC_AUTH_USER,
+    ASYNC_LOGOUT_USER,
+    ASYNC_REGISTER_USER,
+    logoutUser,
+    setAuthUser,
+    setRegisterUser, setShowMassage
+} from "../store/authReducer"
 import {loginAPI} from "../api/api";
-
-//
-// const delay = (ms) => new Promise(res => setTimeout(res, ms))
+import {USER_DATA} from "../config";
 
 
-// function* incrementWorker() {
-//     //перед асинхронным действием пишем yield , т.е. следующий кусок кода не выполниться, пока не выполниться асинхронная функция (предыдущий)
-//     yield delay(1000)
-//     yield put(incrementCashAction())
-//
-// }
-
-function* setUserDataWorker({payload}) {
+function* setAuthUserWorker({payload}) {
     const user = yield loginAPI.login(payload.email, payload.password)
-    yield put(setUserData(user))
+    yield localStorage.setItem (USER_DATA, JSON.stringify({ token:user.token,  userId:user.userId, userLogin: user.userLogin }))
+    yield put(setAuthUser(user))
 }
 
-export function* cashWatcher() {
-    yield takeEvery(ASYNC_SET_USER_DATA, setUserDataWorker)
-    // yield takeEvery(ASYNC_INCREMENT_CASH, incrementWorker)
-    // yield takeEvery(ASYNC_DECREMENT_CASH, decrementWorker)
+function* setRegisterUserWorker({payload}) {
+    try {
+        const user = yield loginAPI.register(payload.email, payload.password)
+    } catch (error) {
+        console.log(error.response.data.massage)
+        yield put(setShowMassage(error.response.data.massage))
+    }
+
+
+    //yield put(setRegisterUser(user))
+}
+
+function* logoutUserWorker() {
+    yield localStorage.removeItem(USER_DATA)
+    yield put(logoutUser({userId: null}))
+}
+
+export function* userWatcher() {
+    yield takeEvery(ASYNC_AUTH_USER, setAuthUserWorker)
+    yield takeEvery(ASYNC_REGISTER_USER, setRegisterUserWorker)
+    yield takeEvery(ASYNC_LOGOUT_USER, logoutUserWorker)
+
 }

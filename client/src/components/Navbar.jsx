@@ -1,27 +1,27 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import userPhoto from "./../image/user-img.webp";
-import {API_URL} from "../config"
+import {useDispatch, useSelector} from "react-redux";
+import {AsyncLogoutUserAction} from "../store/authReducer";
 
 export const Navbar = () => {
 
-    const auth = useContext(AuthContext)
+	const userLogin = useSelector((state) => state.user.userLogin)
 
+	const dispatch = useDispatch()
 
-    const logoutHandler = (event) => {
-        event.preventDefault()
-        auth.logout()
-    }
+	const logoutHandler = (event) => {
+		event.preventDefault()
+		dispatch(AsyncLogoutUserAction())
+	}
 
 
 	return (
 		<nav>
 			<div className="nav-wrapper blue">
-				<img src={auth.avatarUser != null ? `${API_URL + auth.avatarUser}` : userPhoto} alt="" className="navbar-ava" />
+				{/*<img src={auth.avatarUser != null ? `${API_URL + auth.avatarUser}` : userPhoto} alt="" className="navbar-ava" />*/}
 				<NavLink to="/profile" className="brand-logo">
 					
-					{auth.userLogin ? auth.userLogin : 'Логин'}
+					{userLogin ? userLogin : 'Логин'}
 				</NavLink>
 				<ul id="nav-mobile" className="right hide-on-med-and-down">
 				<li>

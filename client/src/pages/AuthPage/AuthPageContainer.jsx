@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react"
 import { useMassage } from "../../hooks/message.hook"
 import {AuthPage} from "./AuthPage";
 import {useDispatch, useSelector} from "react-redux";
-import {AsyncSetUserDataAction} from "../../store/authReducer";
+import {AsyncSetAuthUserAction, AsyncSetRegisterUserAction, AsyncSetUserDataAction} from "../../store/authReducer";
 
 export const AuthPageContainer = () => {
 
@@ -30,46 +30,34 @@ export const AuthPageContainer = () => {
         setForm({ ...form, [event.target.id]: event.target.value })
     }
 
-    const registerHandler = async () => {
-        try {
-            const data = await request ('/api/auth/register', 'POST', {...form})
-            message(data.massage)
-        } catch (error) {
 
-        }
-    }
 
-    // const loginHandler = async () => {
-    //     try {
-    //         const data = await request ('/api/auth/login', 'POST', {...form})
-    //         message(data.massage)
-    //
-    //         auth.login(data.token, data.userId, data.userLogin)
-    //     } catch (error) {
-    //
-    //     }
-    // }
+
+
 
     let user = useSelector((state) => state.user)
 
     useEffect(() => {
-        console.log('📢---user---📢',user)
     }, [user])
 
-    console.log('📢---user---📢',user)
+    console.log(user.massage)
 
     const dispatch = useDispatch()
+
+
+
+    const registerHandler = () => {
+        dispatch(AsyncSetRegisterUserAction(form))
+    }
+
+
     const loginHandler = () => {
-        try {
-            dispatch(AsyncSetUserDataAction(form))
-        } catch (e) {
-            console.log('📢---Error---📢',e)
-        }
+        dispatch(AsyncSetAuthUserAction(form))
     }
 
     return <AuthPage
         loginHandler={loginHandler}
-        registerHeandler={registerHandler}
+        registerHandler={registerHandler}
         changeHandler={changeHandler}
         loading={loading}
     />

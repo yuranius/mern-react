@@ -1,5 +1,6 @@
 import axios from "axios";
-import {mapDispatchToPropsFactory} from "react-redux/es/connect/mapDispatchToProps";
+
+
 
 // const baseUrl = "https://social-network.samuraijs.com/api/1.0/";
 
@@ -13,31 +14,33 @@ const instance = axios.create({
 
 
 export const loginAPI = {
+    register(email, password) {
+        return instance.post('/api/auth/register', {email, password}).then((response) => {
+            return response.data
+        })
+    },
     login(email, password) {
         return instance.post(`/api/auth/login`, { email, password}).then((response) => {
             return response.data;
         });
     },
-    logout() {
-        return instance.delete('/api/auth/login').then((response)=>{
-            return response.data;
-        });
-    }
+    // logout() {
+    //     return instance.delete('/api/auth/login').then((response)=>{
+    //         return response.data;
+    //     });
+    // }
 }
 
 
 
 
-
-
-
-// export const authAPI = {
-//     getAuth() {
-//         return axios.post(`/api/auth/login`, {}).then((response) => {
-//             return response.data;
-//         });
-//     },
-// }
+export const collocutorsAPI = {
+    getCollocutors(collocuter) {
+        return instance.get(`/api/auth/findcollocuter/${collocuter}`, {}).then((response) => {
+            return response.data;
+        });
+    },
+}
 
 
 // export const usersAPI = {
