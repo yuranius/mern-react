@@ -9,17 +9,17 @@ export const AuthPageContainer = () => {
 
     // const auth = useContext(AuthContext)
 
-    const {loading, request, error, clearError } = useHttp()
+    //const {loading, error, clearError } = useHttp()
 
     const [form, setForm] = useState({email:"", password:""})
 
     //обработка ошибок от сервера
     const message = useMassage()
 
-    useEffect(() => {
-        message(error);
-        clearError()
-    }, [error, message, clearError]);
+    // useEffect(() => {
+    //     message(error);
+    //     clearError()
+    // }, [error, message, clearError]);
 
     useEffect(() => {
         window.M.updateTextFields()
@@ -40,7 +40,6 @@ export const AuthPageContainer = () => {
     useEffect(() => {
     }, [user])
 
-    console.log(user.massage)
 
     const dispatch = useDispatch()
 
@@ -59,7 +58,7 @@ export const AuthPageContainer = () => {
         loginHandler={loginHandler}
         registerHandler={registerHandler}
         changeHandler={changeHandler}
-        loading={loading}
+        loading={user.loading}
     />
 
 
