@@ -1,31 +1,38 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useMassage } from '../../hooks/message.hook'
 import { useHttp } from '../../hooks/http.hook'
 import { ProfilePage } from './ProfilePage'
+import {useDispatch, useSelector} from "react-redux";
+import {AsyncChangeLoginUserAction} from "../../store/profileReducer";
 
 
 
 
 let file = null
-
+let input = ''
 
 
 export const ProfilePageContainer = () => {
   //const auth = useContext(AuthContext)
 
-  //const [form, setForm] = useState({ userLogin: auth.userLogin })
+  const { userId, userLogin } = useSelector((state) => state.user)
+  const { loading, massage } = useSelector((state) => state.over)
 
-  const { loading, request } = useHttp()
+  const [login , setLogin ] = useState( userLogin )
 
   const [preview, setPreview] = useState(null)
 
-  const message = useMassage()
+  const setMassage = useMassage()
 
-  
+  const dispatch = useDispatch()
+
+  useEffect(()=> {
+    setMassage(massage)
+  },[massage, userLogin])
 
   const inputHandler = (event) => {
-    // value = event.target
-    // setForm({ ...form, [event.target.id]: event.target.value })
+    input = event.target
+    setLogin({ ...login, [event.target.id]: event.target.value })
   }
 
   const changeInputFileHandler = (event) => {
@@ -40,14 +47,31 @@ export const ProfilePageContainer = () => {
     if (!file.type.match('image')) {
       //очищаем поле input
       event.target.value = null
-      return message('Неправильный тип файла')
+      return setMassage('Неправильный тип файла')
     }
 
   }
 
-  
-  const saveHandler = async (event) => {
+
+
+
+  const saveHandler = (event) => {
     event.preventDefault()
+    if (userId) {
+      if (!login.userLogin) {
+        {return setMassage('Поле не может быть пустым')}
+      }
+      dispatch(AsyncChangeLoginUserAction({userId, userLogin: login.userLogin }))
+      if (input.value) {input.value = ''}
+      window.M.updateTextFields()
+    } else {
+      setMassage('Что-то пошло не так')
+    }
+  }
+
+  
+  //const saveHandler = async (event) => {
+    //event.preventDefault()
     // if (auth.isAuthenticated && auth.userId) {
     //   if (!value.value) {return message('Поле не может быть пустым')}
     //   try {
@@ -67,11 +91,11 @@ export const ProfilePageContainer = () => {
     // } else {
     //   message('Что-то пошло не так')
     // }
-  }
+  //}
 
   const saveAvatarHandler = async(event) => {
     event.preventDefault()
-    if (!file) { return message('Выберите файл')}
+    if (!file) { return setMassage('Выберите файл')}
     try {
 
       let formData = new FormData();
@@ -85,11 +109,11 @@ export const ProfilePageContainer = () => {
       console.log('📢 [ProfilePageContainer.jsx:88]', file, formData);
 
 
-      const data = await request('/api/auth/profile/avatar', 'POST', {
+      //const data = await request('/api/auth/profile/avatar', 'POST', {
         //userId: auth.userId,
-        file: formData
-      })
-      message(data.massage)
+        //file: formData
+      //})
+      // message(data.massage)
     } catch (error) {
       console.log('📢 [ProfilePage.jsx:78]', error);
     }

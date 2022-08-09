@@ -3,9 +3,10 @@ import { useRoutes } from "./pages/routes";
 import { BrowserRouter as Router} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import { Navbar } from "./components/Navbar";
-import {USER_DATA} from "./config";
-import {useSelector} from "react-redux";
+import {TOKEN_DATA, USER_DATA} from "./config";
+import {useDispatch, useSelector} from "react-redux";
 import {  useMassage } from "./hooks/message.hook"
+import {setAuthUser} from "./store/authReducer";
 
 
 
@@ -15,19 +16,30 @@ function App() {
 
 	let isAuthenticated = false
 
-	const data = JSON.parse(localStorage.getItem(USER_DATA))
+	const userData = JSON.parse(localStorage.getItem(USER_DATA))
+	const tokenData = JSON.parse(localStorage.getItem(TOKEN_DATA))
 
-	if (data) {
-		isAuthenticated = !!data.token;
+
+	const dispatch = useDispatch()
+
+
+
+	if (tokenData) {
+		isAuthenticated = !!tokenData.token;
 	}
+
+
 
 	const routes = useRoutes(isAuthenticated);
 
 	// для переренеринга компонента
-	let user = useSelector((state) => state.user)
+	let state = useSelector((state) => state)
 	useEffect(() => {
-		 massage(user.massage)
-	}, [user])
+		if (userData) {
+			dispatch(setAuthUser(userData)) //задиспатчим, то что находится в localStorage
+		}
+		 massage(state.over.massage)
+	}, [isAuthenticated])
 
 
 	return (

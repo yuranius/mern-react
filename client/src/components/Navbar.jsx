@@ -20,8 +20,7 @@ export const Navbar = () => {
 			<div className="nav-wrapper blue">
 				{/*<img src={auth.avatarUser != null ? `${API_URL + auth.avatarUser}` : userPhoto} alt="" className="navbar-ava" />*/}
 				<NavLink to="/profile" className="brand-logo">
-					
-					{userLogin ? userLogin : 'Логин'}
+					{userLogin ? userLogin : 'Логин не определен'}
 				</NavLink>
 				<ul id="nav-mobile" className="right hide-on-med-and-down">
 				<li>

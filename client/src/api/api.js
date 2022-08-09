@@ -23,14 +23,18 @@ export const loginAPI = {
         return instance.post(`/api/auth/login`, { email, password}).then((response) => {
             return response.data;
         });
-    },
-    // logout() {
-    //     return instance.delete('/api/auth/login').then((response)=>{
-    //         return response.data;
-    //     });
-    // }
+    }
 }
 
+export const profileAPI = {
+    changeLogin( userId, userLogin ) {
+        console.log(userId, userLogin)
+        return instance.post(`/api/profile/login`, { userId, userLogin }).then((response) => {
+            console.log(response.data)
+            return response.data;
+        });
+    },
+}
 
 
 
@@ -41,6 +45,8 @@ export const collocutorsAPI = {
         });
     },
 }
+
+
 
 
 // export const usersAPI = {

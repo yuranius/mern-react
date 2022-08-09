@@ -5,42 +5,51 @@ import {
     ASYNC_LOGOUT_USER,
     ASYNC_REGISTER_USER,
     logoutUser,
-    setAuthUser, setLoadingProcessAction,
-    setShowMassageAction
+    setAuthUser
 } from "../store/authReducer"
 import {loginAPI} from "../api/api";
-import {USER_DATA} from "../config";
+import {TOKEN_DATA, USER_DATA} from "../config";
+import {setLoadingProcessAction, setShowMassageAction} from "../store/overReducer";
+
+const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
 
 function* setAuthUserWorker({payload}) {
-    yield put(setShowMassageAction(''))
     yield put(setLoadingProcessAction(true))
-    const user = yield loginAPI.login(payload.email, payload.password)
+    const {token, userId, userLogin, avatar, massage} = yield loginAPI.login(payload.email, payload.password)
+    const user = {token, userId, userLogin, avatar}
     yield put(setLoadingProcessAction(false))
-    yield localStorage.setItem (USER_DATA, JSON.stringify({ token:user.token,  userId:user.userId, userLogin: user.userLogin }))
+    yield localStorage.setItem (TOKEN_DATA, JSON.stringify({ token }))
+    yield localStorage.setItem (USER_DATA, JSON.stringify({ userId, userLogin, avatar }))
+    yield put(setShowMassageAction(massage))
     yield put(setAuthUser(user))
+    yield delay(1000)
+    yield put(setShowMassageAction(''))
 }
 
 function* setRegisterUserWorker({payload}) {
     try {
-        yield put(setShowMassageAction(''))
         yield put(setLoadingProcessAction(true))
         const user = yield loginAPI.register(payload.email, payload.password)
         yield put(setLoadingProcessAction(false))
         yield put(setShowMassageAction(user.massage))
+        yield delay(1000)
+        yield put(setShowMassageAction(''))
         //yield put(setRegisterUser(user))
     } catch (error) {
+        yield put(setLoadingProcessAction(false))
         yield put(setShowMassageAction(error.response.data.massage))
+        yield delay(1000)
+        yield put(setShowMassageAction(''))
     }
-
-
-
 }
 
 function* logoutUserWorker() {
-    yield put(setShowMassageAction(''))
     yield localStorage.removeItem(USER_DATA)
+    yield localStorage.removeItem(TOKEN_DATA)
     yield put(logoutUser({userId: null, token:null}))
+    //yield delay(1000)
+    //yield put(setShowMassageAction(''))
 }
 
 export function* userWatcher() {

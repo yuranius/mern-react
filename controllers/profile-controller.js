@@ -1,7 +1,7 @@
 const pool = require('../settings/db')
 const config = require('config')
 
-class UserController {
+class ProfileController {
     async changeLogin(req, res) {
 
         try {
@@ -11,7 +11,7 @@ class UserController {
             }
 
             const {userId, userLogin} = req.body
-            console.log('📢 [user-controller.js:10]', userId, userLogin, config.get('tableOne'));
+            console.log('📢 [profile-controller.js:10]', userId, userLogin, config.get('tableOne'));
 
             pool.query(
                 `UPDATE ?? SET ?? = ? WHERE ??.?? = ?`,
@@ -25,12 +25,12 @@ class UserController {
                 ]
             )
 
-            res.json([userId, userLogin, {massage:"Данные изменены успешно!"}])
+            res.json({ userId, userLogin, massage:"Данные изменены успешно!"})
         } catch (error) {
-            console.log('📢 [user-controller.js:9]', error);
+            console.log('📢 [profile-controller.js:9]', error);
         }
     }
 }
 
 
-module.exports = new UserController
+module.exports = new ProfileController

@@ -60,7 +60,7 @@ class FileController {
 
             
         } catch (error) {
-            console.log('📢 [user-controller.js:46]', 'Что-то пошло не так');
+            console.log('📢 [profile-controller.js:46]', 'Что-то пошло не так');
         }
     }
 
@@ -89,7 +89,7 @@ class FileController {
 
             return res.json(user, {massage:"Аватар удален!"})
         } catch (error) {
-            console.log('📢 [user-controller.js:9]', error);
+            console.log('📢 [profile-controller.js:9]', error);
         }
     }
 }

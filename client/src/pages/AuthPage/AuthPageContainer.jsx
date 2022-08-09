@@ -1,48 +1,30 @@
-import { useHttp } from "../../hooks/http.hook"
 import React, {useEffect, useState} from "react"
 import { useMassage } from "../../hooks/message.hook"
 import {AuthPage} from "./AuthPage";
 import {useDispatch, useSelector} from "react-redux";
-import {AsyncSetAuthUserAction, AsyncSetRegisterUserAction, AsyncSetUserDataAction} from "../../store/authReducer";
+import {AsyncSetAuthUserAction, AsyncSetRegisterUserAction } from "../../store/authReducer";
 
 export const AuthPageContainer = () => {
 
-    // const auth = useContext(AuthContext)
-
-    //const {loading, error, clearError } = useHttp()
 
     const [form, setForm] = useState({email:"", password:""})
 
-    //обработка ошибок от сервера
-    const message = useMassage()
-
-    // useEffect(() => {
-    //     message(error);
-    //     clearError()
-    // }, [error, message, clearError]);
-
-    useEffect(() => {
-        window.M.updateTextFields()
-    }, []) // делает поля ввода логин и пароля активными (что-бы не налезали поля друг на друга)
-
+    //вывод сообщений
+    const setMassage = useMassage()
 
     const changeHandler = event => {
         setForm({ ...form, [event.target.id]: event.target.value })
     }
 
-
-
-
-
-
-    let user = useSelector((state) => state.user)
+    let state = useSelector((state) => state)
 
     useEffect(() => {
-    }, [user])
+        window.M.updateTextFields() // для materialize, делает поля ввода логин и пароля активными (что-бы не налезали поля друг на друга)
+        setMassage(state.over.massage)
+    }, [state])
 
 
     const dispatch = useDispatch()
-
 
 
     const registerHandler = () => {
@@ -58,7 +40,7 @@ export const AuthPageContainer = () => {
         loginHandler={loginHandler}
         registerHandler={registerHandler}
         changeHandler={changeHandler}
-        loading={user.loading}
+        loading={state.over.loading}
     />
 
 

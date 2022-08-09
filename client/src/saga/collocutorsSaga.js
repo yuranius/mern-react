@@ -1,5 +1,5 @@
 import {put, takeEvery} from 'redux-saga/effects'
-import {collocutorsAPI, loginAPI} from "../api/api";
+import {collocutorsAPI} from "../api/api";
 import {ASYNC_GET_INTERLOCUTORS, getCollocutors, getCollocutorsError} from "../store/collocutorsReducer";
 
 

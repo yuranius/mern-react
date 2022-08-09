@@ -1,6 +1,6 @@
 'use strict'
 
-exports.ststus = (values , res) => {
+exports.status = (values , res) => {
 
     const data = {
         "status": 200,
