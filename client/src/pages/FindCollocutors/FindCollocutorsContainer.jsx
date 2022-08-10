@@ -1,51 +1,28 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-//import { AuthContext } from "../../context/AuthContext";
-//import { CollocutersContext } from "../../context/CollocutersContext";
-import { useHttp } from "../../hooks/http.hook";
 import { useMassage } from "../../hooks/message.hook";
 import { FoundCollocutors } from "./FindCollocutors";
 import {useDispatch, useSelector} from "react-redux";
-import {AsyncGetCollocutorsAction} from "../../store/collocutorsReducer";
+import {
+	AsyncGetAllCollocutersAction,
+	AsyncGetCollocutorsAction
+} from "../../store/collocutorsReducer";
+import {AsyncSetShowMassageAction} from "../../store/overReducer";
 
 
 
 export const FoundCollocutorsContainer = () => {
 
-	//let collocuters = useContext(CollocutersContext)
-	//const auth = useContext(AuthContext)
-
 	const [form, setForm] = useState({ collocuter: "" });
 
-	const { loading, error, clearError } = useHttp();
+	let setMessage = useMassage();
+	const dispatch = useDispatch()
 
-	// const [, setIsFetch] = useState();
-
-
-	let message = useMassage();
-
-	useEffect(() => {
-        message(error);       
-        clearError()
-    }, [error, message, clearError]);
-	
 	const changeHandler = (event) => {
 		setForm({ ...form, [event.target.id]: event.target.value });
 	};
 
-	
 
-	// const collocuterHandler = async () => {
-	// 	if (form.collocuter && form.collocuter !== " " ) {
-	// 	try {
-	// 		const data = await request(`/api/auth/findcollocuter/${form.collocuter}`, 'GET');
-	// 		передаем в контекст массив собеседников
-	// 		collocuters.users = data.data.map((u) => {return u } )
-	// 		message(data.massage)
-	// 	} catch (error) {
-	// 		collocuters.users = []
-	// 	}} else { message( 'Некорректный ввод' ) }
-	// };
 
 	const pressEnter = (event) => {
 		if (event.key === 'Enter') {
@@ -54,24 +31,28 @@ export const FoundCollocutorsContainer = () => {
 	}
 
 
-	const dispatch = useDispatch()
 	const collocuterHandler = () => {
-		if (form.collocuter && form.collocuter !== " ") {
+		//проверка на пробелы
+		const checkingSpaces = !/\s/.test(form.collocuter)
+		if (checkingSpaces) {
 			dispatch(AsyncGetCollocutorsAction(form.collocuter))
 		} else {
-			message( 'Некорректный ввод' )
+			dispatch(AsyncSetShowMassageAction('Не корректный ввод'))
 		}
 	}
 
-	let collocutors = useSelector((state) => state.collocuters)
+	let {collocuters, pageNumber, pageSize} = useSelector((state) => state.collocuters)
+	let {loading, massage} = useSelector((state) => state.over)
 
 	useEffect(()=> {
-		console.log(collocutors.data)
-		message(collocutors.massage)
-	},[collocutors])
+		console.log(collocuters, pageNumber, pageSize)
+		setMessage(massage)
+	},[collocuters,massage])
 
 
-
+	useEffect(() => {
+		dispatch(AsyncGetAllCollocutersAction({pageNumber,pageSize}))
+	},[])
 
 
 
@@ -97,7 +78,7 @@ export const FoundCollocutorsContainer = () => {
 
 
 	return <FoundCollocutors
-		collocutors={collocutors.data}
+		collocuters={collocuters}
 		follow={follow}
 		unfollow={unfollow}
 		collocuterHandler={collocuterHandler}

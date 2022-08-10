@@ -3,7 +3,7 @@ import { FoundCollocutorsItem } from "./FoundCollocutorsItem/FindCollocutorsItem
 
 
 export const FoundCollocutors = (props) => {
-	let collocuterElements = ( props.collocutors && props.collocutors.map((u) =>
+	let collocuterElements = ( props.collocuters && props.collocuters.map((u) =>
 		  <FoundCollocutorsItem
 		  id={u.id}
 		  key={u.id}
@@ -33,7 +33,7 @@ export const FoundCollocutors = (props) => {
 						Поиск
 					</button>
 				</div>
-				{props.collocutors && <ul className="collection">{collocuterElements}</ul>}
+				{props.collocuters && <ul className="collection">{collocuterElements}</ul>}
 			</div>
 		</div>
 	);

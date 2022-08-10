@@ -28,9 +28,7 @@ export const loginAPI = {
 
 export const profileAPI = {
     changeLogin( userId, userLogin ) {
-        console.log(userId, userLogin)
         return instance.post(`/api/profile/login`, { userId, userLogin }).then((response) => {
-            console.log(response.data)
             return response.data;
         });
     },
@@ -39,8 +37,14 @@ export const profileAPI = {
 
 
 export const collocutorsAPI = {
-    getCollocutors(collocuter) {
-        return instance.get(`/api/auth/findcollocuter/${collocuter}`, {}).then((response) => {
+    getAllCollocuters( payload ) {
+        console.log( '📌:',payload.pageNumber, payload.pageSize,'🌴 🏁')
+        return instance.get(`/api/findcollocuter/all?page=${payload.pageNumber}&limit=${payload.pageSize}`, {}).then((response) => {
+            return response.data;
+        });
+    },
+    getCollocuters(collocuter) {
+        return instance.get(`/api/findcollocuter/test/${collocuter}`, {}).then((response) => {
             return response.data;
         });
     },

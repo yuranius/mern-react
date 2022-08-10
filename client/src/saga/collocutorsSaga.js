@@ -1,21 +1,45 @@
 import {put, takeEvery} from 'redux-saga/effects'
 import {collocutorsAPI} from "../api/api";
-import {ASYNC_GET_INTERLOCUTORS, getCollocutors, getCollocutorsError} from "../store/collocutorsReducer";
+import {
+    ASYNC_GET_ALL_INTERLOCUTORS,
+    ASYNC_GET_INTERLOCUTORS,
+    getAllCollocuters,
+    getCollocutors
+} from "../store/collocutorsReducer";
+import {setLoadingProcessAction, setShowMassageAction} from "../store/overReducer";
 
+const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
-
-function* getCollocutorsWorker({payload}) {
+function* getCollocutersWorker({payload}) {
     try {
-        const collocutors = yield collocutorsAPI.getCollocutors(payload)
-        yield put(getCollocutors(collocutors))
-    } catch (e) {
-        yield put(getCollocutorsError())
+        yield put(setLoadingProcessAction(true))
+        const {data,massage} = yield collocutorsAPI.getCollocuters(payload)
+        yield put(getCollocutors({collocuters: data}))
+        yield put (setLoadingProcessAction(false))
+        yield put(setShowMassageAction(massage))
+        yield delay(1000)
+        yield put(setShowMassageAction(''))
+    } catch (error) {
+        yield put (setLoadingProcessAction(false))
+        yield put(setShowMassageAction(error.response.data.massage))
+        yield delay(1000)
+        yield put(setShowMassageAction(''))
     }
+}
 
-    // yield console.log(collocutors)
+function* getAllCollocutersWorker ({payload}) {
+    try {
+        const data = yield collocutorsAPI.getAllCollocuters(payload)
+        console.log( '📌:',data,'🌴 🏁')
 
+
+        //yield put(getAllCollocuters(payload))
+    } catch (e) {
+        console.log( '📌:',e,'🌴 🏁')
+    }
 }
 
 export function* collocutorsWatcher() {
-    yield takeEvery(ASYNC_GET_INTERLOCUTORS, getCollocutorsWorker)
+    yield takeEvery(ASYNC_GET_INTERLOCUTORS, getCollocutersWorker)
+    yield takeEvery(ASYNC_GET_ALL_INTERLOCUTORS, getAllCollocutersWorker)
 }

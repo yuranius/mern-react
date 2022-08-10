@@ -8,8 +8,8 @@ const app = express()
 app.use (express.json ({ extended: true })) //миделвейер(встроенный в express) для коректного парсинга (в json формате) req.body в auth.routes
 
 app.use ('/api/auth', require('./routes/auth.routes'))
-
 app.use ('/api/profile', require('./routes/profile.routes'))
+app.use ('/api/findcollocuter', require('./routes/find.routes'))
 
 app.use (express.static('./static')) //указываем папку для express где будут храниться аватарки
 

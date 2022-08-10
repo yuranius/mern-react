@@ -11,9 +11,32 @@ class ProfileController {
             }
 
             const {userId, userLogin} = req.body
-            console.log('📢 [profile-controller.js:10]', userId, userLogin, config.get('tableOne'));
 
-            pool.query(
+            console.log(userLogin)
+
+            // проверка на существующего логина
+            const candidateLogin = await pool.query(`SELECT ??, ?? FROM ?? WHERE ??.?? = ?`,
+                [config.get('fieldOneTableOne'),
+                    config.get('fieldFourTableOne'),
+                    config.get('tableOne'),
+                    config.get('tableOne'),
+                    config.get('fieldFourTableOne'),
+                    userLogin]).then((data) => {
+                try {
+                    console.log(data[0][0].login)
+                    return data[0][0];
+                } catch (error) {
+                    return false
+                }
+            })
+
+            console.log(candidateLogin)
+
+            if (candidateLogin) {
+                return res.status(405).json({ massage: " Такое имя занято! Придумайте другое..."})
+            }
+
+            await pool.query(
                 `UPDATE ?? SET ?? = ? WHERE ??.?? = ?`,
                 [
                     config.get('tableOne'),

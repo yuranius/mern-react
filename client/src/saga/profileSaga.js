@@ -21,21 +21,13 @@ function* setChangeLoginUserWorker({payload}) {
         yield delay(1000)
         yield put(setShowMassageAction(''))
     } catch (error) {
+        const massageError = error.response.data.massage
         yield put(setLoadingProcessAction(false))
-        console.log(error)
+        yield put(setShowMassageAction(massageError ? massageError : 'Что-то пошло не так, попробуте позже...'))
+        yield delay(1000)
+        yield put(setShowMassageAction(''))
     }
 
-
-
-
-
-
-    // yield put(setLoadingProcessAction(false))
-    // yield localStorage.setItem (USER_DATA, JSON.stringify({ userLogin }))
-    // yield put(setShowMassageAction(massage))
-    // yield put(setAuthUser(user))
-    // yield delay(1000)
-    // yield put(setShowMassageAction(''))
 }
 
 

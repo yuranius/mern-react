@@ -52,9 +52,6 @@ export const ProfilePageContainer = () => {
 
   }
 
-
-
-
   const saveHandler = (event) => {
     event.preventDefault()
     if (userId) {
@@ -69,29 +66,6 @@ export const ProfilePageContainer = () => {
     }
   }
 
-  
-  //const saveHandler = async (event) => {
-    //event.preventDefault()
-    // if (auth.isAuthenticated && auth.userId) {
-    //   if (!value.value) {return message('Поле не может быть пустым')}
-    //   try {
-    //     const data = await request('/api/auth/profile/login', 'POST', {
-    //       userId: auth.userId,
-    //       userLogin: form.userLogin,
-    //     })
-    //     message(data[2].massage)
-    //     //auth.isLogin(data[1])
-    //     if (value.value) {value.value = ''}
-    //     window.M.updateTextFields()
-    //   } catch (error) {
-    //     value.value = ''
-    //     window.M.updateTextFields()
-    //     message(error.message)
-    //   }
-    // } else {
-    //   message('Что-то пошло не так')
-    // }
-  //}
 
   const saveAvatarHandler = async(event) => {
     event.preventDefault()

@@ -17,7 +17,6 @@ const defaultState = {
 export const authReducer = (state = defaultState, action) => {
        switch (action.type) {
            case AUTH_USER:
-               console.log(action.payload)
                return {...state, ...action.payload};
 
            //case REGISTER_USER:
