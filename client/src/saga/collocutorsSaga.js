@@ -4,7 +4,7 @@ import {
     ASYNC_GET_ALL_INTERLOCUTORS,
     ASYNC_GET_INTERLOCUTORS,
     getAllCollocuters,
-    getCollocutors
+    getCollocuters
 } from "../store/collocutorsReducer";
 import {setLoadingProcessAction, setShowMassageAction} from "../store/overReducer";
 
@@ -13,8 +13,8 @@ const delay = (ms) => new Promise(res => setTimeout(res, ms))
 function* getCollocutersWorker({payload}) {
     try {
         yield put(setLoadingProcessAction(true))
-        const {data,massage} = yield collocutorsAPI.getCollocuters(payload)
-        yield put(getCollocutors({collocuters: data}))
+        const {data,massage} = yield collocutorsAPI.getApiCollocuters(payload)
+        yield put(getCollocuters({collocuters: data}))
         yield put (setLoadingProcessAction(false))
         yield put(setShowMassageAction(massage))
         yield delay(1000)
@@ -29,9 +29,7 @@ function* getCollocutersWorker({payload}) {
 
 function* getAllCollocutersWorker ({payload}) {
     try {
-        const data = yield collocutorsAPI.getAllCollocuters(payload)
-        console.log( '📌:',data,'🌴 🏁')
-
+        const data = yield collocutorsAPI.getApiAllCollocuters(payload)
 
         //yield put(getAllCollocuters(payload))
     } catch (e) {

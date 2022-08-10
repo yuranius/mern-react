@@ -5,10 +5,8 @@ const {check, validationResult} = require("express-validator");
 class FindControllers {
     async findCollocuters(req, res) {
         const user_query = req.params.user_query
-        console.log('Запрос1:',user_query)
-
         try {
-        // в случае не прохождения проверки на пробеллы выводим сообщение
+        // в случае не прохождения проверки на пробелы выводим сообщение
         const errors = validationResult(req)
             console.log(errors)
         if (!errors.isEmpty()) {
@@ -30,21 +28,42 @@ class FindControllers {
             if (!data[0][0]) {
                 return res.status(405).json({ massage: " Совпадений не найдено, попробуйте ввести что-то другое!!! "})
             } else {
-                console.log('📢 [auth.routes.js:85]', data[0]);
                 res.status(200).json( {data: data[0], massage: `Найдено ${data[0].length}`})}
         })
     } catch (error) {
-        console.log('📢', error, 'Запрос не удался')
+        return res.status(500).json({ massage: 'Ошибка запроса... Попробуйте в другой раз...'})
     }
     };
 
     async findAllCollocuters(req, res) {
-        const user = req.query
-        console.log('Запрос2:', user)
+        const {page:pageNumber, limit: pageSize} = req.query
+        console.log('Запрос2:', pageNumber, pageSize)
 
         try {
-            // в случае не прохождения проверки на пробеллы выводим сообщение
+            const numberOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE 1', [
+            ]).then((data) => {
+                return data[0].length
+            })
 
+            console.log( '📌:',numberOfResults,'🌴 🏁')
+
+
+
+            console.log( '📌:',pageLimit,'🌴 🏁')
+
+
+            const pagesOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE id > 5 LIMIT ?,?', [pageLimit,pageLimit + 10
+            ]).then((data) => {
+                return data[0]
+            })
+            
+            console.log( '📌:',pagesOfResults,'🌴 🏁')
+            
+            
+            //let numberOfPages = Math.ceil(numberOfResults / pageSize) // всего страниц
+
+
+            res.status(200).json({totalUsers: numberOfResults})
 
         } catch (error) {
             console.log('📢', error, 'Запрос не удался')

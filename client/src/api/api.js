@@ -37,14 +37,14 @@ export const profileAPI = {
 
 
 export const collocutorsAPI = {
-    getAllCollocuters( payload ) {
+    getApiAllCollocuters( payload ) {
         console.log( '📌:',payload.pageNumber, payload.pageSize,'🌴 🏁')
-        return instance.get(`/api/findcollocuter/all?page=${payload.pageNumber}&limit=${payload.pageSize}`, {}).then((response) => {
+        return instance.get(`/api/findcollocuter?page=${payload.pageNumber}&limit=${payload.pageSize}`, {}).then((response) => {
             return response.data;
         });
     },
-    getCollocuters(collocuter) {
-        return instance.get(`/api/findcollocuter/test/${collocuter}`, {}).then((response) => {
+    getApiCollocuters(collocuter) {
+        return instance.get(`/api/findcollocuter/${collocuter}`, {}).then((response) => {
             return response.data;
         });
     },

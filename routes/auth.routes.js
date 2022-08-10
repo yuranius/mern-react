@@ -1,12 +1,12 @@
 const { Router } = require('express')
 
-// бибилиотека для шифрования:
+// библиотека для шифрования:
 const bcrypt = require('bcryptjs')
 
-// бибилиотека валидации email и password
+// библиотека валидации email и password
 const { check, validationResult } = require('express-validator')
 
-// библиотека для авторизации пользователя по jwt tocken
+// библиотека для авторизации пользователя по jwt token
 const jwt = require('jsonwebtoken')
 
 // подключаем config для получения jwsSecret
@@ -18,8 +18,6 @@ const pool = require('../settings/db')
 
 const c = require('config')
 
-const userController = require ('../controllers/profile-controller')
-const fileController = require('../controllers/file-controller')
 
 // переменные для запросов к БД
 let tableOne = 'users'
@@ -28,12 +26,14 @@ let fieldTwoTableOne = 'email'
 let fieldThreeTableOne = 'password'
 let fieldFourTableOne = 'login'
 let fieldFiveTableOne = 'registration'
+let fieldSixTableOne = 'avatar'
 let fieldTableOne = [ 
   fieldOneTableOne,
   fieldTwoTableOne,
   fieldThreeTableOne,
   fieldFourTableOne,
-  fieldFiveTableOne
+  fieldFiveTableOne,
+  fieldSixTableOne,  
 ]
 
 // /api/auth/
@@ -160,27 +160,30 @@ router.post(
       if (candidate) {
         return res.status(405).json({ massage: " Такой пользователь существует"})
       }
-
+      
+    
       // в логин записываем то, что в email до символа @, для последующего редактирования самим пользователем
-      login = (email.split('@')[0])
+      let login = (email.split('@')[0])
       
       // хешируем полученный пароль
       const hashedPassword = await bcrypt.hash(password, 12)
       // когда пароль готов создаем пользователя
 
-      await pool.query(`INSERT INTO ?? (${new Array(fieldTableOne.length).fill('??')}) VALUES (NULL, ?, ?, ?, current_timestamp() )`, [
+
+      await pool.query(`INSERT INTO ?? (${new Array(fieldTableOne.length).fill('??')}) VALUES (NULL, ?, ?, ?, current_timestamp(),'')`, [
         tableOne, 
         fieldOneTableOne,
         fieldTwoTableOne, 
         fieldThreeTableOne,
         fieldFourTableOne,
         fieldFiveTableOne,
+        fieldSixTableOne,  
         email, 
         hashedPassword,
         login
       ]).then((data) => {
         // отвечаем фронтэнду
-        res.status(201).json({massage: 'Пользоваетль создан'})
+        res.status(201).json({massage: 'Пользователь создан'})
       })
       } catch (error) {
         res.status(500).json({ massage: 'Что-то пошло не так, попробуйте снова' })

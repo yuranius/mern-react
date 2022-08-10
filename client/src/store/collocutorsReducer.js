@@ -2,11 +2,11 @@ export const  ASYNC_GET_INTERLOCUTORS = 'ASYNC_GET_INTERLOCUTORS'
 const GET_INTERLOCUTORS = 'GET_INTERLOCUTORS'
 // const GET_INTERLOCUTORS_ERROR = 'GET_INTERLOCUTORS_ERROR'
 
-export const  ASYNC_GET_ALL_INTERLOCUTORS = 'ASYNC_GET_INTERLOCUTORS'
+export const  ASYNC_GET_ALL_INTERLOCUTORS = 'ASYNC_GET_ALL_INTERLOCUTORS'
 const GET_ALL_INTERLOCUTORS = 'GET_ALL_INTERLOCUTORS'
 
 const defaultState = {
-    // collocutors: [],
+    collocuters: [],
     pageNumber: 1,
     pageSize: 10
 };
@@ -26,7 +26,7 @@ export const collocutorsReducer = (state = defaultState, action) => {
 
 
 
-export const getCollocutors = (payload) => ({type: GET_INTERLOCUTORS, payload})
+export const getCollocuters = (payload) => ({type: GET_INTERLOCUTORS, payload})
 // export const getCollocutorsError = () => ({type: GET_INTERLOCUTORS_ERROR})
 export const AsyncGetCollocutorsAction = (payload) => ({type: ASYNC_GET_INTERLOCUTORS, payload})
 
