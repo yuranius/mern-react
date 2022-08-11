@@ -16,11 +16,6 @@ export const FoundCollocutors = (props) => {
 		arr.push(i)
 	}
 
-
-
-	console.log( '📌:',arr,'🌴 🏁')
-	
-	
 	
 	let collocuterElements = ( props.collocuters && props.collocuters.map((u) =>
 		  <FoundCollocutorsItem

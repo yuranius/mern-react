@@ -38,7 +38,6 @@ export const profileAPI = {
 
 export const collocutorsAPI = {
     getApiAllCollocuters( payload ) {
-        console.log( '📌:',payload.pageNumber, payload.pageSize,'🌴 🏁')
         return instance.get(`/api/findcollocuter?page=${payload.pageNumber}&limit=${payload.pageSize}`, {}).then((response) => {
             return response.data;
         });

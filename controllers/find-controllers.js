@@ -52,8 +52,7 @@ class FindControllers {
             console.log( '📌:',pageLimit,'🌴 🏁')
 
 
-            const collocutersOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE id > 5 LIMIT ?,?', [pageLimit,pageLimit + 10
-            ]).then((data) => {
+            const collocutersOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE id LIMIT ?,?', [ pageLimit, +pageSize ]).then((data) => {
                 return data[0]
             })
             

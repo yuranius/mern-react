@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import css from './Paginator.module.css'
 
 let Paginator = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize = 10}) => {
 
@@ -22,9 +21,10 @@ let Paginator = ({totalItemsCount, pageSize, currentPage, onPageChanged, portion
     pages.push(index)
   }
 
+
   return (
-    <>
-    {portionNumber > 1 && <button onClick={ ()=> { setPortionNumber(portionNumber - 1) } }>PREV</button>}
+    <ul className='pagination center-align'>
+      <li className={(portionNumber > 1) ? 'material-icons disabled' : 'material-icons'} onClick={ ()=> { setPortionNumber(portionNumber - 1) } }>chevron_left</li>
       
 
       {pages
@@ -32,24 +32,24 @@ let Paginator = ({totalItemsCount, pageSize, currentPage, onPageChanged, portion
       .map((p) => {
         return (
 			
-          <span
+          <li
             key={p}
             onClick={() => {
               onPageChanged(p)
             }}
             className={
               currentPage === p
-                ? css['number-page__page-active']
-                : css['number-page__page']
+                ? 'active flow-text col s12'
+                : 'waves-effect hoverable flow-text col s12'
             }
           >
             {p}
-          </span>
+          </li>
         )
       })
       }
-      {portionNumber < portionCount && <button onClick={ ()=> { setPortionNumber(portionNumber + 1) } }>NEXT</button>}
-    </>
+      <li className={(portionNumber < portionCount) ? 'material-icons' : 'material-icons disabled'} onClick={ ()=> { setPortionNumber(portionNumber + 1) } }>chevron_right</li>
+    </ul>
   )
 }
 

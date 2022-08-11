@@ -29,8 +29,9 @@ function* getCollocutersWorker({payload}) {
 
 function* getAllCollocutersWorker ({payload}) {
     try {
+        const {pageNumber} = payload
         const { collocuters, totalPages, totalUsers } = yield collocutorsAPI.getApiAllCollocuters(payload)
-        yield put(getAllCollocuters({collocuters, totalUsers, totalPages}))
+        yield put(getAllCollocuters({collocuters, totalUsers, totalPages, pageNumber }))
     } catch (e) {
         yield put(AsyncSetShowMassageAction('Что-то пошло не так... Попробуйте позже...'))
     }

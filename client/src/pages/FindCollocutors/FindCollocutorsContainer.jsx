@@ -34,7 +34,6 @@ export const FoundCollocutorsContainer = () => {
 	const collocuterHandler = () => {
 		//проверка на пробелы
 		const checkingSpaces = !/\s/.test(form.collocuter)
-		console.log( '📌:',form.collocuter, checkingSpaces,'🌴 🏁')
 
 		if (checkingSpaces && !!form.collocuter) {
 			dispatch(AsyncGetCollocutorsAction(form.collocuter))
@@ -48,7 +47,6 @@ export const FoundCollocutorsContainer = () => {
 	let {loading, massage} = useSelector((state) => state.over)
 
 	useEffect(()=> {
-		console.log(collocuters, pageNumber, pageSize, totalPages, totalUsers)
 		setMessage(massage)
 	},[collocuters,massage])
 
@@ -58,10 +56,9 @@ export const FoundCollocutorsContainer = () => {
 	},[])
 
 
-const onPageChanged = () => {
-		console.log( '📌:','УРА','🌴 🏁')
-		
-}
+	const onPageChanged = (page) => {
+		dispatch(AsyncGetAllCollocutersAction({pageNumber:page,pageSize}))
+	}
 
 
   let follow = async (id) => {
