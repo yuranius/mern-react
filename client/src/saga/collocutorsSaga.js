@@ -6,7 +6,7 @@ import {
     getAllCollocuters,
     getCollocuters
 } from "../store/collocutorsReducer";
-import {setLoadingProcessAction, setShowMassageAction} from "../store/overReducer";
+import {AsyncSetShowMassageAction, setLoadingProcessAction, setShowMassageAction} from "../store/overReducer";
 
 const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
@@ -29,11 +29,10 @@ function* getCollocutersWorker({payload}) {
 
 function* getAllCollocutersWorker ({payload}) {
     try {
-        const data = yield collocutorsAPI.getApiAllCollocuters(payload)
-
-        //yield put(getAllCollocuters(payload))
+        const { collocuters, totalPages, totalUsers } = yield collocutorsAPI.getApiAllCollocuters(payload)
+        yield put(getAllCollocuters({collocuters, totalUsers, totalPages}))
     } catch (e) {
-        console.log( '📌:',e,'🌴 🏁')
+        yield put(AsyncSetShowMassageAction('Что-то пошло не так... Попробуйте позже...'))
     }
 }
 

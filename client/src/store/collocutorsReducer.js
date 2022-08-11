@@ -8,7 +8,9 @@ const GET_ALL_INTERLOCUTORS = 'GET_ALL_INTERLOCUTORS'
 const defaultState = {
     collocuters: [],
     pageNumber: 1,
-    pageSize: 10
+    pageSize: 10,
+    totalUsers: 0,
+    totalPages: 0,
 };
 
 export const collocutorsReducer = (state = defaultState, action) => {

@@ -15,7 +15,7 @@ export const FoundCollocutorsItem = (props) => {
 		<li className={( props.userId === props.id ) ?  "collection-item avatar teal lighten-1" : "collection-item avatar"}>
 			<div className="collocutors">
 				<img src={props.photos != null ? props.photos : userPhoto} alt="" className="circle" />
-				<span className="title">{( props.userId === props.id ) ? props.login + '(Я)' : props.login}</span>
+				<span className={( props.userId === props.id ) ? "title white-text" : "title"}>{( props.userId === props.id ) ? props.login + '(Я)' : props.login}</span>
 			</div>
 			{( props.userId !== props.id ) ?
 			(<div className="collections-buttons">

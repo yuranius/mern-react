@@ -34,18 +34,21 @@ export const FoundCollocutorsContainer = () => {
 	const collocuterHandler = () => {
 		//проверка на пробелы
 		const checkingSpaces = !/\s/.test(form.collocuter)
-		if (checkingSpaces) {
+		console.log( '📌:',form.collocuter, checkingSpaces,'🌴 🏁')
+
+		if (checkingSpaces && !!form.collocuter) {
 			dispatch(AsyncGetCollocutorsAction(form.collocuter))
 		} else {
 			dispatch(AsyncSetShowMassageAction('Не корректный ввод'))
 		}
 	}
 
-	let {collocuters, pageNumber, pageSize} = useSelector((state) => state.collocuters)
+	let {collocuters, pageNumber, pageSize, totalUsers, totalPages} = useSelector((state) => state.collocuters)
+	let {userId} = useSelector((state) => state.user)
 	let {loading, massage} = useSelector((state) => state.over)
 
 	useEffect(()=> {
-		console.log(collocuters, pageNumber, pageSize)
+		console.log(collocuters, pageNumber, pageSize, totalPages, totalUsers)
 		setMessage(massage)
 	},[collocuters,massage])
 
@@ -55,7 +58,10 @@ export const FoundCollocutorsContainer = () => {
 	},[])
 
 
-
+const onPageChanged = () => {
+		console.log( '📌:','УРА','🌴 🏁')
+		
+}
 
 
   let follow = async (id) => {
@@ -85,6 +91,11 @@ export const FoundCollocutorsContainer = () => {
 		changeHandler={changeHandler} 
 		loading={loading}
 		pressEnter={pressEnter}
-		//userId={auth.userId}
+		userId={userId}
+		totalUsers={totalUsers}
+		totalPages={totalPages}
+		pageSize={pageSize}
+		pageNumber={pageNumber}
+		onPageChanged={onPageChanged}
    />;
 };

@@ -1,8 +1,27 @@
 import React from "react";
 import { FoundCollocutorsItem } from "./FoundCollocutorsItem/FindCollocutorsItem";
+import Paginator from "../../components/Paginator/Paginator";
 
 
 export const FoundCollocutors = (props) => {
+
+	let pages = props.totalPages
+
+
+	let arr = []
+
+	// pages.toString().split(' ')
+
+	for (let i = 1; i <= pages; i++) {
+		arr.push(i)
+	}
+
+
+
+	console.log( '📌:',arr,'🌴 🏁')
+	
+	
+	
 	let collocuterElements = ( props.collocuters && props.collocuters.map((u) =>
 		  <FoundCollocutorsItem
 		  id={u.id}
@@ -34,7 +53,9 @@ export const FoundCollocutors = (props) => {
 					</button>
 				</div>
 				{props.collocuters && <ul className="collection">{collocuterElements}</ul>}
+				{props.collocuters &&  <Paginator totalItemsCount={props.totalUsers} pageSize={props.pageSize} currentPage={props.pageNumber} onPageChanged={props.onPageChanged}/> }
 			</div>
 		</div>
 	);
 };
+//totalItemsCount, pageSize, currentPage, onPageChanged

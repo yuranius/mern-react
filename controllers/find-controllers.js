@@ -47,23 +47,23 @@ class FindControllers {
 
             console.log( '📌:',numberOfResults,'🌴 🏁')
 
-
+            const pageLimit = pageNumber * pageSize - pageSize
 
             console.log( '📌:',pageLimit,'🌴 🏁')
 
 
-            const pagesOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE id > 5 LIMIT ?,?', [pageLimit,pageLimit + 10
+            const collocutersOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE id > 5 LIMIT ?,?', [pageLimit,pageLimit + 10
             ]).then((data) => {
                 return data[0]
             })
             
-            console.log( '📌:',pagesOfResults,'🌴 🏁')
+            console.log( '📌:',collocutersOfResults,'🌴 🏁')
             
             
-            //let numberOfPages = Math.ceil(numberOfResults / pageSize) // всего страниц
+            let numberOfPages = Math.ceil(numberOfResults / pageSize) // всего страниц
 
 
-            res.status(200).json({totalUsers: numberOfResults})
+            res.status(200).json({collocuters:collocutersOfResults, totalUsers: numberOfResults, totalPages: numberOfPages})
 
         } catch (error) {
             console.log('📢', error, 'Запрос не удался')
