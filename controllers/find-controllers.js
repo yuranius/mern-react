@@ -1,14 +1,14 @@
 const pool = require('../settings/db')
 const config = require('config')
-const {check, validationResult} = require("express-validator");
+const {validationResult, check} = require("express-validator");
 
 class FindControllers {
     async findCollocuters(req, res) {
         const user_query = req.params.user_query
+
         try {
         // в случае не прохождения проверки на пробелы выводим сообщение
-        const errors = validationResult(req)
-            console.log(errors)
+        const errors = validationResult(user_query)
         if (!errors.isEmpty()) {
             return res.status(400).json({
                 errors: errors.array(),
@@ -36,33 +36,65 @@ class FindControllers {
     };
 
     async findAllCollocuters(req, res) {
-        const {page:pageNumber, limit: pageSize} = req.query
-        console.log('Запрос2:', pageNumber, pageSize)
-
+        const {page:pageNumber, limit: pageSize, userId} = req.query
         try {
             const numberOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE 1', [
             ]).then((data) => {
                 return data[0].length
             })
 
-            console.log( '📌:',numberOfResults,'🌴 🏁')
 
-            const pageLimit = pageNumber * pageSize - pageSize
+            const pageLimit = pageNumber * pageSize - pageSize // вычисляем номер диапазона для sql-запроса
 
-            console.log( '📌:',pageLimit,'🌴 🏁')
-
-
-            const collocutersOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE id LIMIT ?,?', [ pageLimit, +pageSize ]).then((data) => {
+            const collocutersOfResults = await pool.query('SELECT ??.??, ??.?? FROM ?? WHERE ?? LIMIT ?,?', [
+                config.get('tableOne'),
+                config.get('fieldOneTableOne'),
+                config.get('tableOne'),
+                config.get('fieldFourTableOne'),
+                config.get('tableOne'),
+                config.get('fieldOneTableOne'),
+                pageLimit, 
+                +pageSize 
+            ]).then((data) => {
                 return data[0]
             })
+
+
             
-            console.log( '📌:',collocutersOfResults,'🌴 🏁')
-            
-            
+
+
+
+            // let checkFriend = async (friendId) => {await pool.query('SELECT friends.friend_one, friends.friend_two FROM friends WHERE friend_one = ? AND friend_two = ?',[
+            //     userId,
+            //     friendId
+            // ]).then((data) => {
+            //     if (data[0][0]) { return true } else { return  false }
+            // })}
+
+            let newCollocutersOfResults =  []
+
+            await Promise.all(collocutersOfResults.map(async (col) => {
+
+                try {
+                    let checkFriend = await pool.query('SELECT friends.friend_one, friends.friend_two FROM friends WHERE friend_one = ? AND friend_two = ?',[
+                    userId,
+                    col.id
+                    ]).then((data) => {
+                    if (data[0][0]) { return true } else { return  false }
+                    })
+                    newCollocutersOfResults.push({...col, friend:checkFriend})
+                    return newCollocutersOfResults;
+                } catch(err) {
+                    throw err;
+                }
+            }));
+
+
+            // SELECT 'friend_one','friend_two' FROM friends WHERE friend_one =28 AND friend_two=29; находим друзей пользователя
+
             let numberOfPages = Math.ceil(numberOfResults / pageSize) // всего страниц
 
-
-            res.status(200).json({collocuters:collocutersOfResults, totalUsers: numberOfResults, totalPages: numberOfPages})
+            res.status(200).json({collocuters:newCollocutersOfResults, totalUsers: numberOfResults, totalPages: numberOfPages})
 
         } catch (error) {
             console.log('📢', error, 'Запрос не удался')

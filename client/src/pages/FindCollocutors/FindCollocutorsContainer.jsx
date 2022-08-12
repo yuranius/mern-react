@@ -4,6 +4,7 @@ import { useMassage } from "../../hooks/message.hook";
 import { FoundCollocutors } from "./FindCollocutors";
 import {useDispatch, useSelector} from "react-redux";
 import {
+	AsyncAddFriendAction, AsyncDeleteFriendAction,
 	AsyncGetAllCollocutersAction,
 	AsyncGetCollocutorsAction
 } from "../../store/collocutorsReducer";
@@ -52,27 +53,20 @@ export const FoundCollocutorsContainer = () => {
 
 
 	useEffect(() => {
-		dispatch(AsyncGetAllCollocutersAction({pageNumber,pageSize}))
-	},[])
+		userId && dispatch(AsyncGetAllCollocutersAction({pageNumber,pageSize,userId}))
+	},[userId])
 
 
 	const onPageChanged = (page) => {
-		dispatch(AsyncGetAllCollocutersAction({pageNumber:page,pageSize}))
+		dispatch(AsyncGetAllCollocutersAction({pageNumber:page,pageSize,userId}))
 	}
-
-
-  let follow = async (id) => {
-		try {
-
-    //   setIsFetch({...testData[id].isFetch})
-		} catch (error) {}
+	let addFriend = (friendId) => {
+		dispatch(AsyncAddFriendAction({userId, friendId}))
 	};
+	let deleteFriend = (friendId) => {
+		dispatch(AsyncDeleteFriendAction({userId, friendId}))
 
-	let unfollow = (id) => {
-	// 	testData[id].isFetch = false
-    // console.log('📢 [FindCollocutorsContainer.jsx:61]', testData[id]);
-    // setIsFetch({...testData[id].isFetch})
-	};
+};
 
   useEffect(() => {
     window.M.updateTextFields()
@@ -82,8 +76,8 @@ export const FoundCollocutorsContainer = () => {
 
 	return <FoundCollocutors
 		collocuters={collocuters}
-		follow={follow}
-		unfollow={unfollow}
+		addFriend={addFriend}
+		deleteFriend={deleteFriend}
 		collocuterHandler={collocuterHandler}
 		changeHandler={changeHandler} 
 		loading={loading}

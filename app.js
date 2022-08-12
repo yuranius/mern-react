@@ -10,6 +10,7 @@ app.use (express.json ({ extended: true })) //миделвейер(встрое�
 app.use ('/api/auth', require('./routes/auth.routes'))
 app.use ('/api/profile', require('./routes/profile.routes'))
 app.use ('/api/findcollocuter', require('./routes/find.routes'))
+app.use ('/api/friend', require('./routes/friends.routes'))
 
 app.use (express.static('./static')) //указываем папку для express где будут храниться аватарки
 

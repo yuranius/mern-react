@@ -5,8 +5,17 @@ const GET_INTERLOCUTORS = 'GET_INTERLOCUTORS'
 export const  ASYNC_GET_ALL_INTERLOCUTORS = 'ASYNC_GET_ALL_INTERLOCUTORS'
 const GET_ALL_INTERLOCUTORS = 'GET_ALL_INTERLOCUTORS'
 
+export const ASYNC_ADD_FRIEND = 'ASYNC_ADD_FRIEND'
+const ADD_FRIEND = 'ADD_FRIEND'
+
+export const ASYNC_DELETE_FRIEND = 'ASYNC_DELETE_FRIEND'
+const DELETE_FRIEND = 'DELETE_FRIEND'
+
+
+
 const defaultState = {
     collocuters: [],
+    userId: null,
     pageNumber: 1,
     pageSize: 10,
     totalUsers: 0,
@@ -19,8 +28,12 @@ export const collocutorsReducer = (state = defaultState, action) => {
                return {...state, ...action.payload};
            case GET_INTERLOCUTORS:
                return {...state, ...action.payload};
-           // case GET_INTERLOCUTORS_ERROR:
-           //     return {...state, massage: 'Совпадений не найдено!'}
+           case ADD_FRIEND:
+               console.log( '📌:',action.payload,'🌴 🏁')
+               
+               return {...state, ...action.payload}
+           case DELETE_FRIEND:
+               return {...state, ...action.payload}
         default:
             return state;
     }
@@ -35,4 +48,9 @@ export const AsyncGetCollocutorsAction = (payload) => ({type: ASYNC_GET_INTERLOC
 export const getAllCollocuters = (payload) => ({type: GET_ALL_INTERLOCUTORS, payload})
 export const AsyncGetAllCollocutersAction = (payload) => ({type: ASYNC_GET_ALL_INTERLOCUTORS, payload})
 
+export const addFriend = (payload) => ({type:ADD_FRIEND, payload})
+export const AsyncAddFriendAction = (payload) => ({type: ASYNC_ADD_FRIEND,payload})
+
+export const deleteFriend = (payload) => ({type:DELETE_FRIEND, payload})
+export const AsyncDeleteFriendAction = (payload) => ({type: ASYNC_DELETE_FRIEND,payload})
 

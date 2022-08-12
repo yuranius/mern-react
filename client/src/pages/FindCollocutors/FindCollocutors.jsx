@@ -4,7 +4,7 @@ import Paginator from "../../components/Paginator/Paginator";
 
 
 export const FoundCollocutors = (props) => {
-
+	
 	let pages = props.totalPages
 
 
@@ -22,10 +22,10 @@ export const FoundCollocutors = (props) => {
 		  id={u.id}
 		  key={u.id}
 		  login={u.login}
-		  isFetch={u.isFetch}
-		  follow={props.follow}
-		  unfollow={props.unfollow}
+		  addFriend={props.addFriend}
+		  deleteFriend={props.deleteFriend}
 		  userId={props.userId}
+		  friend={u.friend}
 		  />));
 
 	return (

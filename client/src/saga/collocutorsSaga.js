@@ -1,6 +1,8 @@
 import {put, takeEvery} from 'redux-saga/effects'
-import {collocutorsAPI} from "../api/api";
+import {collocutorsAPI, friendsAPI} from "../api/api";
 import {
+    addFriend,
+    ASYNC_ADD_FRIEND, ASYNC_DELETE_FRIEND,
     ASYNC_GET_ALL_INTERLOCUTORS,
     ASYNC_GET_INTERLOCUTORS,
     getAllCollocuters,
@@ -37,7 +39,31 @@ function* getAllCollocutersWorker ({payload}) {
     }
 }
 
+function* addFriendWorker ({payload}) {
+    try {
+        const response = yield friendsAPI.addFriend(payload)
+
+        console.log( '📌:',response,'🌴 🏁')
+
+
+        yield put (addFriend(payload))
+
+    } catch (e) {
+        yield put(AsyncSetShowMassageAction('Что-то пошло не так... Попробуйте позже...'))
+    }
+}
+
+function* deleteFriendWorker ({payload}) {
+    try {
+        yield friendsAPI.deleteFriend(payload)
+    } catch (e) {
+        yield put(AsyncSetShowMassageAction('Что-то пошло не так... Попробуйте позже...'))
+    }
+}
+
 export function* collocutorsWatcher() {
     yield takeEvery(ASYNC_GET_INTERLOCUTORS, getCollocutersWorker)
     yield takeEvery(ASYNC_GET_ALL_INTERLOCUTORS, getAllCollocutersWorker)
+    yield takeEvery(ASYNC_ADD_FRIEND, addFriendWorker)
+    yield takeEvery(ASYNC_DELETE_FRIEND, deleteFriendWorker)
 }

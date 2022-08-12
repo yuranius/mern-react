@@ -38,7 +38,7 @@ export const profileAPI = {
 
 export const collocutorsAPI = {
     getApiAllCollocuters( payload ) {
-        return instance.get(`/api/findcollocuter?page=${payload.pageNumber}&limit=${payload.pageSize}`, {}).then((response) => {
+        return instance.get(`/api/findcollocuter?userId=${payload.userId}&page=${payload.pageNumber}&limit=${payload.pageSize}`, {}).then((response) => {
             return response.data;
         });
     },
@@ -49,6 +49,19 @@ export const collocutorsAPI = {
     },
 }
 
+
+export const friendsAPI = {
+    addFriend( payload ) {
+        return instance.post(`/api/friend/add`, { payload}).then((response) => {
+            return response.data;
+        });
+    },
+    deleteFriend( payload ) {
+        return instance.post(`/api/friend/delete`, {payload}).then((response) => {
+            return response.data;
+        });
+    },
+}
 
 
 

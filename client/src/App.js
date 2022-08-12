@@ -19,9 +19,7 @@ function App() {
 	const userData = JSON.parse(localStorage.getItem(USER_DATA))
 	const tokenData = JSON.parse(localStorage.getItem(TOKEN_DATA))
 
-
 	const dispatch = useDispatch()
-
 
 
 	if (tokenData) {
