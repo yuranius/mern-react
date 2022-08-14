@@ -1,6 +1,8 @@
 const pool = require('../settings/db')
 const config = require('config')
 
+
+
 class FriendsController {
     async addFriend(req, res) {
         try{
@@ -13,15 +15,22 @@ class FriendsController {
                 friendId,
                 stat
             ])
+
+            const queryUser = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [
+                config.get('tableOne'),
+                config.get('fieldOneTableOne'),
+                friendId] ).then((data) => {
+                try {
+                    return data[0][0].login;
+                } catch (error) {
+                    return false
+                }
+            })
+
             
-            console.log( '📌:',result,'🌴 🏁')
-            
-            
-            
-            res.status(200).json({massage: 'Пользователь ,добавлен в список собеседников!!!'})
+            res.status(200).json({massage: `Пользователь ${queryUser},добавлен в список собеседников!!!`})
         } catch (e) {
-            console.log( '📌:',e,'🌴 🏁')
-            
+            res.status(404).json({massage: 'Произошла ошибка на сервере...'})
         }
 
     }
@@ -30,27 +39,29 @@ class FriendsController {
 
         const {userId, friendId} =  req.body.payload
 
-        await pool.query('DELETE FROM friends WHERE friends.friend_one = ? AND friends.friend_two = ?', [
-            userId,
-            friendId,
-        ])
+        try {
+            await pool.query('DELETE FROM friends WHERE friends.friend_one = ? AND friends.friend_two = ?', [
+                userId,
+                friendId,
+            ])
 
-        const deleteUser = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [
-            config.get('tableOne'), 
-            config.get('fieldOneTableOne'), 
-            friendId] ).then((data) => {
-            try {
-                console.log( '📌:',data[0][0],'🌴 🏁')
-                
-                return data[0][0].login;
-            } catch (error) {
-                return false
-            }
-        })
+            const queryUser = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [
+                config.get('tableOne'),
+                config.get('fieldOneTableOne'),
+                friendId] ).then((data) => {
+                try {
+                    return data[0][0].login;
+                } catch (error) {
+                    return false
+                }
+            })
 
-        res.status(200).json({massage: `Пользователь ${deleteUser}, удален из списка собеседников!!!`})
-        //DELETE FROM `friends` WHERE `friends`.`friend_one` = 28 AND `friends`.`friend_two` = 68
+            res.status(200).json({massage: `Пользователь ${queryUser}, удален из списка собеседников!!!`})
+            //DELETE FROM `friends` WHERE `friends`.`friend_one` = 28 AND `friends`.`friend_two` = 68
 
+        } catch (e) {
+            res.status(404).json({massage: 'Произошла ошибка на сервере...'})
+        }
     }
 }
 

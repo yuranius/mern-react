@@ -4,7 +4,7 @@ import {
     addFriend,
     ASYNC_ADD_FRIEND, ASYNC_DELETE_FRIEND,
     ASYNC_GET_ALL_INTERLOCUTORS,
-    ASYNC_GET_INTERLOCUTORS,
+    ASYNC_GET_INTERLOCUTORS, deleteFriend,
     getAllCollocuters,
     getCollocuters
 } from "../store/collocutorsReducer";
@@ -42,22 +42,20 @@ function* getAllCollocutersWorker ({payload}) {
 function* addFriendWorker ({payload}) {
     try {
         const response = yield friendsAPI.addFriend(payload)
-
-        console.log( '📌:',response,'🌴 🏁')
-
-
         yield put (addFriend(payload))
-
-    } catch (e) {
-        yield put(AsyncSetShowMassageAction('Что-то пошло не так... Попробуйте позже...'))
+        yield put(AsyncSetShowMassageAction(response.massage))
+    } catch (error) {
+        yield put(AsyncSetShowMassageAction(error.response.data.massage))
     }
 }
 
 function* deleteFriendWorker ({payload}) {
     try {
-        yield friendsAPI.deleteFriend(payload)
-    } catch (e) {
-        yield put(AsyncSetShowMassageAction('Что-то пошло не так... Попробуйте позже...'))
+        const response = yield friendsAPI.deleteFriend(payload)
+        yield put (deleteFriend(payload))
+        yield put (AsyncSetShowMassageAction(response.massage))
+    } catch (error) {
+        yield put(AsyncSetShowMassageAction(error.response.data.massage))
     }
 }
 

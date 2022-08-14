@@ -29,11 +29,23 @@ export const collocutorsReducer = (state = defaultState, action) => {
            case GET_INTERLOCUTORS:
                return {...state, ...action.payload};
            case ADD_FRIEND:
-               console.log( '📌:',action.payload,'🌴 🏁')
-               
-               return {...state, ...action.payload}
+               return {...state,
+                   collocuters: state.collocuters.map( c => {
+                       if (c.id === action.payload.friendId) {
+                           return {...c, friend: true}
+                       }
+                       return c;
+                   })
+               }
            case DELETE_FRIEND:
-               return {...state, ...action.payload}
+
+               return {...state,
+                   collocuters: state.collocuters.map( c => {
+                       if (c.id === action.payload.friendId) {
+                           return {...c, friend: false}
+                       }
+                       return c;
+                   })}
         default:
             return state;
     }

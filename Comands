@@ -1,0 +1,18 @@
+sudo /opt/lampp/xampp start - стартуем сервера
+sudo /opt/lampp/xampp stop - останавливаем
+
+sudo /opt/lampp/uninstall - удалить xampp
+
+УСТАНОВКА XAMPP:
+sudo chmod a+x xampp-linux-x64-8.1.6-0-installer.run - установка флага исполняемого файла
+sudo ./xampp-linux-x64-8.1.6-0-installer.run - запуск установщика
+
+
+sudo /opt/lampp/manager-linux-x64.run - открыть xampp
+
+sudo kill -9 `sudo lsof -t -i:5000`  - освободить порт 5000
+
+
+lsof -i tcp:5000
+kill -9 6193
+

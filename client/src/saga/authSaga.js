@@ -38,7 +38,7 @@ function* setRegisterUserWorker({payload}) {
         //yield put(setRegisterUser(user))
     } catch (error) {
         yield put(setLoadingProcessAction(false))
-        yield put(setShowMassageAction(error.response.data.massage))
+        yield put(setShowMassageAction(error.response.data.errors[0].msg))
         yield delay(1000)
         yield put(setShowMassageAction(''))
     }

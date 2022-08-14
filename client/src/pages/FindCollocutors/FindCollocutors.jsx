@@ -18,7 +18,7 @@ export const FoundCollocutors = (props) => {
 
 	
 	let collocuterElements = ( props.collocuters && props.collocuters.map((u) =>
-		  <FoundCollocutorsItem
+		<FoundCollocutorsItem
 		  id={u.id}
 		  key={u.id}
 		  login={u.login}
@@ -26,7 +26,7 @@ export const FoundCollocutors = (props) => {
 		  deleteFriend={props.deleteFriend}
 		  userId={props.userId}
 		  friend={u.friend}
-		  />));
+		  />))
 
 	return (
 		<div className="#">

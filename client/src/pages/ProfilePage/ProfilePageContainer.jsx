@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import { useMassage } from '../../hooks/message.hook'
-import { useHttp } from '../../hooks/http.hook'
 import { ProfilePage } from './ProfilePage'
 import {useDispatch, useSelector} from "react-redux";
 import {AsyncChangeLoginUserAction} from "../../store/profileReducer";
@@ -13,7 +12,7 @@ let input = ''
 
 
 export const ProfilePageContainer = () => {
-  //const auth = useContext(AuthContext)
+
 
   const { userId, userLogin } = useSelector((state) => state.user)
   const { loading, massage } = useSelector((state) => state.over)
@@ -54,13 +53,12 @@ export const ProfilePageContainer = () => {
 
   const saveHandler = (event) => {
     event.preventDefault()
-    if (userId) {
-      if (!login.userLogin) {
-        {return setMassage('Поле не может быть пустым')}
-      }
+    if (userId && login.userLogin) {
       dispatch(AsyncChangeLoginUserAction({userId, userLogin: login.userLogin }))
       if (input.value) {input.value = ''}
       window.M.updateTextFields()
+    } else if (!login.userLogin) {
+      setMassage('Поле не может быть пустым')
     } else {
       setMassage('Что-то пошло не так')
     }

@@ -1,7 +1,7 @@
 import "materialize-css";
 import { useRoutes } from "./pages/routes";
 import { BrowserRouter as Router} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import { Navbar } from "./components/Navbar";
 import {TOKEN_DATA, USER_DATA} from "./config";
 import {useDispatch, useSelector} from "react-redux";

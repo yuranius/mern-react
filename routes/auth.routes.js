@@ -60,67 +60,6 @@ router.get('/user', async (req, res) => {
 
 
 
-// router.get('/findcollocuter/:user_query',
-// [
-//   // проверка на пробелы
-//   check('user_query','введите корректные данные').custom(value => !/\s/.test(value))
-// ],
-//   async (req, res) => {
-//
-//   const user_query = req.params.user_query
-//
-//
-//
-//
-//   try {
-//
-//     // в случае не прохождения проверки на пробеллы выводим сообщение
-//     const errors = validationResult(req)
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({
-//         errors: errors.array(),
-//         massage: 'Некорректный ввод',
-//       })
-//     }
-//
-//     pool.query(
-//     // `SELECT users.login, messages.content_id
-//     // FROM users
-//     // JOIN messages
-//     // ON messages.user_to_id
-//     // WHERE users.login LIKE ?`, '%'+user_query+'%'
-//
-//
-//     // `SELECT users.login, messages.content, messages.user_from_id
-//     // FROM users
-//     // JOIN messages
-//     // ON messages.user_from_id
-//     // WHERE users.login LIKE ?` ,
-//
-//     `SELECT ??, ?? FROM ?? WHERE ??.?? LIKE ?`,
-//
-//
-//     [fieldOneTableOne,  fieldFourTableOne, tableOne, tableOne,  fieldFourTableOne, '%'+ user_query + '%']
-//
-//
-//
-//     ).then((data) => {
-//
-//       if (!data[0][0]) {
-//         return res.status(405).json({ massage: " Совпадений не найдено, попробуйте ввести что-то другое!!! "})
-//       } else {
-//       console.log('📢 [auth.routes.js:85]', data[0]);
-//       res.status(200).json( {data: data[0], massage: `Найдено ${data[0].length}`})}
-//     })
-//   } catch (error) {
-//     console.log('📢', error, 'Запрос не удался')
-//   }
-// })
-
-
-
-
-
 
 //api/auth/register
 
@@ -140,6 +79,8 @@ router.post(
 
       //проверка на прохождении валидации
       if (!errors.isEmpty()) {
+        console.log( '📌:',errors.errors[0].msg,'🌴 🏁')
+        
         return res.status(400).json({
           errors: errors.array(),
           massage: 'Некорректные данные при регистрации',
@@ -168,7 +109,6 @@ router.post(
       // хешируем полученный пароль
       const hashedPassword = await bcrypt.hash(password, 12)
       // когда пароль готов создаем пользователя
-
 
       await pool.query(`INSERT INTO ?? (${new Array(fieldTableOne.length).fill('??')}) VALUES (NULL, ?, ?, ?, current_timestamp(),'')`, [
         tableOne, 

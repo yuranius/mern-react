@@ -99,7 +99,9 @@ INSERT INTO `users` (`id`, `email`, `password`, `login`, `registration`) VALUES
 (28, 'test@test.ru', '$2a$12$JG6R7.IMmhPm81i0FNDBWeU3ee8RWr9GTIt5L3svJ05Sx68fRX3tu', 'Муся', '0000-00-00 00:00:00'),
 (29, 'test2@test.ru', '$2a$12$3OPZn/CACroIa8Nw6rCsM.3nFfzQownq1zQJc29Zw5CS957TQ5RZG', 'Буся', '0000-00-00 00:00:00'),
 (64, '1234@123.ru', '$2a$12$9qSF0e8knCOV55lhA9dPiu1oijf2EWfCpTi572uCGoA8rAsp5W4sa', 'yuranius', '2022-07-09 08:38:54'),
-(65, 'test3@test.ru', '$2a$12$fqpZAaHT.CsTMfBgYeFs4ODcRdFSa5cKHcQb9qT5CL5De5rtKV6Oq', '', '2022-07-13 20:07:34');
+(65, 'test3@test.ru', '$2a$12$fqpZAaHT.CsTMfBgYeFs4ODcRdFSa5cKHcQb9qT5CL5De5rtKV6Oq', 'test', '2022-07-13 20:07:34');
+
+
 
 --
 -- Индексы сохранённых таблиц
