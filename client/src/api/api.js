@@ -38,12 +38,12 @@ export const profileAPI = {
 
 export const collocutorsAPI = {
     getApiAllCollocuters( payload ) {
-        return instance.get(`/api/findcollocuter?userId=${payload.userId}&page=${payload.pageNumber}&limit=${payload.pageSize}`, {}).then((response) => {
+        return instance.get(`/api/find/collocuter/?userId=${payload.userId}&page=${payload.pageNumber}&limit=${payload.pageSize}`, {}).then((response) => {
             return response.data;
         });
     },
     getApiCollocuters(collocuter) {
-        return instance.get(`/api/findcollocuter/${collocuter}`, {}).then((response) => {
+        return instance.get(`/api/find/collocuter/${collocuter}`, {}).then((response) => {
             return response.data;
         });
     },

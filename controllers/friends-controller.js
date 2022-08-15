@@ -7,6 +7,7 @@ class FriendsController {
     async addFriend(req, res) {
         try{
             const {userId, friendId} =  req.body.payload
+            
 
             let stat = '0'
 
@@ -15,6 +16,8 @@ class FriendsController {
                 friendId,
                 stat
             ])
+            
+
 
             const queryUser = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [
                 config.get('tableOne'),

@@ -35,7 +35,7 @@ class FindControllers {
     }
     };
 
-    async findAllCollocuters(req, res) {
+    async findPageAllCollocuters(req, res) {
         const {page:pageNumber, limit: pageSize, userId} = req.query
         try {
             const numberOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE 1', [
@@ -101,6 +101,55 @@ class FindControllers {
         }
     }
 
+    async findAllFriends(req, res) {
+        const { userId } = req.query
+
+        try {
+            const numberOfResults = await pool.query('SELECT users.id, users.login FROM users WHERE 1', [
+            ]).then((data) => {
+                return data[0].length
+            })
+
+
+            const collocutersOfResults = await pool.query('SELECT ??.??, ??.?? FROM ?? WHERE ??', [
+                config.get('tableOne'),
+                config.get('fieldOneTableOne'),
+                config.get('tableOne'),
+                config.get('fieldFourTableOne'),
+                config.get('tableOne'),
+                config.get('fieldOneTableOne'),
+            ]).then((data) => {
+                return data[0]
+            })
+
+
+            let newCollocutersOfResults =  []
+
+            await Promise.all(collocutersOfResults.map(async (col) => {
+
+                try {
+                    let checkFriend = await pool.query('SELECT friends.friend_one, friends.friend_two FROM friends WHERE friend_one = ? AND friend_two = ?',[
+                        userId,
+                        col.id
+                    ]).then((data) => {
+                        if (data[0][0]) { return true } else { return  false }
+                    })
+
+                    newCollocutersOfResults.push({...col, friend:checkFriend})
+                    return newCollocutersOfResults;
+                } catch(err) {
+                    throw err;
+                }
+            }));
+
+            let friends = newCollocutersOfResults.filter( col => col.friend == true)
+
+            res.status(200).json(friends)
+
+        } catch (error) {
+            console.log('📢', error, 'Запрос не удался')
+        }
+    }
 }
 
 
