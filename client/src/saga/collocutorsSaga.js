@@ -50,6 +50,8 @@ function* addFriendWorker ({payload}) {
 }
 
 function* deleteFriendWorker ({payload}) {
+    console.log( '📌:',payload,'🌴 🏁')
+    
     try {
         const response = yield friendsAPI.deleteFriend(payload)
         yield put (deleteFriend(payload))

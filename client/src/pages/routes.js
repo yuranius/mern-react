@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 import  { Navigate }  from "react-router-dom";
 import React from "react";
-import { CollocutorsPage } from "./Collocutors/CollocutorsPage";
+import { CollocutorsContainer } from "./Collocutors/CollocutorsContainer";
 import { ProfilePageContainer } from "./ProfilePage/ProfilePageContainer";
 import { FoundCollocutorsContainer } from "./FindCollocutors/FindCollocutorsContainer";
 import {MessagePage} from "./MassagePage/MessagePage";
@@ -14,7 +14,7 @@ export const useRoutes = (isAuthenticated) => {
 			<Routes>
 				<Route path="/" element={<MessagePage/>}/>
 				<Route path="/foundcollocutors" element={ <FoundCollocutorsContainer />}/>
-				<Route path="/collocutors" exact element={<CollocutorsPage />} />
+				<Route path="/collocutors" exact element={<CollocutorsContainer />} />
 				<Route path="/messages" exact element={<MessagePage />} />
 				<Route path="/profile" element={<ProfilePageContainer />} />
 				<Route path="*" element={<Navigate to="/" />} />

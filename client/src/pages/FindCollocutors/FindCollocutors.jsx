@@ -7,16 +7,9 @@ export const FoundCollocutors = (props) => {
 	
 	let pages = props.totalPages
 
+	pages.toString().split(' ')
 
-	let arr = []
 
-	// pages.toString().split(' ')
-
-	for (let i = 1; i <= pages; i++) {
-		arr.push(i)
-	}
-
-	
 	let collocuterElements = ( props.collocuters && props.collocuters.map((u) =>
 		<FoundCollocutorsItem
 		  id={u.id}
@@ -42,7 +35,6 @@ export const FoundCollocutors = (props) => {
 							style={{ marginRight: 10 }}
 							disabled={props.loading}
 							onClick={props.collocuterHandler}
-
 					>
 						Поиск
 					</button>
@@ -53,4 +45,3 @@ export const FoundCollocutors = (props) => {
 		</div>
 	);
 };
-//totalItemsCount, pageSize, currentPage, onPageChanged

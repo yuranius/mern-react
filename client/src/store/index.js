@@ -6,6 +6,7 @@ import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
 import { rootWatcher } from "../saga";
 import {collocutorsReducer} from "./collocutorsReducer";
+import {friendsReducer} from "./friendsReducer";
 
 const saga = createSagaMiddleware()
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     user: authReducer,
     collocuters: collocutorsReducer,
     over: overReducer,
+    friends: friendsReducer,
 })
 
 const middleWares = [saga, thunk]

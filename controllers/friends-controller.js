@@ -31,7 +31,7 @@ class FriendsController {
             })
 
             
-            res.status(200).json({massage: `Пользователь ${queryUser},добавлен в список собеседников!!!`})
+            res.status(200).json({massage: `Пользователь ${queryUser}, добавлен в список Ваших собеседников!!!`})
         } catch (e) {
             res.status(404).json({massage: 'Произошла ошибка на сервере...'})
         }
@@ -59,7 +59,7 @@ class FriendsController {
                 }
             })
 
-            res.status(200).json({massage: `Пользователь ${queryUser}, удален из списка собеседников!!!`})
+            res.status(200).json({massage: `Пользователь ${queryUser}, удален из списка Ваших собеседников!!!`})
             //DELETE FROM `friends` WHERE `friends`.`friend_one` = 28 AND `friends`.`friend_two` = 68
 
         } catch (e) {

@@ -144,10 +144,10 @@ class FindControllers {
 
             let friends = newCollocutersOfResults.filter( col => col.friend == true)
 
-            res.status(200).json(friends)
+            res.status(200).json({friends})
 
         } catch (error) {
-            console.log('📢', error, 'Запрос не удался')
+            res.status(404).json({massage: 'Ошибка запроса... Попробуйте в другой раз...'})
         }
     }
 }
