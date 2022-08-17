@@ -6,17 +6,16 @@ import {
     delFriendAction,
     getFriendsAction
 } from "../store/friendsReducer";
-import {AsyncSetShowMassageAction, setLoadingProcessAction, setShowMassageAction} from "../store/overReducer";
+import {AsyncSetShowMassageAction, setLoadingProcessAction} from "../store/overReducer";
 
 
 
 function* getFriendsWorker({payload}) {
     try {
         yield put(setLoadingProcessAction(true))
-        const {friends, massage} = yield friendsAPI.getFriends(payload)
+        const {friends} = yield friendsAPI.getFriends(payload)
         yield put(getFriendsAction(friends))
         yield put(setLoadingProcessAction(false))
-
     } catch (error) {
         yield put(setLoadingProcessAction(false))
         yield put(AsyncSetShowMassageAction(error.response.data.massage))
@@ -26,8 +25,6 @@ function* getFriendsWorker({payload}) {
 function* delFriendWorker({payload}){
     try {
         const response = yield friendsAPI.deleteFriend(payload)
-        console.log( '📌:',response,'🌴 🏁')
-        
         yield put (delFriendAction(payload.friendId))
         yield put (AsyncSetShowMassageAction(response.massage))
     } catch (error) {

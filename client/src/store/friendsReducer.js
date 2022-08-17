@@ -1,5 +1,3 @@
-import {updateObjectInArray} from "../Utilits/updateObject";
-
 const GET_FRIENDS = 'GET_FRIENDS'
 export const ASYNC_GET_FRIENDS = 'ASYNC_GET_FRIENDS'
 

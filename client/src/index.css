@@ -1,5 +1,8 @@
 @import '~materialize-css/dist/css/materialize.min.css';
 
+.container{
+    position: relative;
+}
 
 input.yellow-input {
     border-bottom: 1px solid #fff !important;
@@ -44,8 +47,8 @@ input.yellow-input:focus {
 }
 
 .collection .collection-item.avatar {
-    min-height: 0px !important;
-    padding-left: 0px !important;
+    min-height: 0 !important;
+    padding-left: 0 !important;
     display: flex;
     justify-content: space-between;
 }
