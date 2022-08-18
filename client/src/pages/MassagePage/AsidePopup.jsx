@@ -1,14 +1,18 @@
-import React from "react";
-import scss from "./AsidePopup.module.css"
-import messageReducer from "../../store/messageReducer";
+import React, {useState} from "react";
+import "./AsidePopup.css"
+
+
 
 let MyMassage = (props) => {
+
+
+
    return (
-      <div className={scss["popup-body__message"]}>
-         <div className={scss["popup-body__message-content"]}>
+      <div className="popup-body__message">
+         <div className="popup-body__message-content">
             {props.massage}
          </div>
-         <div className={scss["popup-body__date-break"]}>
+         <div className="popup-body__date-break">
             {props.date}
          </div>
       </div>
@@ -17,11 +21,11 @@ let MyMassage = (props) => {
 
 let PartnerMassage = (props) => {
    return (
-      <div className={scss["popup-body__message-partner"]}>
-         <div className={scss["popup-body__message-content-partner"]}>
+      <div className="popup-body__message-partner">
+         <div className="popup-body__message-content-partner">
             {props.massage}
          </div>
-         <div className={scss["popup-body__date-break"]}>
+         <div className="popup-body__date-break">
             {props.date}
          </div>
       </div>
@@ -54,72 +58,123 @@ let AsidePopup = (props) => {
       props.addMassage();
    };
 
+
+
+
+   // для появления icon при наведении
+   const [ hover, setHover ] = useState(false)
+   const someHandler = () => {setHover(true)}
+   const someOtherHandler = () => {setHover(false)}
+
+
+
    return (
-      <div className={scss["aside__popup"]}>
-         <div className={scss["aside__popup-wrap"]}>
-            <div className={scss["aside__popup-header"]}>
-               <div className={scss["popup__card"]}>
-                  <figure className={scss["popup__avatar"]}>
-                     <img
-                        src='https://avatars.mds.yandex.net/get-zen_doc/245342/pub_5c9e2620c8055500b310022c_5c9e26bb3097fa00b21dfc0a/scale_1200'
-                        alt=''
-                     />
-                  </figure>
-                  <h5 className={scss["popup__text-primary"]}>
-                     Дмитрий Медведев
-                  </h5>
-                  <h4 className={scss["popup__status"]}>
-                     <span className={scss["popup__status-indicator"]}></span>
-                     Available
-                  </h4>
-                  <div className={scss["popup__close"]}>
-                     <i className='icon-clear'></i>
-                  </div>
-               </div>
-            </div>
+       <>
+       <div className="col s12">
+          <h2 className="header">Сообщения</h2>
+       </div>
+       <div className="message-wrap">
 
-{/* сообщения */}
+          <div className="row">
+             <ul className="row__list">
+                <li className="row__item yellow darken-4 z-depth-4 hoverable">User1</li>
+                <li onMouseEnter={()=> someHandler()}  onMouseLeave={()=> someOtherHandler()} className="row__item z-depth-1 hoverable">User1 {hover && <i className="thin material-icons right">border_color</i>}</li>
+                <li className="row__item z-depth-1 hoverable">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
+                <li className="row__item">User1</li>
 
-            <div className={scss["aside__popup-body"]}>
+             </ul>
+          </div>
+          <div className="aside__popup">
+             <div className="aside__popup-wrap">
+                <div className="aside__popup-header">
+                   <div className="popup__card">
+                      <figure className="popup__avatar">
+                         <img
+                             src='https://avatars.mds.yandex.net/get-zen_doc/245342/pub_5c9e2620c8055500b310022c_5c9e26bb3097fa00b21dfc0a/scale_1200'
+                             alt=''
+                         />
+                      </figure>
+                      <h5 className="popup__text-primary">
+                         Дмитрий Медведев
+                      </h5>
+                      <h4 className="popup__status">
+                         <span className="popup__status-indicator"></span>
+                         Available
+                      </h4>
+                      <div className="popup__close">
+                         <i className='icon-clear'></i>
+                      </div>
+                   </div>
+                </div>
 
-               {myMassagesElement}
+                {/* сообщения */}
 
-               {partnerMassagesElement}
+                <div className="aside__popup-body">
 
-               <div className={scss["popup-body__snippet"]}>
-                  <div className={scss["popup-body__stage"]}>
-                     <div className={scss["popup-body__dot-typing"]}></div>
-                  </div>
-               </div>
+                   {myMassagesElement}
 
-               <div className={scss["clearfix"]}></div>
-            </div>
+                   {partnerMassagesElement}
+                   {myMassagesElement}
+
+                   {partnerMassagesElement}
+                   {myMassagesElement}
+
+                   {partnerMassagesElement}
+                   {myMassagesElement}
+
+                   {partnerMassagesElement}
+                   {myMassagesElement}
+
+                   {partnerMassagesElement}
+
+                   <div className="popup-body__snippet">
+                      <div className="popup-body__stage">
+                         <div className="popup-body__dot-typing"></div>
+                      </div>
+                   </div>
+
+                   <div className="clearfix"></div>
+                </div>
 
 
 
-{/* сообщения*/}
+                {/* сообщения*/}
 
 
-            <div className={scss["aside__popup-footer"]}>
-               <div className={scss["popup-footer__card"]}>
-                  <div className={scss["popup-footer__form-group"]}>
-                     <input
-                        type='popup-footer__text'
-                        placeholder='Start typing..'
-                        className={scss["popup-footer__form-control"]}
-                        ref={newMassageElement}
-                        value={props.asideReducer.newMassageText}
-                        onChange={massageSend}
-                     />
-                     <i
-                     className='icon-send'
-                     onClick={addMassage}
-                     ></i>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
+                <div className="aside__popup-footer">
+                   <div className="popup-footer__card">
+                      <div className="popup-footer__form-group">
+                         <input
+                             type='popup-footer__text'
+                             placeholder='Start typing..'
+                             className="popup-footer__form-control"
+                             ref={newMassageElement}
+                             value={props.asideReducer.newMassageText}
+                             onChange={massageSend}
+                         />
+                         <i
+                             className='icon-send'
+                             onClick={addMassage}
+                         ></i>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+       </>
    );
 };
 export default AsidePopup;

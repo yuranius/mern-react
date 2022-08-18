@@ -13,7 +13,7 @@ export const useRoutes = (isAuthenticated) => {
 	if (isAuthenticated) {
 		return (
 			<Routes>
-				<Route path="/" element={<MessagePage/>}/>
+				<Route path="/" element={<AsidePopupContainer/>}/>
 				<Route path="/foundcollocutors" element={ <FoundCollocutorsContainer />}/>
 				<Route path="/collocutors" exact element={<CollocutorsContainer />} />
 				<Route path="/messages" exact element={<AsidePopupContainer />} />
