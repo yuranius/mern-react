@@ -69,6 +69,20 @@ export const friendsAPI = {
     }
 }
 
+export const messagesAPI = {
+    getUsersWhoHaveMassages( payload ) {
+        console.log( '📌:',payload,'🌴 🏁')
+        
+        return instance.post(`/api/massages/collocuters`, { payload}).then((response) => {
+            console.log( '📌:',response.data,'🌴 🏁')
+            
+            return response.data;
+        });
+    },
+}
+
+
+
 
 
 

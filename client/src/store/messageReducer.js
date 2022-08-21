@@ -64,10 +64,16 @@ let initialState = {
     ],
 }
 
+const ADD_MASSAGE = 'ADD_MASSAGE'
+const UPDATE_NEW_MASSAGE_TEXT='UPDATE_NEW_MASSAGE_TEXT'
 
-const messageReducer = (state = initialState, action) => {
+const GET_USERS_WHO_HAVE_MESSAGES = 'GET_USERS_WHO_HAVE_MESSAGES'
+export const ASYNC_GET_USERS_WHO_HAVE_MESSAGES = 'ASYNC_GET_USERS_WHO_HAVE_MESSAGES'
+
+
+export const messageReducer = (state = initialState, action) => {
     switch (action.type) {
-        case "ADD-MASSAGE":{
+        case ADD_MASSAGE:{
             let addMassage = state.myMassages.slice(-1)[0].id;
             let newMassage = {
                 id: addMassage + 1,
@@ -76,20 +82,22 @@ const messageReducer = (state = initialState, action) => {
                     todayDate().date
                 }`,
             };
-            // let stateCopy =
             return {
                 ...state,
                 myMassages:[...state.myMassages, newMassage],
                 newMassageText: ""
             };
         }
-        case "UPDATE-NEW-MASSAGE-TEXT":
-            // let stateCopy =
+        case UPDATE_NEW_MASSAGE_TEXT:
             return {
                 ...state,
                 newMassageText: action.newText
             }
-
+        case GET_USERS_WHO_HAVE_MESSAGES:
+            return {
+                ...state,
+                collocuters: action.payload
+            }
         default:
             return state;
     }
@@ -97,17 +105,9 @@ const messageReducer = (state = initialState, action) => {
 
 
 
-export let addMassageActionCreator = () => {
-    return {
-        type: "ADD-MASSAGE",
-    };
-};
+export let addMassageActionCreator = () => ({type: ADD_MASSAGE});
+export let updateNewMassageTextActionCreator = (text) => ({type: UPDATE_NEW_MASSAGE_TEXT, newText: text});
 
-export let updateNewMassageTextActionCreator = (text) => {
-    return {
-        type: "UPDATE-NEW-MASSAGE-TEXT",
-        newText: text,
-    };
-};
+export const getUsersWhoHaveMassagesAction = (payload) => ({type:GET_USERS_WHO_HAVE_MESSAGES, payload});
+export const AsyncGetUsersWhoHaveMassagesAction = (payload) => ({type:ASYNC_GET_USERS_WHO_HAVE_MESSAGES, payload});
 
-export default messageReducer;

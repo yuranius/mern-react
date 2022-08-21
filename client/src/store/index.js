@@ -7,7 +7,7 @@ import createSagaMiddleware from "redux-saga";
 import { rootWatcher } from "../saga";
 import {collocutorsReducer} from "./collocutorsReducer";
 import {friendsReducer} from "./friendsReducer";
-import messageReducer from "./messageReducer";
+import {messageReducer} from "./messageReducer";
 
 const saga = createSagaMiddleware()
 

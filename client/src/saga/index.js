@@ -3,7 +3,8 @@ import { userWatcher } from "./authSaga";
 import {collocutorsWatcher} from "./collocutorsSaga";
 import {profileWatcher} from "./profileSaga";
 import {overWatcher} from "./overSaga";
-import {friendsWatcher} from  "./friendsSaga"
+import {friendsWatcher} from  "./friendsSaga";
+import {messagesWatcher} from "./messagesSaga"
 
 
 export function* rootWatcher() {
@@ -13,5 +14,6 @@ export function* rootWatcher() {
         profileWatcher(),
         overWatcher(),
         friendsWatcher(),
+        messagesWatcher(),
     ]);
 }

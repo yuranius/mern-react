@@ -56,7 +56,12 @@ router.get('/user', async (req, res) => {
 // /users?age=32&name=Tom
 
 
+router.post('/test', (req,res)=> {
+  console.log( '📌:',req.body,'🌴 🏁')
 
+  res.status(200).json(req.body)
+  
+})
 
 
 

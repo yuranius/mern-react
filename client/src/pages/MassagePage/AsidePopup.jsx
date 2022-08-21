@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import "./AsidePopup.css"
+import {AsyncGetUsersWhoHaveMassagesAction} from "../../store/messageReducer";
+import {useDispatch} from "react-redux";
 
 
 
@@ -66,7 +68,13 @@ let AsidePopup = (props) => {
    const someHandler = () => {setHover(true)}
    const someOtherHandler = () => {setHover(false)}
 
+   const dispatch = useDispatch()
 
+   let test = (e) => {
+      dispatch(AsyncGetUsersWhoHaveMassagesAction(e))
+   }
+
+   let id = 45
 
    return (
        <>
@@ -77,7 +85,7 @@ let AsidePopup = (props) => {
 
           <div className="row">
              <ul className="row__list">
-                <li className="row__item yellow darken-4 z-depth-4 hoverable">User1</li>
+                <li className="row__item yellow darken-4 z-depth-4 hoverable" onClick={()=> test(id)}>User1</li>
                 <li onMouseEnter={()=> someHandler()}  onMouseLeave={()=> someOtherHandler()} className="row__item z-depth-1 hoverable">User1 {hover && <i className="thin material-icons right">border_color</i>}</li>
                 <li className="row__item z-depth-1 hoverable">User1</li>
                 <li className="row__item">User1</li>

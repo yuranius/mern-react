@@ -2,6 +2,7 @@ const pool = require('../settings/db')
 const config = require('config')
 const Uuid = require('uuid')
 const fs = require('fs')
+const path = require ('path')
 
 
 class FileController {
@@ -26,7 +27,7 @@ class FileController {
 
             console.log('📢 [file-controller.js:25]', user);
 
-            const path = '~\\Документ\\ReactJS\\Mern-React\\static'
+            //const path = '~\\Документ\\ReactJS\\Mern-React\\static'
 
 
 
@@ -42,7 +43,7 @@ class FileController {
 
 
             //создаем путь куда будем перемещать файл config.get('staticPath') + '\\' + avatarName
-            file.mv(path)
+            await file.mv(path.resolve(__dirname, 'static', avatarName)) //resolve - адапитирует указанный путь к операционной системе
 
             await pool.query(
                 `UPDATE ?? SET ?? = ? WHERE ??.?? = ?`,
