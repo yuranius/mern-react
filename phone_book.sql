@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Хост: localhost
--- Время создания: Июл 14 2022 г., 21:02
+-- Хост: 127.0.0.1
+-- Время создания: Авг 23 2022 г., 10:29
 -- Версия сервера: 10.4.24-MariaDB
 -- Версия PHP: 8.1.6
 
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `friends` (
   `id` int(11) NOT NULL,
-  `friends_one` int(11) NOT NULL,
-  `friends_two` int(11) NOT NULL,
+  `friend_one` int(11) NOT NULL,
+  `friend_two` int(11) NOT NULL,
   `status` enum('0','1','2') COLLATE utf8_croatian_ci NOT NULL,
   `created` int(13) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci;
@@ -39,7 +39,7 @@ CREATE TABLE `friends` (
 -- Дамп данных таблицы `friends`
 --
 
-INSERT INTO `friends` (`id`, `friends_one`, `friends_two`, `status`, `created`) VALUES
+INSERT INTO `friends` (`id`, `friend_one`, `friend_two`, `status`, `created`) VALUES
 (1, 28, 29, '1', NULL),
 (2, 28, 64, '1', NULL);
 
@@ -62,7 +62,12 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`id`, `user_to_id`, `user_from_id`, `content`, `created_at`) VALUES
-(1, 28, 29, 'Привет! Как дела?', '2022-07-10 19:37:28');
+(1, 28, 29, 'Привет! Как дела?', '2022-07-10 19:37:28'),
+(2, 66, 64, 'Привет! Как дела?', '2022-07-10 19:37:28'),
+(3, 66, 64, 'У меня все хорошо!!!!!', '2022-07-10 19:37:28'),
+(4, 64, 66, 'Привет', '2022-07-10 19:37:28'),
+(5, 64, 66, 'У меня тоже все отлично!!!!!', '2022-07-10 19:37:28'),
+(6, 66, 64, 'Поехали на море...', '2022-07-10 19:37:28');
 
 -- --------------------------------------------------------
 
@@ -88,20 +93,20 @@ CREATE TABLE `users` (
   `email` varchar(100) COLLATE utf8_croatian_ci NOT NULL,
   `password` char(60) COLLATE utf8_croatian_ci NOT NULL,
   `login` varchar(50) COLLATE utf8_croatian_ci NOT NULL,
-  `registration` datetime NOT NULL DEFAULT current_timestamp()
+  `registration` datetime NOT NULL DEFAULT current_timestamp(),
+  `avatar` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `login`, `registration`) VALUES
-(28, 'test@test.ru', '$2a$12$JG6R7.IMmhPm81i0FNDBWeU3ee8RWr9GTIt5L3svJ05Sx68fRX3tu', 'Муся', '0000-00-00 00:00:00'),
-(29, 'test2@test.ru', '$2a$12$3OPZn/CACroIa8Nw6rCsM.3nFfzQownq1zQJc29Zw5CS957TQ5RZG', 'Буся', '0000-00-00 00:00:00'),
-(64, '1234@123.ru', '$2a$12$9qSF0e8knCOV55lhA9dPiu1oijf2EWfCpTi572uCGoA8rAsp5W4sa', 'yuranius', '2022-07-09 08:38:54'),
-(65, 'test3@test.ru', '$2a$12$fqpZAaHT.CsTMfBgYeFs4ODcRdFSa5cKHcQb9qT5CL5De5rtKV6Oq', 'test', '2022-07-13 20:07:34');
-
-
+INSERT INTO `users` (`id`, `email`, `password`, `login`, `registration`, `avatar`) VALUES
+(28, 'test@test.ru', '$2a$12$JG6R7.IMmhPm81i0FNDBWeU3ee8RWr9GTIt5L3svJ05Sx68fRX3tu', 'Муся', '0000-00-00 00:00:00', 0),
+(29, 'test2@test.ru', '$2a$12$3OPZn/CACroIa8Nw6rCsM.3nFfzQownq1zQJc29Zw5CS957TQ5RZG', 'Буся', '0000-00-00 00:00:00', 0),
+(64, '1234@123.ru', '$2a$12$9qSF0e8knCOV55lhA9dPiu1oijf2EWfCpTi572uCGoA8rAsp5W4sa', 'yuranius', '2022-07-09 08:38:54', 0),
+(65, 'test3@test.ru', '$2a$12$fqpZAaHT.CsTMfBgYeFs4ODcRdFSa5cKHcQb9qT5CL5De5rtKV6Oq', 'test', '2022-07-13 20:07:34', 0),
+(66, 'test8@test.ru', '$2a$12$t4nqfMLKaeH.iR4wuBInFOYt4lUADdROQy.IpvX6CmUWd/Z4N7A06', 'test8', '2022-08-23 10:57:28', 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -112,8 +117,8 @@ INSERT INTO `users` (`id`, `email`, `password`, `login`, `registration`) VALUES
 --
 ALTER TABLE `friends`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `friends_one` (`friends_one`,`friends_two`),
-  ADD KEY `friends_two` (`friends_two`);
+  ADD KEY `friend_one` (`friend_one`,`friend_two`) USING BTREE,
+  ADD KEY `friend_two` (`friend_two`) USING BTREE;
 
 --
 -- Индексы таблицы `messages`
@@ -162,7 +167,7 @@ ALTER TABLE `updates`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -172,8 +177,8 @@ ALTER TABLE `users`
 -- Ограничения внешнего ключа таблицы `friends`
 --
 ALTER TABLE `friends`
-  ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`friends_one`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`friends_two`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`friend_one`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`friend_two`) REFERENCES `users` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `messages`

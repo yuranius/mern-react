@@ -154,6 +154,8 @@ router.post(
     try {
       //обработка валидации
       const errors = validationResult(req)
+      
+
 
       //проверка на прохождении валидации
       if (!errors.isEmpty()) {

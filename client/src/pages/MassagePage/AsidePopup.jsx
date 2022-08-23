@@ -74,7 +74,7 @@ let AsidePopup = (props) => {
       dispatch(AsyncGetUsersWhoHaveMassagesAction(e))
    }
 
-   let id = 45
+   let id = 66
 
    return (
        <>
@@ -110,7 +110,7 @@ let AsidePopup = (props) => {
                    <div className="popup__card">
                       <figure className="popup__avatar">
                          <img
-                             src='https://avatars.mds.yandex.net/get-zen_doc/245342/pub_5c9e2620c8055500b310022c_5c9e26bb3097fa00b21dfc0a/scale_1200'
+                             src='https://pixelbox.ru/wp-content/uploads/2021/05/ava-vk-animal-91.jpg'
                              alt=''
                          />
                       </figure>

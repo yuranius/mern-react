@@ -4,34 +4,30 @@ const config = require('config')
 
 class MessagesControllers {
     async SearchForUsersWhoHaveMessages(req, res) {
-        
-
         try {
             // в случае не прохождения проверки на пробелы выводим сообщение
-            console.log( '📌:',req.body,'🌴 🏁')
-            
-            
+            const userId = req.body.payload
 
-            // pool.query(
-            //     `SELECT ??, ?? FROM ?? WHERE ??.?? LIKE ?`,
-            //     [config.get('fieldOneTableOne'),
-            //         config.get('fieldFourTableOne'),
-            //         config.get('tableOne'),
-            //         config.get('tableOne'),
-            //         config.get('fieldFourTableOne'), '%' + user_query + '%']
-            // ).then((data) => {
-            //
-            //     if (!data[0][0]) {
-            //         return res.status(405).json({massage: " Совпадений не найдено, попробуйте ввести что-то другое!!! "})
-            //     } else {
-            //         res.status(200).json({data: data[0], massage: `Найдено ${data[0].length}`})
-            //     }
-            // })
-            return  res.json('OK!!!')
+            // получаем все сообщения, которые были отправлены user'ом или получены им же
+            let allMassage = await pool.query('SELECT users.id, messages.content, users.login, messages.created_at FROM users, messages WHERE (users.id = messages.user_from_id AND messages.user_to_id=?) OR (users.id = messages.user_to_id AND messages.user_from_id=?)',[userId,userId]).then(data => {
+                return data[0]
+            })
+            
+            // проверяем есть ли сообщения у user'а
+            if(allMassage.length === 0) {
+                return res.status(404).json({ massage: 'У Вас пока нет сообщений' })
+            }
+
+            //получем user'ов c которыми есть переписка
+            let massageUser = Array.from(new Set(allMassage.map( mes => mes.login))).reverse()
+            return  res.status(201).json(massageUser)
         } catch (error) {
-            return res.status(500).json({massage: 'Ошибка запроса... Попробуйте в другой раз...'})
+            return res.status(418).json({massage: 'Ошибка запроса... Попробуйте в другой раз...'})
         }
     };
 }
+
+// INSERT INTO `messages` (`id`, `user_to_id`, `user_from_id`, `content`, `created_at`) VALUES (NULL, '66', '65', 'Привет! Как дел?', current_timestamp()); вставка сообщения
+
 
 module.exports = new MessagesControllers;

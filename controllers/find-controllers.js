@@ -43,7 +43,6 @@ class FindControllers {
                 return data[0].length
             })
 
-
             const pageLimit = pageNumber * pageSize - pageSize // вычисляем номер диапазона для sql-запроса
 
             const collocutersOfResults = await pool.query('SELECT ??.??, ??.?? FROM ?? WHERE ?? LIMIT ?,?', [
