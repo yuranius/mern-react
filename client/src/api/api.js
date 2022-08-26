@@ -1,4 +1,5 @@
 import axios from "axios";
+import {body} from "express-validator";
 
 
 
@@ -6,7 +7,7 @@ import axios from "axios";
 // const baseUrl = "https://social-network.samuraijs.com/api/1.0/";
 
 const instance = axios.create({
-    //withCredentials: true,
+    withCredentials: true,
     headers: {
         'Content-Type':'application/json'
     },
@@ -71,7 +72,27 @@ export const friendsAPI = {
 
 export const messagesAPI = {
     getUsersWhoHaveMassages( payload ) {
-        return instance.post(`/api/massages/collocuters`, { payload}).then((response) => {
+        return instance.get(`/api/massages/collocuters/?userId=${payload}`, {}).then((response) => {
+            return response.data;
+        });
+    },
+    getMassages( payload ) {
+        return instance.get(`/api/massages/?userId=${payload}`, {}).then((response) => {
+            return response.data;
+        });
+    },
+    addMassage( payload ) {
+        return instance.post(`/api/massages/add`, {}).then((response) => {
+            return response.data;
+        });
+    },
+    changeMassage( payload ) {
+        return instance.post(`/api/massages/${payload}`, {}).then((response) => {
+            return response.data;
+        });
+    },
+    deleteMassage( payload ) {
+        return instance.post(`/api/massages/delete`, {}).then((response) => {
             return response.data;
         });
     },

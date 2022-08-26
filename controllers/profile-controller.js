@@ -23,7 +23,6 @@ class ProfileController {
                     config.get('fieldFourTableOne'),
                     userLogin]).then((data) => {
                 try {
-                    console.log(data[0][0].login)
                     return data[0][0];
                 } catch (error) {
                     return false
