@@ -111,3 +111,7 @@ export let updateNewMassageTextActionCreator = (text) => ({type: UPDATE_NEW_MASS
 export const getUsersWhoHaveMassagesAction = (payload) => ({type:GET_USERS_WHO_HAVE_MESSAGES, payload});
 export const AsyncGetUsersWhoHaveMassagesAction = (payload) => ({type:ASYNC_GET_USERS_WHO_HAVE_MESSAGES, payload});
 
+export const getUsersWhoHaveMassagesAction = (payload) => ({type:GET_USERS_WHO_HAVE_MESSAGES, payload});
+export const AsyncGetUsersWhoHaveMassagesAction = (payload) => ({type:ASYNC_GET_USERS_WHO_HAVE_MESSAGES, payload});
+
+

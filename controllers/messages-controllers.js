@@ -8,7 +8,8 @@ class MessagesControllers {
         try {
             // в случае не прохождения проверки на пробелы выводим сообщение
             const userId = req.query.userId
-
+            console.log( '📌:',userId,'🌴 🏁')
+            
             // получаем все сообщения, которые были отправлены user'ом или получены им же
             let allMassage = await pool.query('SELECT users.id, messages.content, users.login, messages.created_at FROM users, messages WHERE (users.id = messages.user_from_id AND messages.user_to_id = ?) OR (users.id = messages.user_to_id AND messages.user_from_id = ?)',[userId,userId]).then(data => {
                 return data[0].reverse()
@@ -46,7 +47,8 @@ class MessagesControllers {
         try {
             // в случае не прохождения проверки на пробелы выводим сообщение
             const userId = req.query.userId
-
+            console.log( '📌:',userId,'🌴 🏁')
+            
             // получаем все сообщения, которые были отправлены user'ом или получены им же
             let allMassage = await pool.query('SELECT users.id, messages.content, users.login, messages.created_at FROM users, messages WHERE (users.id = messages.user_from_id AND messages.user_to_id=?) OR (users.id = messages.user_to_id AND messages.user_from_id=?)',[userId,userId]).then(data => {
                 return data[0].reverse()

@@ -21,6 +21,17 @@ function* setUsersWhoHaveMassagesWorker({payload}) {
 
 }
 
+function* getMassagesUserWorker({payload}) {
+    try {
+        const responce = yield messagesAPI.getMassages(payload)
+        yield put (setMassagesUserAction(responce))
+    } catch (error) {
+        const massageError = error.response.data.massage
+        yield  put(AsyncSetShowMassageAction(massageError))
+    }
+
+}
+
 
 
 export function* messagesWatcher() {

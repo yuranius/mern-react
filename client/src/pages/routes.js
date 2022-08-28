@@ -4,20 +4,18 @@ import React from "react";
 import { CollocutorsContainer } from "./Collocutors/CollocutorsContainer";
 import { ProfilePageContainer } from "./ProfilePage/ProfilePageContainer";
 import { FoundCollocutorsContainer } from "./FindCollocutors/FindCollocutorsContainer";
-import {MessagePage} from "./MassagePage/MessagePage";
 import {AuthPageContainer} from "./AuthPage/AuthPageContainer";
-import AsidePopupContainer from "./MassagePage/AsidePopupContainer";
+import MassagesContainer from "./MassagePage/MassagesContainer";
 
 
 export const useRoutes = (isAuthenticated) => {
 	if (isAuthenticated) {
 		return (
 			<Routes>
-				<Route path="/" element={<AsidePopupContainer/>}/>
+				<Route path="/" element={<MassagesContainer/>}/>
 				<Route path="/foundcollocutors" element={ <FoundCollocutorsContainer />}/>
 				<Route path="/collocutors" exact element={<CollocutorsContainer />} />
-				<Route path="/messages" exact element={<AsidePopupContainer />} />
-				{/*<Route path="/messages" exact element={<MessagePage />} />*/}
+				<Route path="/messages" exact element={<MassagesContainer />} />
 
 				<Route path="/profile" element={<ProfilePageContainer />} />
 				<Route path="*" element={<Navigate to="/" />} />
