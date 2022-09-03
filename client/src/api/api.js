@@ -4,6 +4,7 @@ import {body} from "express-validator";
 
 
 
+
 // const baseUrl = "https://social-network.samuraijs.com/api/1.0/";
 
 const instance = axios.create({
@@ -76,16 +77,21 @@ export const messagesAPI = {
             return response.data;
         });
     },
-    getMassages( payload ) {
-        return instance.get(`/api/massages/?userId=${payload}`, {}).then((response) => {
+    getMassages({userId, friendsId} ) {
+        return instance.get(`/api/massages/?userId=${userId}&friendsId=${friendsId}`, {}).then((response) => {
             return response.data;
         });
     },
     addMassage( payload ) {
-        return instance.post(`/api/massages/add`, {}).then((response) => {
+        return instance.post(`/api/massages/add`, {payload}).then((response) => {
             return response.data;
         });
     },
+
+
+
+
+
     changeMassage( payload ) {
         return instance.post(`/api/massages/${payload}`, {}).then((response) => {
             return response.data;

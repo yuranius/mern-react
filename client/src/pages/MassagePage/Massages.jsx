@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import "./Massages.css"
-import {useDispatch} from "react-redux";
-//import {MyMassage} from "./MyMassages";
-//import {PartnerMassage} from "./PartnerMassages";
+import MyMassages from "./MyMassages";
+import PartnerMassages from "./PartnerMassages";
+import defaultAvatar from  "../../image/user-img.webp"
+import {API_URL} from "../../config";
+
 
 
 
@@ -10,23 +12,11 @@ import {useDispatch} from "react-redux";
 let Massages = (props) => {
 
 
+   useEffect(()=> {
 
-   // let myMassagesElement = props.asideReducer.myMassages.map( m => (
-   //     <MyMassage key={m.id} massage={m.massage} date={m.date} />
-   // ));
-   //
-   // let partnerMassagesElement = props.asideReducer.partnerMassages.map ( pm => (
-   //     <PartnerMassage key={pm.id} massage={pm.massage} date={pm.date} />
-   // ));
+   },[props.messages])
 
-
-   const [ active, setActive ] = useState(28)
-   const onClick = (id) => {
-      setActive(id)
-   }
-
-
-
+   
 
    return (
        <>
@@ -40,13 +30,11 @@ let Massages = (props) => {
                 {props.collocuters.map( coll => {
                    return <li
                        key={coll.id}
-                       // onMouseEnter={() => someHandler(coll.id)}
-                       // onMouseLeave={()=> someOtherHandler(coll.id)}
-                       className={coll.id === active ? "row__item yellow darken-4 z-depth-4 hoverable" : "row__item z-depth-1 hoverable"}
-                       onClick={()=>onClick(coll.id)}
+                       className={coll.id === props.active ? "row__item yellow darken-4 z-depth-4 hoverable" : "row__item z-depth-1 hoverable"}
+                       onClick={()=> props.userHandler(coll)}
                    >
                      <span>{coll.login}</span>
-                      {coll.id === active && <i className="thin material-icons right">border_color</i>}
+                      {coll.id === props.active && <i className="thin material-icons right">border_color</i>}
                    </li>
                 })}
              </ul>
@@ -56,13 +44,10 @@ let Massages = (props) => {
                 <div className="aside__popup-header">
                    <div className="popup__card">
                       <figure className="popup__avatar">
-                         <img
-                             src='https://pixelbox.ru/wp-content/uploads/2021/05/ava-vk-animal-91.jpg'
-                             alt=''
-                         />
+                         <img src={props.avatar != null ? `${API_URL + props.avatar}` : defaultAvatar} alt=""/>
                       </figure>
                       <h5 className="popup__text-primary">
-                         Дмитрий Медведев
+                         {props.collocuterLogin}
                       </h5>
                       <h4 className="popup__status">
                          <span className="popup__status-indicator"></span>
@@ -78,22 +63,16 @@ let Massages = (props) => {
 
                 <div className="aside__popup-body">
 
-                   {/*{myMassagesElement}*/}
+                   {props.messages.map( m => {
+                      if (m.user_from_id === props.userId) {
+                         return <MyMassages key={m.id} message={m}/>
+                      } else {
+                         return <PartnerMassages key={m.id} message={m}/>
+                      }
+                      
+                   })}
 
-                   {/*{partnerMassagesElement}*/}
-                   {/*{myMassagesElement}*/}
-
-                   {/*{partnerMassagesElement}*/}
-                   {/*{myMassagesElement}*/}
-
-                   {/*{partnerMassagesElement}*/}
-                   {/*{myMassagesElement}*/}
-
-                   {/*{partnerMassagesElement}*/}
-                   {/*{myMassagesElement}*/}
-
-                   {/*{partnerMassagesElement}*/}
-
+                   {/*режим печатания*/}
                    <div className="popup-body__snippet">
                       <div className="popup-body__stage">
                          <div className="popup-body__dot-typing"></div>
@@ -103,8 +82,6 @@ let Massages = (props) => {
                    <div className="clearfix"></div>
                 </div>
 
-
-
                 {/* сообщения*/}
 
 
@@ -113,10 +90,10 @@ let Massages = (props) => {
                       <div className="popup-footer__form-group">
                          <input
                              type='popup-footer__text'
-                             placeholder='Start typing..'
+                             placeholder='Введите сообщение...'
                              className="popup-footer__form-control"
-                             // value={props.asideReducer.newMassageText}
-                             onChange={props.massageSend}
+                             value={props.value}
+                             onChange={props.massageHandler}
                          />
                          <i
                              className='icon-send'

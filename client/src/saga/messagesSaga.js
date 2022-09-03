@@ -1,8 +1,11 @@
 import {put, takeEvery} from 'redux-saga/effects'
 import {messagesAPI} from "../api/api";
 import {
-    ASYNC_GET_USERS_WHO_HAVE_MESSAGES,
-    AsyncGetUsersWhoHaveMassagesAction,
+    addMassageActionCreator,
+    ASYNC_ADD_MASSAGE,
+    ASYNC_GET_MASSAGES_USER,
+    ASYNC_GET_USERS_WHO_HAVE_MESSAGES, AsyncGetMassagesUserAction,
+    AsyncGetUsersWhoHaveMassagesAction, getMassagesUserAction,
     getUsersWhoHaveMassagesAction
 } from "../store/messageReducer";
 import {AsyncSetShowMassageAction} from "../store/overReducer";
@@ -24,7 +27,23 @@ function* setUsersWhoHaveMassagesWorker({payload}) {
 function* getMassagesUserWorker({payload}) {
     try {
         const responce = yield messagesAPI.getMassages(payload)
-        yield put (setMassagesUserAction(responce))
+        yield put (getMassagesUserAction(responce))
+    } catch (error) {
+        const massageError = error.response.data.massage
+        yield  put(AsyncSetShowMassageAction(massageError))
+    }
+
+}
+
+function* addMassageWorker({payload}) {
+    try {
+        console.log( '📌:',payload,'🌴 🏁')
+        
+        //const responce = yield messagesAPI.addMassage(payload)
+
+        //console.log( '📌:',responce,'🌴 🏁')
+
+        yield put (addMassageActionCreator(payload))
     } catch (error) {
         const massageError = error.response.data.massage
         yield  put(AsyncSetShowMassageAction(massageError))
@@ -36,5 +55,7 @@ function* getMassagesUserWorker({payload}) {
 
 export function* messagesWatcher() {
     yield takeEvery(ASYNC_GET_USERS_WHO_HAVE_MESSAGES, setUsersWhoHaveMassagesWorker)
+    yield takeEvery(ASYNC_GET_MASSAGES_USER, getMassagesUserWorker)
+    yield takeEvery(ASYNC_ADD_MASSAGE, addMassageWorker)
 
 }

@@ -2,13 +2,13 @@ const pool = require('../settings/db')
 const config = require('config')
 
 
+
 class MessagesControllers {
 // GET /api/messages/collocuters
     async getUsersWhoHaveMessages(req, res) {
         try {
             // в случае не прохождения проверки на пробелы выводим сообщение
-            const userId = req.query.userId
-            console.log( '📌:',userId,'🌴 🏁')
+            const {userId} = req.query
             
             // получаем все сообщения, которые были отправлены user'ом или получены им же
             let allMassage = await pool.query('SELECT users.id, messages.content, users.login, messages.created_at FROM users, messages WHERE (users.id = messages.user_from_id AND messages.user_to_id = ?) OR (users.id = messages.user_to_id AND messages.user_from_id = ?)',[userId,userId]).then(data => {
@@ -46,21 +46,25 @@ class MessagesControllers {
        
         try {
             // в случае не прохождения проверки на пробелы выводим сообщение
-            const userId = req.query.userId
-            console.log( '📌:',userId,'🌴 🏁')
-            
+            const {userId,friendsId} = req.query
+
             // получаем все сообщения, которые были отправлены user'ом или получены им же
-            let allMassage = await pool.query('SELECT users.id, messages.content, users.login, messages.created_at FROM users, messages WHERE (users.id = messages.user_from_id AND messages.user_to_id=?) OR (users.id = messages.user_to_id AND messages.user_from_id=?)',[userId,userId]).then(data => {
-                return data[0].reverse()
+            let allMassage = await pool.query(`
+                    SELECT messages.id, messages.content, users.login, messages.created_at, messages.user_from_id 
+                    FROM users, messages 
+                    WHERE (users.id = messages.user_from_id AND messages.user_to_id=? AND messages.user_from_id=?) 
+                    OR (users.id = messages.user_to_id AND messages.user_from_id=? AND messages.user_to_id=?)`,
+                [userId, friendsId, userId, friendsId]).then(data => {
+                return data[0]
             })
 
             // проверяем есть ли сообщения у user'а
-            if(allMassage.length === 0) {
-                return res.status(404).json({ massage: 'У Вас пока нет сообщений' })
+            if (allMassage.length === 0) {
+                return res.status(404).json({massage: 'У Вас пока нет сообщений'})
             }
 
 
-            return  res.status(201).json(allMassage)
+            return res.status(201).json(allMassage)
         } catch (error) {
             return res.status(418).json({massage: 'Ошибка запроса... Попробуйте в другой раз...'})
         }
@@ -69,7 +73,8 @@ class MessagesControllers {
     // POST /api/messages/add
     async addMessages (req, res) {
         try {
-            const {message, userToId, userFromId } = req.body
+            const {message, userToId, userFromId } = req.body.payload
+
 
             if (!userToId || !userFromId) {
                 return res.status(418).json({massage: 'Ошибка запроса... Попробуйте в другой раз...'})
@@ -108,7 +113,7 @@ class MessagesControllers {
             return res.status(200).json({message:'Сообщение добавлено!'})
 
         }catch (error) {
-            return res.status(418).json({massage: 'Ошибка запроса... Попробуйте в другой раз...'})
+            return res.status(418).json({massage: 'Ошибка запроса12... Попробуйте в другой раз...'})
         }
     }
 
@@ -168,7 +173,7 @@ class MessagesControllers {
     }
 }
 
-
+// SELECT messages.id, messages.content, users.login, messages.created_at, messages.user_from_id FROM users, messages WHERE (users.id = messages.user_from_id AND messages.user_to_id=66 AND messages.user_from_id=65) OR (users.id = messages.user_to_id AND messages.user_from_id=66 AND messages.user_to_id=65)
 // UPDATE `messages` SET `content` = 'Привет, как дела?12444' WHERE `messages`.`id` = 41;
 // INSERT INTO `messages` (`id`, `user_to_id`, `user_from_id`, `content`, `created_at`) VALUES (NULL, '66', '65', 'Привет! Как дел?', current_timestamp()); вставка сообщения
 
