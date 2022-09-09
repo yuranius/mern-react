@@ -3,53 +3,65 @@ import Massages from "./Massages";
 import {useDispatch, useSelector} from "react-redux";
 import { useMassage } from "../../hooks/message.hook"
 import {
-   AsyncAddMassageActionCreator, AsyncGetMassagesUserAction,
-   AsyncGetUsersWhoHaveMassagesAction
+   AsyncAddMassageActionCreator,
+   AsyncChangeUsersWhoHaveMassagesAction,
+   AsyncGetMassagesUserAction,
+   AsyncGetUsersWhoHaveMassagesAction,
+   changeUsersWhoHaveMassagesAction,
+   setCurrentUserAction,
 } from "../../store/messageReducer";
-import {todayDate} from "../../Utilits/getData";
+import {currentDate} from "../../Utilits/getData";
 
 const MassagesContainer = () => {
-   const currentDate = `${todayDate().dayName} | ${todayDate().time} | ${todayDate().date}`
    const { userId, userLogin } = useSelector((state) => state.user)
-   const {collocuters, messages} = useSelector((state) => state.message)
+   const {collocuters, messages, currentUser} = useSelector((state) => state.message)
    const [value , setValue] = useState('')
    const dispatch = useDispatch()
    const setMassage = useMassage()
-   const [ active, setActive ] = useState('')
+
    const [ collocuterLogin, setCollocuterLogin] = useState('')
 
    let massageHandler = (e) => {
-      setValue(e.target.value)
+      if(e.keyCode === 13){
+         addMassage()
+      } else {
+         setValue(e.target.value)
+      }
    };
 
    let addMassage = () => {
-      if (value && userId && active) {
-         dispatch( AsyncAddMassageActionCreator({message:value, userToId:active, userFromId:userId, login: collocuterLogin, created_at:currentDate}) );
+      if(!value){
+         return setMassage('Поле не может быть пустым...')
+      }
+      if (value && userId && currentUser) {
+         dispatch(AsyncAddMassageActionCreator({message:value, userToId:currentUser, userFromId:userId, login: collocuterLogin, created_at:currentDate}) );
+         dispatch(AsyncChangeUsersWhoHaveMassagesAction(currentUser))
+         dispatch(changeUsersWhoHaveMassagesAction(currentUser))
          setValue('')
       } else {
-         setMassage('Ошибка!!!')
+         return setMassage('Ошибка!!!')
       }
    };
 
 
+   console.log( '📌:',currentUser,'🌴 🏁')
+   
 
-
-
-
-   // TODO рассмотреть вариант сохрания active в state, что-бы при преключении вкладок, активный пользователь не менялся
    useEffect( () => {
-      if (collocuters[0]) {
-         setActive(collocuters[0].id)
-         setCollocuterLogin(collocuters[0].login)
+      if (!!collocuters[0]) {
+         if (!currentUser){
+            dispatch(setCurrentUserAction(collocuters[0].id))
+            setCollocuterLogin(collocuters[0].login)
+         }
       }
    },[collocuters])
 
-   //TODO надо запрос переписать, что бы сообщения выгружать только активного юзера
+
    useEffect( ()=> {
-      if (userId && active) {
-         dispatch(AsyncGetMassagesUserAction({userId, friendsId: active}))
+      if (userId) {
+         dispatch(AsyncGetMassagesUserAction({userId, friendsId: currentUser}))
       }
-   },[userId,active])
+   },[userId,currentUser])
 
    useEffect( ()=> {
       if (userId) {
@@ -59,23 +71,23 @@ const MassagesContainer = () => {
 
    const userHandler = ({id, login}) => {
       setCollocuterLogin(login)
-      setActive(id)
-      // if (userId && active) {
-      //    dispatch(AsyncGetMassagesUserAction({userId, friendsId:active}))
-      //    dispatch(AsyncGetMassagesUserAction(userId))
-      // }
+      dispatch(setCurrentUserAction(id))
+
+      if (userId && currentUser) {
+         dispatch(AsyncGetMassagesUserAction({userId, friendsId:currentUser}))
+         dispatch(AsyncGetMassagesUserAction(userId))
+      }
 
    }
 
    
-
 
    return (
       <Massages
           collocuterLogin={collocuterLogin}
           userLogin={userLogin}
           userId={userId}
-          active={active}
+          currentUser={currentUser}
           userHandler={userHandler}
           collocuters={collocuters}
           addMassage={addMassage}

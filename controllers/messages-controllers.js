@@ -73,8 +73,7 @@ class MessagesControllers {
     // POST /api/messages/add
     async addMessages (req, res) {
         try {
-            const {message, userToId, userFromId } = req.body.payload
-
+            const {message, userToId, userFromId, created_at } = req.body.payload
 
             if (!userToId || !userFromId) {
                 return res.status(418).json({massage: 'Ошибка запроса... Попробуйте в другой раз...'})
@@ -104,10 +103,11 @@ class MessagesControllers {
             }
 
             // добавляем сообщение в БД
-            await pool.query('INSERT INTO messages (id, user_to_id, user_from_id, content, created_at) VALUES (NULL, ?, ?, ?, current_timestamp())',[
+            await pool.query('INSERT INTO messages (id, user_to_id, user_from_id, content, created_at) VALUES (NULL, ?, ?, ?, ?)',[
                 userToId,
                 userFromId,
                 message,
+                created_at,
             ])
 
             return res.status(200).json({message:'Сообщение добавлено!'})

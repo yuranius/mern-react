@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AsyncLogoutUserAction} from "../store/authReducer";
+import {getUsersWhoHaveMassagesAction, setCurrentUserAction} from "../store/messageReducer";
 
 export const Navbar = () => {
 
@@ -12,6 +13,8 @@ export const Navbar = () => {
 	const logoutHandler = (event) => {
 		event.preventDefault()
 		dispatch(AsyncLogoutUserAction())
+		dispatch(setCurrentUserAction(''))
+		dispatch(getUsersWhoHaveMassagesAction([]))
 	}
 
 

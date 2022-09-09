@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import "./Massages.css"
 import MyMassages from "./MyMassages";
 import PartnerMassages from "./PartnerMassages";
@@ -6,17 +6,17 @@ import defaultAvatar from  "../../image/user-img.webp"
 import {API_URL} from "../../config";
 
 
-
-
-
 let Massages = (props) => {
+
+   {/*Для автоматического скролла вниз*/}
+   const divRef = useRef(null);
 
 
    useEffect(()=> {
+      {/*Для автоматического скролла вниз*/}
+      divRef.current.scrollIntoView({ behavior: 'smooth' });
+   },[props.messages, props.currentUser])
 
-   },[props.messages])
-
-   
 
    return (
        <>
@@ -30,11 +30,11 @@ let Massages = (props) => {
                 {props.collocuters.map( coll => {
                    return <li
                        key={coll.id}
-                       className={coll.id === props.active ? "row__item yellow darken-4 z-depth-4 hoverable" : "row__item z-depth-1 hoverable"}
+                       className={coll.id === props.currentUser ? "row__item yellow darken-4 z-depth-4 hoverable" : "row__item z-depth-1 hoverable"}
                        onClick={()=> props.userHandler(coll)}
                    >
                      <span>{coll.login}</span>
-                      {coll.id === props.active && <i className="thin material-icons right">border_color</i>}
+                      {coll.id === props.currentUser && <i className="thin material-icons right">border_color</i>}
                    </li>
                 })}
              </ul>
@@ -71,7 +71,8 @@ let Massages = (props) => {
                       }
                       
                    })}
-
+                   {/*Для автоматического скролла вниз*/}
+                   <div ref={divRef} />
                    {/*режим печатания*/}
                    <div className="popup-body__snippet">
                       <div className="popup-body__stage">
@@ -85,6 +86,9 @@ let Massages = (props) => {
                 {/* сообщения*/}
 
 
+
+
+
                 <div className="aside__popup-footer">
                    <div className="popup-footer__card">
                       <div className="popup-footer__form-group">
@@ -94,6 +98,7 @@ let Massages = (props) => {
                              className="popup-footer__form-control"
                              value={props.value}
                              onChange={props.massageHandler}
+                             onKeyDown={props.massageHandler}
                          />
                          <i
                              className='icon-send'

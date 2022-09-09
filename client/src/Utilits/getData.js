@@ -14,3 +14,5 @@ export let todayDate = () => {
     };
     return todayDate;
 };
+
+export const currentDate = `${todayDate().dayName} | ${todayDate().time} | ${todayDate().date}`

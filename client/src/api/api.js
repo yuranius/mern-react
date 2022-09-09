@@ -83,6 +83,8 @@ export const messagesAPI = {
         });
     },
     addMassage( payload ) {
+        console.log( '📌:',payload,'🌴 🏁')
+        
         return instance.post(`/api/massages/add`, {payload}).then((response) => {
             return response.data;
         });
