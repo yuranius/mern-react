@@ -4,10 +4,9 @@ import {
     addMassageActionCreator,
     ASYNC_ADD_MASSAGE, ASYNC_CHANGE_USERS_WHO_HAVE_MESSAGES,
     ASYNC_GET_MASSAGES_USER,
-    ASYNC_GET_USERS_WHO_HAVE_MESSAGES, AsyncGetMassagesUserAction,
-    AsyncGetUsersWhoHaveMassagesAction, getMassagesUserAction,
-    getUsersWhoHaveMassagesAction, changeUsersWhoHaveMassagesAction, ASYNC_SET_ACTIVE_USER, ASYNC_SET_CURRENT_USER
-} from "../store/messageReducer";
+    ASYNC_GET_USERS_WHO_HAVE_MESSAGES,
+    getMassagesUserAction,
+    getUsersWhoHaveMassagesAction, changeUsersWhoHaveMassagesAction} from "../store/messageReducer";
 import {AsyncSetShowMassageAction} from "../store/overReducer";
 
 

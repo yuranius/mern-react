@@ -3,10 +3,12 @@ import { NavLink } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AsyncLogoutUserAction} from "../store/authReducer";
 import {getUsersWhoHaveMassagesAction, setCurrentUserAction} from "../store/messageReducer";
+import {API_URL} from "../config";
+import defaultAvatar from '../image/user-img.webp'
 
 export const Navbar = () => {
 
-	const userLogin = useSelector((state) => state.user.userLogin)
+	const {userLogin, avatar} = useSelector((state) => state.user)
 
 	const dispatch = useDispatch()
 
@@ -18,10 +20,13 @@ export const Navbar = () => {
 	}
 
 
+	console.log( '📌:',avatar,'🌴 🏁')
+
+
 	return (
 		<nav>
 			<div className="nav-wrapper blue">
-				{/*<img src={auth.avatarUser != null ? `${API_URL + auth.avatarUser}` : userPhoto} alt="" className="navbar-ava" />*/}
+				<img src={avatar != 0 ? `${API_URL + avatar}` : defaultAvatar} alt="" className="navbar-ava" />
 				<NavLink to="/profile" className="brand-logo">
 					{userLogin ? userLogin : 'Логин не определен'}
 				</NavLink>

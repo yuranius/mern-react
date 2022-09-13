@@ -52,6 +52,7 @@ class ProfileController {
             console.log('📢 [profile-controller.js:9]', error);
         }
     }
+
 }
 
 

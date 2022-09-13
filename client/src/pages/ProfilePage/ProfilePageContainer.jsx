@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react'
 import { useMassage } from '../../hooks/message.hook'
 import { ProfilePage } from './ProfilePage'
 import {useDispatch, useSelector} from "react-redux";
-import {AsyncChangeLoginUserAction} from "../../store/profileReducer";
+import {
+  AsyncChangeAvatarUserAction,
+  AsyncChangeLoginUserAction
+} from "../../store/profileReducer";
 
 
 
 
-let file = null
 let input = ''
 
 
@@ -18,6 +20,7 @@ export const ProfilePageContainer = () => {
   const { loading, massage } = useSelector((state) => state.over)
 
   const [login , setLogin ] = useState( userLogin )
+  const [file, setFile] = useState('')
 
   const [preview, setPreview] = useState(null)
 
@@ -34,8 +37,12 @@ export const ProfilePageContainer = () => {
     setLogin({ ...login, [event.target.id]: event.target.value })
   }
 
+  
+  
+  
   const changeInputFileHandler = (event) => {
-    file = event.target.files[0]
+    let file = event.target.files[0]
+    setFile(file)    
     // показ превью
     const reader = new FileReader()
     reader.readAsDataURL(file)
@@ -50,6 +57,9 @@ export const ProfilePageContainer = () => {
     }
 
   }
+  
+  
+  
 
   const saveHandler = (event) => {
     event.preventDefault()
@@ -69,22 +79,14 @@ export const ProfilePageContainer = () => {
     event.preventDefault()
     if (!file) { return setMassage('Выберите файл')}
     try {
-
+      
       let formData = new FormData();
-      formData.append("file", file);
+      formData.append("userId", userId);
+      formData.append("img", file);
+      
+      dispatch(AsyncChangeAvatarUserAction(formData))
 
 
-      // for(const pair of formData.entries()) {
-      //   console.log(`${pair[0]}, ${pair[1]}`);
-      // }
-
-      console.log('📢 [ProfilePageContainer.jsx:88]', file, formData);
-
-
-      //const data = await request('/api/auth/profile/avatar', 'POST', {
-        //userId: auth.userId,
-        //file: formData
-      //})
       // message(data.massage)
     } catch (error) {
       console.log('📢 [ProfilePage.jsx:78]', error);
@@ -94,8 +96,8 @@ export const ProfilePageContainer = () => {
 
 
 
-  return <ProfilePage 
-  inputHandler={inputHandler} 
+  return <ProfilePage
+  inputHandler={inputHandler}
   saveHandler={saveHandler}
   loading={loading}
   changeInputFileHandler={changeInputFileHandler}

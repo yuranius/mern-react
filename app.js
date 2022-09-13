@@ -3,6 +3,7 @@ const config = require ('config')
 
 const fileUpload = require ('express-fileupload')
 const path = require ('path')
+const cors = require("cors");
 
 const app = express()
 
@@ -15,8 +16,8 @@ app.use ('/api/friend', require('./routes/friends.routes'))
 app.use ('/api/massages', require('./routes/messages.routes'))
 
 
-
-app.use (express.static('./static')) //указываем папку для express где будут храниться аватарки
+//app.use(cors()) //для отправки запросов с браузера
+//app.use (express.static('./static')) //указываем папку для express где будут храниться аватарки
 app.use (express.static(path.resolve(__dirname, 'static'))) //указываем папку для express откуда их можно забирать
 
 

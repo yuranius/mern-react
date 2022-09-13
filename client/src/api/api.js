@@ -1,5 +1,4 @@
 import axios from "axios";
-import {body} from "express-validator";
 
 
 
@@ -15,6 +14,9 @@ const instance = axios.create({
     //baseURL: "https://social-network.samuraijs.com/api/1.0/",
 });
 
+const instanceBody = axios.create({
+    baseURL: "http://localhost:3000/",
+});
 
 export const loginAPI = {
     register(email, password) {
@@ -35,6 +37,11 @@ export const profileAPI = {
             return response.data;
         });
     },
+    changeAvatar(formData) {
+        return axios.post('api/profile/avatar', formData).then((response) => {
+            return response.data
+        })
+    }
 }
 
 
@@ -99,6 +106,7 @@ export const messagesAPI = {
             return response.data;
         });
     },
+    //TODO не реализовано
     deleteMassage( payload ) {
         return instance.post(`/api/massages/delete`, {}).then((response) => {
             return response.data;

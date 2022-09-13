@@ -8,6 +8,7 @@ import { rootWatcher } from "../saga";
 import {collocutorsReducer} from "./collocutorsReducer";
 import {friendsReducer} from "./friendsReducer";
 import {messageReducer} from "./messageReducer";
+import {profileReducer} from "./profileReducer";
 
 const saga = createSagaMiddleware()
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     over: overReducer,
     friends: friendsReducer,
     message: messageReducer,
+    userAvatar: profileReducer,
 })
 
 const middleWares = [saga, thunk]

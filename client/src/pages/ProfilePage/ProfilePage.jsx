@@ -3,6 +3,7 @@ import React from "react";
 export const ProfilePage = (props) => {
 	return (
 		<div className="row profile-block">
+			Аватарка храниться в локал сторадж
 			<form className="col s12" id='form'>
 				<div className="row">
 					<div className="input-field col s12">

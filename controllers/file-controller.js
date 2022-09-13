@@ -1,6 +1,5 @@
 const pool = require('../settings/db')
 const config = require('config')
-const Uuid = require('uuid')
 const fs = require('fs')
 const path = require ('path')
 
@@ -10,22 +9,26 @@ class FileController {
 
         try {
 
-            const file = req.files
+            const {userId} = req.body
 
-            console.log('📢 [file-controller.js:13]', file);
+            const file = req.file
+            console.log('📢 [file-controller.js:13]', file.filename, userId);
 
             const user = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [
                 config.get('tableOne'),
                 config.get('fieldOneTableOne'),
-                req.body.userId
+                userId
             ]).then((data) => {
                 return data[0][0]
             })
 
-            //генерируем рандомное название для файла что-бы он был уникальным для этого нужен модуль UUID 
-            const avatarName = Uuid.v4() + '.jpg'
+            console.log( '📌:',user,'🌴 🏁')
 
-            console.log('📢 [file-controller.js:25]', user);
+
+            //генерируем рандомное название для файла что-бы он был уникальным для этого нужен модуль UUID 
+            //const avatarName = Uuid.v4() + '.jpg'
+            //
+            // console.log('📢 [file-controller.js:25]', user);
 
             //const path = '~\\Документ\\ReactJS\\Mern-React\\static'
 
@@ -33,9 +36,9 @@ class FileController {
 
 
 
-            fs.readFile(file, function(err, data){
-                console.log('📢 [file-controller.js:36]', data, err);
-            });
+            // fs.readFile(file, function(err, data){
+            //     console.log('📢 [file-controller.js:36]', data, err);
+            // });
 
 
 
@@ -43,22 +46,21 @@ class FileController {
 
 
             //создаем путь куда будем перемещать файл config.get('staticPath') + '\\' + avatarName
-            await file.mv(path.resolve(__dirname, 'static', avatarName)) //resolve - адапитирует указанный путь к операционной системе
+            //await file.mv(path.resolve(__dirname, 'static', avatarName)) //resolve - адапитирует указанный путь к операционной системе
 
             await pool.query(
                 `UPDATE ?? SET ?? = ? WHERE ??.?? = ?`,
                 [
                     config.get('tableOne'),
                     config.get('fieldSixTableOne'),
-                    avatarName, 
+                    file.filename,
                     config.get('tableOne'),
                     config.get('fieldOneTableOne'),
                     user.id
                 ]
-            ).then((data) => {
-                res.status(201).json({massage:"Аватар изменен успешно!"})
-            })
+            )
 
+            res.status(201).json({avatar: file.filename, message:'Аватар изменен...'})
             
         } catch (error) {
             console.log('📢 [profile-controller.js:46]', 'Что-то пошло не так');
